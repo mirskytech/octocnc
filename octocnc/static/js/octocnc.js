@@ -27,9 +27,34 @@ $(function() {
         // gets called _after_ the settings have been retrieved from the OctoPrint backend and thus
         // the SettingsViewModel been properly populated.
         self.onBeforeBinding = function() {
-            self.newUrl(self.settings.settings.plugins.helloworld.url());
+            // self.newUrl(self.settings.settings.plugins.helloworld.url());
             self.goToUrl();
-        }
+        };
+
+        self.bindToImage = function() {
+            var a = document.getElementById("lathe_control");
+
+            var svgDoc = a.contentDocument;
+
+            var svgItem = svgDoc.getElementById("pos_x_anchor");
+            $(svgItem).on("click", function() { console.log('click my x'); });
+            $(svgItem).hover(function(){ $(svgDoc.getElementById("pos_x-2")).fadeTo(0.1, 0);}, function() { $(svgDoc.getElementById("pos_x-2")).fadeTo(0.1, 1); });
+            console.log("OctoCNC: binding to control image");
+        };
+
+
+
+        self.onAfterBinding = function() {
+            if($('#lathe_control').complete && $('#lathe_control').naturalHeight !== 0) {
+                self.bindToImage();
+            } else {
+                $('#lathe_control').on('load', function () {
+                    self.bindToImage();
+                });
+            }
+        };
+
+        console.log('loading octocnc view model');
     }
 
     // view model class, parameters for constructor, container to bind to

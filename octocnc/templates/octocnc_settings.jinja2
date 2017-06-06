@@ -1,8 +1,9 @@
 <form class="form-horizontal">
     <div class="control-group">
-        <label class="control-label">{{ _('URL') }}</label>
+        <label class="control-label octoprint_red">{{ _('Machine Type') }}</label>
         <div class="controls">
-            <input type="text" class="input-block-level" data-bind="value: settings.plugins.octocnc.url">
+            <p><input style="margin-right:10px" type="radio" name="machine-type" value="lathe" data-bind="value: settings.plugins.octocnc.machine_type">Lathe</p>
+            <p><input style="margin-right:10px" type="radio" name="machine-type" value="mill"  data-bind="value: settings.plugins.octocnc.machine_type">Mill</p>
         </div>
     </div>
 </form>
