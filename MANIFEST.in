@@ -1,0 +1,4 @@
+include README.md
+recursive-include octocnc/templates *
+recursive-include octocnc/translations *
+recursive-include octocnc/static *
