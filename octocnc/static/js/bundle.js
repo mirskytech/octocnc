@@ -18791,37 +18791,7 @@ module.exports = __webpack_require__(844);
 
 
 /***/ }),
-/* 296 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.findThread = findThread;
-exports.threadEqual = threadEqual;
-function findThread(thread1, threads) {
-
-    for (var i = 0; i < threads.length; i++) {
-        var thread = threads[i];
-
-        var isThread = threadEqual(thread1, thread);
-
-        if (isThread) {
-            return thread;
-        }
-    }
-
-    return null;
-}
-
-function threadEqual(thread1, thread2) {
-    return thread1 && thread2 && (thread1.timeline_id && thread1.timeline_id === thread2.timeline_id || thread1.anonymous_thread_id && thread1.anonymous_thread_id === thread2.anonymous_thread_id);
-}
-
-/***/ }),
+/* 296 */,
 /* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36148,7 +36118,7 @@ var App = function (_React$Component) {
                             { name: 'Dash', active: activeItem === 'dash' },
                             _react2.default.createElement(
                                 _reactRouter.Link,
-                                { to: '/' },
+                                { to: 'dash' },
                                 'Dashboard'
                             )
                         ),
@@ -36526,167 +36496,30 @@ if(false) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var loadChats = exports.loadChats = function loadChats() {
-    return { type: 'LOAD_CHAT' };
-};
+exports.ajaxError = exports.deviceConnectionInfo = exports.requestDeviceConnections = undefined;
 
-var loadChatsResponse = exports.loadChatsResponse = function loadChatsResponse(payload) {
-    return { type: 'LOAD_CHAT_RESPONSE', payload: payload };
-};
+var _payload_types = __webpack_require__(1302);
 
-var threadClick = exports.threadClick = function threadClick(thread) {
-    return { type: 'THREAD_CLICK', payload: thread };
-};
+var _actions = __webpack_require__(1303);
 
-var threadClose = exports.threadClose = function threadClose(thread) {
-    return { type: 'THREAD_CLOSE', payload: thread };
-};
-
-var threadChange = exports.threadChange = function threadChange(thread) {
-    return { type: 'THREAD_CHANGE', payload: thread };
-};
-
-var threadRemove = exports.threadRemove = function threadRemove(removeInfo) {
+var requestDeviceConnections = exports.requestDeviceConnections = function requestDeviceConnections(payload) {
     return {
-        type: 'THREAD_REMOVE',
-        payload: removeInfo
+        type: _actions.ActionName.REQUEST_DEVICE_CONNECTIONS,
+        payload: payload
     };
 };
 
-var threadLeave = exports.threadLeave = function threadLeave(leaveInfo) {
+var deviceConnectionInfo = exports.deviceConnectionInfo = function deviceConnectionInfo(devices) {
     return {
-        type: 'THREAD_LEAVE',
-        payload: leaveInfo
-    };
-};
-
-var threadPage = exports.threadPage = function threadPage(thread, page) {
-    return {
-        type: 'THREAD_PAGE',
-        payload: {
-            thread: thread,
-            page: page
-        }
-    };
-};
-var threadPageResponse = exports.threadPageResponse = function threadPageResponse(payload) {
-    return { type: 'THREAD_PAGE_RESPONSE', payload: payload };
-};
-
-var threadUpdate = exports.threadUpdate = function threadUpdate(thread, is_staff) {
-    return {
-        type: 'THREAD_UPDATE',
-        payload: {
-            thread: thread,
-            is_staff: is_staff
-        }
-    };
-};
-
-var threadUpdateExternal = exports.threadUpdateExternal = function threadUpdateExternal(info) {
-    return {
-        type: 'THREAD_UPDATE_EXTERNAL',
-        payload: info
-    };
-};
-
-var threadNew = exports.threadNew = function threadNew(info) {
-    return {
-        type: 'THREAD_NEW',
-        payload: info
-    };
-};
-
-var infinteThreadScroll = exports.infinteThreadScroll = function infinteThreadScroll() {
-    return { type: 'INFINITE_THREAD_SCROLL' };
-};
-
-var inputMessageChange = exports.inputMessageChange = function inputMessageChange(message) {
-    return { type: 'INPUT_MESSAGE_CHANGE', payload: message };
-};
-
-var inputSubmit = exports.inputSubmit = function inputSubmit(message) {
-    return {
-        type: 'INPUT_SUBMIT',
-        payload: message
-    };
-};
-
-var messageReceive = exports.messageReceive = function messageReceive(message) {
-    return {
-        type: 'MESSAGE_RECEIVE',
-        payload: message
-    };
-};
-
-var sendMessage = exports.sendMessage = function sendMessage(text, thread, tempId) {
-    return {
-        type: 'MESSAGE_SEND',
-        payload: {
-            text: text,
-            thread: thread,
-            tempId: tempId
-        }
-    };
-};
-
-var messageAck = exports.messageAck = function messageAck(tempId, id) {
-    return {
-        type: 'MESSAGE_ACK',
-        payload: {
-            tempId: tempId,
-            id: id
-        }
-    };
-};
-
-var userActive = exports.userActive = function userActive(info) {
-    return {
-        type: 'USER_ACTIVE',
-        payload: info
-    };
-};
-
-var userInactive = exports.userInactive = function userInactive(info) {
-    return {
-        type: 'USER_INACTIVE',
-        payload: info
-    };
-};
-
-var websocketMessage = exports.websocketMessage = function websocketMessage(info) {
-    return {
-        type: 'WEBSOCKET_MESSAGE',
-        payload: info
+        type: _actions.ActionName.DEVICE_CONNECTION_INFO,
+        payload: devices
     };
 };
 
 var ajaxError = exports.ajaxError = function ajaxError(info) {
     return {
-        type: 'AJAX_ERROR',
+        type: _actions.ActionName.AJAX_ERROR,
         payload: info
-    };
-};
-
-var reportingError = exports.reportingError = function reportingError(info) {
-    return {
-        type: 'REPORTING_ERROR',
-        payload: info
-    };
-};
-
-var updatePerformanceDaily = exports.updatePerformanceDaily = function updatePerformanceDaily(start, end) {
-    return {
-        type: 'UPDATE_PERFORMANCE_DAILY',
-        start: start,
-        end: end
-    };
-};
-
-var performanceDailyData = exports.performanceDailyData = function performanceDailyData(results) {
-    return {
-        type: 'PERFORMANCE_DAILY_DATA',
-        payload: results
     };
 };
 
@@ -36704,8 +36537,6 @@ exports.default = createRootEpics;
 
 var _reduxObservable = __webpack_require__(425);
 
-var _action_creators = __webpack_require__(555);
-
 var _reactRouterRedux = __webpack_require__(122);
 
 var _ajax = __webpack_require__(436);
@@ -36714,14 +36545,13 @@ var _of = __webpack_require__(261);
 
 var _timer = __webpack_require__(439);
 
-var _thread = __webpack_require__(296);
+var _action_creators = __webpack_require__(555);
 
-var MSG_TYPE_MESSAGE = 0;
+var actions = _interopRequireWildcard(_action_creators);
 
-var MSG_TYPE_MESSAGE_ACK = 3;
-var MSG_TYPE_THREAD_UPDATE = 7;
-var MSG_TYPE_ACTIVE = 8;
-var MSG_TYPE_CLOSE = 9;
+var _actions = __webpack_require__(1303);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function mapToAction(actionCreator) {
     return function (action) {
@@ -36729,232 +36559,19 @@ function mapToAction(actionCreator) {
     };
 }
 
+var el = document.getElementById('_server_config');
+var server_config = JSON.parse(el ? el.innerHTML : '{}');
+
 function createRootEpics(socket, config) {
-    var tempId = 1;
 
-    function sendLeave(threadInfo) {
-        if (threadInfo.timeline_id) {
-            socket.send({
-                command: 'leave_staff',
-                timeline_id: '' + threadInfo.timeline_id
-            });
-        } else {
-            socket.send({
-                command: 'leave_staff',
-                anonymous_thread_id: '' + threadInfo.anonymous_thread_id
-            });
-        }
-    }
-
-    var websocketMessageEpic = function websocketMessageEpic(action$, store) {
-        var websocket$ = action$.ofType('WEBSOCKET_MESSAGE').share();
-        var onlyThreadWebsocket$ = websocket$.filter(function (action) {
-            return (0, _thread.threadEqual)(action.payload.data, store.getState().selectedThread);
-        }).share();
-
-        var ack$ = onlyThreadWebsocket$.filter(function (socketAction) {
-            return socketAction.payload.type === MSG_TYPE_MESSAGE_ACK;
-        }).map(function (socketAction) {
-            return (0, _action_creators.messageAck)(socketAction.payload.data.temp_id, socketAction.payload.data.id);
-        });
-
-        var threadChange$ = websocket$.filter(function (socketAction) {
-            return socketAction.payload.type === MSG_TYPE_THREAD_UPDATE;
-        }).map(function (socketAction) {
-            return (0, _action_creators.threadUpdateExternal)(socketAction.payload.data);
-        });
-
-        var message$ = onlyThreadWebsocket$.filter(function (socketAction) {
-            return socketAction.payload.type === MSG_TYPE_MESSAGE;
-        }).map(function (socketAction) {
-            var data = socketAction.payload.data;
-            return (0, _action_creators.messageReceive)({
-                text: data.text,
-                timeline_id: data.timeline_id,
-                id: data.id,
-                date: data.date,
-                is_staff: data.is_staff,
-                user_name: config.user_id == data.user_id ? null : data.user_name
-            });
-        });
-
-        var active$ = onlyThreadWebsocket$.filter(function (socketAction) {
-            return socketAction.payload.type === MSG_TYPE_ACTIVE && config.user_id !== socketAction.payload.data.user_id;
-        }).map(function (socketAction) {
-            return (0, _action_creators.userActive)(socketAction.payload.data);
-        });
-
-        var threadExternalClose$ = websocket$.filter(function (socketAction) {
-            return socketAction.payload.type === MSG_TYPE_CLOSE;
-        }).map(function (socketAction) {
-            if ((0, _thread.threadEqual)(socketAction.payload.data, store.getState().selectedThread)) {
-                return (0, _action_creators.threadLeave)(socketAction.payload.data);
-            }
-            return (0, _action_creators.threadRemove)(socketAction.payload.data);
-        });
-        return ack$.merge(message$, threadChange$, active$, threadExternalClose$);
-    };
-
-    var externalThreadUpdateEpic = function externalThreadUpdateEpic(action$, store) {
-        return action$.ofType('THREAD_UPDATE_EXTERNAL').mergeMap(function (action) {
-            var threadUpdated = (0, _thread.findThread)(action.payload, store.getState().threads);
-            if (threadUpdated) {
-                return (0, _of.of)((0, _action_creators.threadUpdate)(threadUpdated, action.payload.is_staff));
-            }
-
-            var ajax$ = void 0;
-            if (action.payload.timeline_id) {
-                ajax$ = _ajax.ajax.getJSON('provider/chat/timeline/' + action.payload.timeline_id + '/');
-            } else {
-                ajax$ = _ajax.ajax.getJSON('provider/chat/anonymous-thread/' + action.payload.anonymous_thread_id);
-            }
-            return ajax$.retry(1).map(function (response) {
-                return (0, _action_creators.threadNew)(response.result);
-            }).catch(_action_creators.ajaxError);
+    var deviceConnectionsEpic = function deviceConnectionsEpic(action$) {
+        return action$.ofType(_actions.ActionName.REQUEST_DEVICE_CONNECTIONS).switchMap(function (action) {
+            var ajax$ = _ajax.ajax.getJSON('/api/connection', { 'X-Api-Key': server_config.api_key });
+            return ajax$.retry(1).map(actions.deviceConnectionInfo).catch(actions.ajaxError);
         });
     };
 
-    var loadThreadsEpic = function loadThreadsEpic(action$) {
-        return action$.ofType('LOAD_CHAT').switchMap(function (action) {
-            return _ajax.ajax.getJSON('provider/chat/threads/');
-        }).map(_action_creators.loadChatsResponse);
-    };
-
-    var threadClickEpic = function threadClickEpic(action$, store) {
-        var lastThread = void 0;
-        var threadClick$ = action$.ofType('THREAD_CLICK').do(function () {
-            lastThread = store.getState().selectedThread;
-        }).share();
-
-        var threadChange$ = threadClick$.map(mapToAction(_action_creators.threadChange));
-        var loadPage$ = threadClick$.map(function (action) {
-            return (0, _action_creators.threadPage)(action.payload, 1);
-        });
-        var leaveThread$ = threadClick$.do(function () {
-            if (lastThread) {
-                sendLeave(lastThread);
-            }
-        }).ignoreElements();
-        var joinThread$ = threadClick$.do(function (action) {
-            if (action.payload.timeline_id) {
-                socket.send({
-                    command: 'join_staff',
-                    timeline_id: '' + action.payload.timeline_id
-                });
-            } else {
-                socket.send({
-                    command: 'join_staff',
-                    anonymous_thread_id: '' + action.payload.anonymous_thread_id
-                });
-            }
-        }).ignoreElements();
-
-        return loadPage$.merge(threadChange$, leaveThread$, joinThread$);
-    };
-
-    var threadLeaveEpic = function threadLeaveEpic(action$) {
-        return action$.ofType('THREAD_LEAVE').do(function (action) {
-            return sendLeave(action.payload);
-        }).ignoreElements();
-    };
-
-    var threadCloseClickEpic = function threadCloseClickEpic(action$) {
-        return action$.ofType('THREAD_CLOSE').do(function (action) {
-            if (action.payload.timeline_id) {
-                socket.send({
-                    command: 'close_staff',
-                    timeline_id: '' + action.payload.timeline_id
-                });
-            } else {
-                socket.send({
-                    command: 'close_staff',
-                    anonymous_thread_id: '' + action.payload.anonymous_thread_id
-                });
-            }
-        }).ignoreElements();
-    };
-
-    var threadChangeEpic = function threadChangeEpic(action$) {
-        return action$.ofType('THREAD_CHANGE').switchMap(function (action) {
-            return (0, _timer.timer)(0, 5000).do(function () {
-                if (action.payload.timeline_id) {
-                    socket.send({
-                        command: 'active_staff',
-                        timeline_id: '' + action.payload.timeline_id
-                    });
-                } else {
-                    socket.send({
-                        command: 'active_staff',
-                        anonymous_thread_id: '' + action.payload.anonymous_thread_id
-                    });
-                }
-            }).ignoreElements();
-        });
-    };
-
-    var loadThreadPageEpic = function loadThreadPageEpic(action$) {
-        return action$.ofType('THREAD_PAGE').switchMap(function (action) {
-            var ajax$ = void 0;
-            if (action.payload.thread.timeline_id) {
-                ajax$ = _ajax.ajax.getJSON('provider/chat/timeline/events/' + action.payload.thread.timeline_id + '/' + action.payload.page + '/');
-            } else {
-                ajax$ = _ajax.ajax.getJSON('provider/chat/anonymous-thread/messages/' + action.payload.thread.anonymous_thread_id + '/' + action.payload.page + '/');
-            }
-
-            return ajax$.retry(1).map(_action_creators.threadPageResponse).catch(_action_creators.ajaxError);
-        });
-    };
-
-    var inputSubmitEpic = function inputSubmitEpic(action$, store) {
-        return action$.ofType('INPUT_SUBMIT').map(function (action) {
-            return (0, _action_creators.sendMessage)(action.payload, store.getState().selectedThread, tempId++);
-        });
-    };
-
-    var sendMessageEpic = function sendMessageEpic(action$) {
-        return action$.ofType('MESSAGE_SEND').do(function (action) {
-            if (action.payload.thread.timeline_id) {
-                socket.send({
-                    command: 'send_staff',
-                    timeline_id: '' + action.payload.thread.timeline_id,
-                    text: action.payload.text,
-                    temp_id: action.payload.tempId
-                });
-            } else {
-                socket.send({
-                    command: 'send_staff',
-                    anonymous_thread_id: '' + action.payload.thread.anonymous_thread_id,
-                    text: action.payload.text,
-                    temp_id: action.payload.tempId
-                });
-            }
-        }).ignoreElements();
-    };
-
-    var activeEpic = function activeEpic(action$) {
-        var userActive = action$.ofType('USER_ACTIVE').share();
-
-        return userActive.distinctUntilChanged(function (p, q) {
-            return (0, _thread.threadEqual)(p.payload, q.payload);
-        }).switchMap(function (action) {
-            return (0, _of.of)(action).merge(userActive).groupBy(function (action) {
-                return action.payload.user_id;
-            }).mergeMap(function (groupObs) {
-                return groupObs.debounceTime(7000);
-            }).map(function (action) {
-                return (0, _action_creators.userInactive)(action.payload);
-            });
-        });
-    };
-
-    var updatePerformanceDailyEpic = function updatePerformanceDailyEpic(action$) {
-        return action$.ofType('UPDATE_PERFORMANCE_DAILY').switchMap(function (action) {
-            var ajax$ = _ajax.ajax.getJSON('/provider/reports/performancedaily/?start=' + action.start + '&end=' + action.end);
-            return ajax$.retry(1).map(_action_creators.performanceDailyData).catch(_action_creators.reportingError);
-        });
-    };
-
-    return (0, _reduxObservable.combineEpics)(websocketMessageEpic, threadClickEpic, loadThreadsEpic, loadThreadPageEpic, inputSubmitEpic, sendMessageEpic, externalThreadUpdateEpic, activeEpic, threadChangeEpic, threadCloseClickEpic, threadLeaveEpic, updatePerformanceDailyEpic);
+    return (0, _reduxObservable.combineEpics)(deviceConnectionsEpic);
 };
 
 /***/ }),
@@ -36998,10 +36615,13 @@ __webpack_require__(1298);
 
 __webpack_require__(1300);
 
+var _dash = __webpack_require__(1305);
+
+var _dash2 = _interopRequireDefault(_dash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var el = document.getElementById('_server_config');
-
 var config = JSON.parse(el ? el.innerHTML : '{}');
 
 OctoPrint = window.OctoPrint;
@@ -37009,19 +36629,19 @@ OctoPrint.options.baseurl = config.base_uri;
 OctoPrint.options.apikey = config.api_key;
 
 OctoPrint.socket.onMessage("connected", function (data) {
-  // var payload = data.data;
+  var payload = data.data;
   // OctoPrint.options.apikey = payload.apikey;
   //
   // // update the API key directly in jquery's ajax options too,
   // // to ensure the fileupload plugin and any plugins still using
   // // $.ajax directly still work fine too
   // UI_API_KEY = payload["apikey"];
-  // $.ajaxSetup({
-  //     headers: {"X-Api-Key": UI_API_KEY}
-  // });
+  $.ajaxSetup({
+    headers: { "X-Api-Key": payload.apikey }
+  });
 
-  console.log("octoprint has connected");
-  console.log(data);
+  // console.log("octoprint has connected");
+  // console.log(data);
 });
 
 var client_socket = OctoPrint.socket.connect({ debug: true });
@@ -37042,7 +36662,12 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(
     _reactRouter.Router,
     { history: history },
-    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _app2.default })
+    _react2.default.createElement(
+      _reactRouter.Route,
+      { path: '/', component: _app2.default },
+      _react2.default.createElement(_reactRouter.IndexRoute, { component: _dash2.default }),
+      _react2.default.createElement(_reactRouter.Route, { path: 'dash', component: _dash2.default })
+    )
   )
 ), document.querySelector('.app'));
 
@@ -37063,215 +36688,21 @@ var _redux = __webpack_require__(258);
 
 var _reactRouterRedux = __webpack_require__(122);
 
-var _thread = __webpack_require__(296);
+var _actions = __webpack_require__(1303);
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function threads() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'LOAD_CHAT_RESPONSE':
-            if (!!action.payload) {
-                return action.payload.results;
-            }
-            return '';
-        case 'THREAD_UPDATE':
-            var payload = action.payload;
-            return state.map(function (thread) {
-                if (thread === payload.thread) {
-                    return Object.assign({}, thread, { new_message: !payload.is_staff });
-                }
-
-                return thread;
-            });
-        case 'THREAD_NEW':
-            return state.concat([action.payload]);
-        case 'THREAD_CLOSE':
-        case 'THREAD_REMOVE':
-        case 'THREAD_LEAVE':
-            var removeThread = (0, _thread.findThread)(action.payload, state);
-            if (removeThread) {
-                return state.filter(function (thread) {
-                    return thread !== removeThread;
-                });
-            }
-            return state;
-        default:
-            return state;
-    }
-}
-
-function selectedThread() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'THREAD_CHANGE':
-            return action.payload;
-        case 'THREAD_LEAVE':
-        case 'THREAD_CLOSE':
-            return null;
-        default:
-            return state;
-    }
-}
-
-function messages() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'THREAD_PAGE_RESPONSE':
-            return action.payload.results;
-        case 'MESSAGE_RECEIVE':
-            return [].concat(_toConsumableArray(state), [action.payload]);
-        case 'THREAD_LEAVE':
-        case 'THREAD_CLOSE':
-            return [];
-        default:
-            return state;
-    }
-}
-
-function inputMessage() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'INPUT_MESSAGE_CHANGE':
-            return action.payload;
-        case 'MESSAGE_ACK':
-            return '';
-        case 'THREAD_LEAVE':
-        case 'THREAD_CLOSE':
-            return '';
-        default:
-            return state;
-    }
-}
-
-function sending() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'MESSAGE_SEND':
-            return true;
-        case 'MESSAGE_ACK':
-            return false;
-        default:
-            return state;
-    }
-}
-
-function sentMessages() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'MESSAGE_SEND':
-            return [].concat(_toConsumableArray(state), [action.payload]);
-        case 'MESSAGE_ACK':
-            var tempId = action.payload.tempId;
-            var id = action.payload.id;
-            return state.map(function (message) {
-                if (message.tempId === tempId) {
-                    message.id = id;
-                }
-
-                return message;
-            });
-        case 'MESSAGE_RECEIVE':
-            var messageId = action.payload.id;
-            return state.filter(function (message) {
-                return message.id !== messageId;
-            });
-        case 'THREAD_LEAVE':
-        case 'THREAD_CLOSE':
-            return [];
-        default:
-            return state;
-    }
-}
-
-function usersActive() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'USER_ACTIVE':
-            var payloadAction = action.payload;
-            var activeInfo = state.find(function (activeInfo) {
-                return payloadAction.user_id === activeInfo.user_id;
-            });
-            if (activeInfo) {
-                return state;
-            }
-            return state.concat([action.payload]);
-        case 'USER_INACTIVE':
-            var actionPayload = action.payload;
-            var activeInfo2 = state.find(function (activeInfo) {
-                return actionPayload.user_id === activeInfo.user_id;
-            });
-            if (activeInfo2) {
-                return state.filter(function (activeInfo) {
-                    return activeInfo.user_id !== actionPayload.user_id;
-                });
-            }
-            return state;
-        case 'THREAD_CHANGE':
-        case 'THREAD_LEAVE':
-        case 'THREAD_CLOSE':
-            return [];
-        default:
-            return state;
-    }
-}
-
-function report() {
+function devices() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var action = arguments[1];
 
 
     switch (action.type) {
-        case 'PERFORMANCE_DAILY_DATA':
-            var sorted = action.payload.results.sort(function (a, b) {
-                return a['interval'] - b['interval'];
-            });
-
-            var pay_rate_all = [];
-            sorted.reduce(function (acc, val, idx) {
-                return pay_rate_all[idx] = acc + val['pay_rate_all'];
-            }, 0);
-
-            var pay_rate_cedar = [];
-            sorted.reduce(function (acc, val, idx) {
-                return pay_rate_cedar[idx] = acc + val['pay_rate_cedar'];
-            }, 0);
-
-            return _extends({}, state, {
-                'pay_rate_data': {
-                    'interval': sorted.map(function (val, idx, arr) {
-                        return val['interval'];
-                    }),
-                    'all': pay_rate_all,
-                    'cedar': pay_rate_cedar
-                } });
-        case 'UPDATE_PERFORMANCE_DAILY':
-            return _extends({}, state, {
-                'pay_rate_data': {
-                    'interval': [],
-                    'all': [],
-                    'cedar': []
-                } });
-        case 'REPORTING_ERROR':
-            // TODO : better reporting of error messages
-            // TODO : clear of reporting error under ? conditions
-            return _extends({}, state, {
-                'error': 'data load might not complete due to error'
-            });
+        case _actions.ActionName.REQUEST_DEVICE_CONNECTIONS:
+            console.log("Requesting information about devices");
+            return _extends({}, state);
+        case _actions.ActionName.DEVICE_CONNECTION_INFO:
+            console.log("Device connection info received!");
+            console.log(action.payload);
+            return _extends({}, state);
         default:
             return _extends({}, state);
     }
@@ -37279,14 +36710,7 @@ function report() {
 
 exports.default = (0, _redux.combineReducers)({
     routing: _reactRouterRedux.routerReducer,
-    usersActive: usersActive,
-    sending: sending,
-    threads: threads,
-    messages: messages,
-    inputMessage: inputMessage,
-    sentMessages: sentMessages,
-    selectedThread: selectedThread,
-    report: report
+    devices: devices
 });
 
 /***/ }),
@@ -86621,6 +86045,405 @@ exports.push([module.i, "/* Basscss Align */\n\n.align-baseline { vertical-align
 
 // exports
 
+
+/***/ }),
+/* 1302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+/* 1303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ActionName = undefined;
+
+var _enumify = __webpack_require__(1304);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ActionName = exports.ActionName = function (_Enum) {
+    _inherits(ActionName, _Enum);
+
+    function ActionName() {
+        _classCallCheck(this, ActionName);
+
+        return _possibleConstructorReturn(this, (ActionName.__proto__ || Object.getPrototypeOf(ActionName)).apply(this, arguments));
+    }
+
+    return ActionName;
+}(_enumify.Enum);
+
+ActionName.initEnum(['REQUEST_DEVICE_CONNECTIONS', 'DEVICE_CONNECTION_INFO', 'AJAX_ERROR']);
+
+/***/ }),
+/* 1304 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.copyProperties = copyProperties;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var INITIALIZED = Symbol();
+
+/**
+ * This is an abstract class that is not intended to be
+ * used directly. Extend it to turn your class into an enum
+ * (initialization is performed via `MyClass.initEnum()`).
+ */
+
+var Enum = exports.Enum = function () {
+    /**
+     * `initEnum()` closes the class. Then calling this constructor
+     * throws an exception.
+     * 
+     * If your subclass has a constructor then you can control
+     * what properties are added to `this` via the argument you
+     * pass to `super()`. No arguments are fine, too.
+     */
+
+    function Enum() {
+        var instanceProperties = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+
+        _classCallCheck(this, Enum);
+
+        // new.target would be better than this.constructor,
+        // but isn’t supported by Babel
+        if ({}.hasOwnProperty.call(this.constructor, INITIALIZED)) {
+            throw new Error('Enum classes can’t be instantiated');
+        }
+        if ((typeof instanceProperties === 'undefined' ? 'undefined' : _typeof(instanceProperties)) === 'object' && instanceProperties !== null) {
+            copyProperties(this, instanceProperties);
+        }
+    }
+    /**
+     * Set up the enum, close the class.
+     * 
+     * @param arg Either an object whose properties provide the names
+     * and values (which must be mutable objects) of the enum constants.
+     * Or an Array whose elements are used as the names of the enum constants
+     * The values are create by instantiating the current class.
+     */
+
+    _createClass(Enum, [{
+        key: 'toString',
+
+        /**
+         * Default `toString()` method for enum constant.
+         */
+        value: function toString() {
+            return this.constructor.name + '.' + this.name;
+        }
+    }], [{
+        key: 'initEnum',
+        value: function initEnum(arg) {
+            Object.defineProperty(this, 'enumValues', {
+                value: [],
+                configurable: false,
+                writable: false,
+                enumerable: true
+            });
+            if (Array.isArray(arg)) {
+                this._enumValuesFromArray(arg);
+            } else {
+                this._enumValuesFromObject(arg);
+            }
+            Object.freeze(this.enumValues);
+            this[INITIALIZED] = true;
+            return this;
+        }
+    }, {
+        key: '_enumValuesFromArray',
+        value: function _enumValuesFromArray(arr) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var key = _step.value;
+
+                    this._pushEnumValue(new this(), key);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        }
+    }, {
+        key: '_enumValuesFromObject',
+        value: function _enumValuesFromObject(obj) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = Object.keys(obj)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var key = _step2.value;
+
+                    var value = new this(obj[key]);
+                    this._pushEnumValue(value, key);
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
+        }
+    }, {
+        key: '_pushEnumValue',
+        value: function _pushEnumValue(enumValue, name) {
+            enumValue.name = name;
+            enumValue.ordinal = this.enumValues.length;
+            Object.defineProperty(this, name, {
+                value: enumValue,
+                configurable: false,
+                writable: false,
+                enumerable: true
+            });
+            this.enumValues.push(enumValue);
+        }
+
+        /**
+         * Given the name of an enum constant, return its value.
+         */
+
+    }, {
+        key: 'enumValueOf',
+        value: function enumValueOf(name) {
+            return this.enumValues.find(function (x) {
+                return x.name === name;
+            });
+        }
+
+        /**
+         * Make enum classes iterable
+         */
+
+    }, {
+        key: Symbol.iterator,
+        value: function value() {
+            return this.enumValues[Symbol.iterator]();
+        }
+    }]);
+
+    return Enum;
+}();
+
+function copyProperties(target, source) {
+    // Ideally, we’d use Reflect.ownKeys() here,
+    // but I don’t want to depend on a polyfill
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+        for (var _iterator3 = Object.getOwnPropertyNames(source)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var key = _step3.value;
+
+            var desc = Object.getOwnPropertyDescriptor(source, key);
+            Object.defineProperty(target, key, desc);
+        }
+    } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                _iterator3.return();
+            }
+        } finally {
+            if (_didIteratorError3) {
+                throw _iteratorError3;
+            }
+        }
+    }
+
+    return target;
+}
+
+/***/ }),
+/* 1305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(552);
+
+var _redux = __webpack_require__(258);
+
+var _connection = __webpack_require__(1306);
+
+var _connection2 = _interopRequireDefault(_connection);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Dash = function (_React$Component) {
+    _inherits(Dash, _React$Component);
+
+    function Dash(props) {
+        _classCallCheck(this, Dash);
+
+        var _this = _possibleConstructorReturn(this, (Dash.__proto__ || Object.getPrototypeOf(Dash)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(Dash, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(_connection2.default, null)
+            );
+        }
+    }]);
+
+    return Dash;
+}(_react2.default.Component);
+
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({}, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Dash);
+
+/***/ }),
+/* 1306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(552);
+
+var _redux = __webpack_require__(258);
+
+var _action_creators = __webpack_require__(555);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Connection = function (_React$Component) {
+    _inherits(Connection, _React$Component);
+
+    function Connection(props) {
+        _classCallCheck(this, Connection);
+
+        var _this = _possibleConstructorReturn(this, (Connection.__proto__ || Object.getPrototypeOf(Connection)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(Connection, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.props.updateDeviceInfo();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                "my connections"
+            );
+        }
+    }]);
+
+    return Connection;
+}(_react2.default.Component);
+
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({
+        updateDeviceInfo: _action_creators.requestDeviceConnections
+    }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Connection);
 
 /***/ })
 /******/ ]);
