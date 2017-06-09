@@ -4,6 +4,8 @@
 *.iml
 build
 dist
+!src/semantic/dist
 *.egg*
 .DS_Store
 *.zip
+node_modules
