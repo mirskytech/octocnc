@@ -24,6 +24,7 @@ declare class ReduxObservable<T> extends rxjs$Observable<T> {
 export default function createRootEpics(socket: WebSocket, initialState: Object) {
 
     const deviceConnectionsEpic  = (action$) => {
+
         return action$
             .ofType(ActionName.REQUEST_DEVICE_CONNECTIONS)
             .switchMap((action) => {
@@ -32,8 +33,25 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
             });
     };
 
+    const connectToDeviceEpic = (action$) => {
+        return action$
+            .ofType(ActionName.CONNECT_TO_DEVICE)
+            .switchMap((action) => {
+                let ajax$ = ajax.post(`/api/connection`,
+                    JSON.stringify(
+                    {"command": "connect",
+                    "port": action.payload.port,
+                    "baudrate": action.payload.baudrate,
+                    "printerProfile": action.payload.device}),
+                    {'X-Api-Key':initialState.config.api_key, 'Content-Type':'application/json'}
+                );
+                return ajax$.ignoreElements();
+
+            });
+    };
 
     return combineEpics(
-        deviceConnectionsEpic
+        deviceConnectionsEpic,
+        connectToDeviceEpic
     );
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {requestDeviceConnections} from "../action_creators";
-import ReactSVG from "react-svg";
+import {connectToDevice, requestDeviceConnections} from "../action_creators";
 import {Button, Dropdown} from "semantic-ui-react";
 
 type Props = {
@@ -17,7 +16,7 @@ const iconStyle = {
 
 const buttonStyle = {
     'marginTop':'5px'
-}
+};
 
 class Connection extends React.Component {
     constructor(props) {
@@ -25,12 +24,13 @@ class Connection extends React.Component {
         this.state = {
             device: '',
             state: '',
-            speed: ''
+            speed: '',
+            connecting: false
         };
     }
 
     componentDidMount() {
-        this.props.updateDeviceInfo();
+        this.props.update();
     }
 
     deviceSelection(event, data) {
@@ -45,15 +45,30 @@ class Connection extends React.Component {
         this.setState({'speed': data.value});
     }
 
+    connect = (e, d) => {
+        this.props.connect(this.state.port, this.state.device, this.state.speed);
+        this.setState({'connecting':true});
+    };
+
+    disconnect = (e, d) => {
+
+    };
+
     render() {
         let ready = !!this.state.device && !!this.state.port && !!this.state.speed;
-        console.log("ready: " + ready);
 
         let button = null;
         if(!this.props.connected) {
-            button = <Button style={buttonStyle} disabled={!ready} basic color="green">Connect</Button>
+            button = <Button style={buttonStyle}
+                             disabled={!ready}
+                             loading={this.state.connecting}
+                             color="green"
+                             onClick={this.connect}>Connect</Button>
         } else {
-            button = <Button style={buttonStyle} inverted color="green">Disconnect</Button>
+            button = <Button style={buttonStyle}
+                             inverted
+                             color="green"
+                             onClick={this.disconnect}>Disconnect</Button>
         }
 
         return (
@@ -78,6 +93,7 @@ function mapStateToProps(state) {
 }
 
 Connection.defaultProps = {
+    plugin_uri: '',
     baudrates: [],
     ports: [],
     devices: [],
@@ -85,6 +101,7 @@ Connection.defaultProps = {
 };
 
 Connection.propTypes = {
+    plugin_uri: React.PropTypes.string.isRequired,
     baudrates: React.PropTypes.array.isRequired,
     ports: React.PropTypes.array.isRequired,
     devices: React.PropTypes.array.isRequired
@@ -92,7 +109,8 @@ Connection.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        updateDeviceInfo: requestDeviceConnections
+        update: requestDeviceConnections,
+        connect: connectToDevice
     }, dispatch);
 }
 

@@ -16,46 +16,43 @@ import 'basscss-align/index.css';
 
 import Dash from './containers/dash';
 
-
+// get server configuration from rendered page
 const el = document.getElementById('_server_config');
 const config = JSON.parse(el ? el.innerHTML : '{}');
 
+// configure octoprint api & socket
 OctoPrint = window.OctoPrint;
 OctoPrint.options.baseurl = config.base_uri;
 OctoPrint.options.apikey = config.api_key;
 
-OctoPrint.socket.onMessage("connected", function(data) {
-    // let payload = data.data;
-    // OctoPrint.options.apikey = payload.apikey;
-    //
-    // // update the API key directly in jquery's ajax options too,
-    // // to ensure the fileupload plugin and any plugins still using
-    // // $.ajax directly still work fine too
-    // UI_API_KEY = payload["apikey"];
-    // $.ajaxSetup({
-    //     headers: {"X-Api-Key": payload.apikey}
-    // });
-
-    // console.log("octoprint has connected");
-    // console.log(data);
-
-});
-
+// open the socket and create store
 const client_socket = OctoPrint.socket.connect({debug: true});
-
 const store = configureStore(client_socket, {'config':config});
 
 const browserHistory = useRouterHistory(createHistory)({
     basename: '/'
 });
 
-
 const history = syncHistoryWithStore(
   browserHistory,
   store
 );
 
-// socket.listen(store.dispatch);
+// for messages received, transform into redux format and dispatch
+OctoPrint.socket.onMessage("*", (msg) => {
+
+    const action = {'action':'', 'payload':{}};
+
+    if(msg.event === 'event') {
+        action.type = msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase();
+        action.payload = msg.data.payload;
+    } else {
+        action.type = "SOCKET_" + msg.event.toUpperCase();
+        action.payload = msg.data;
+    }
+    console.log(action);
+    store.dispatch(action);
+});
 
 ReactDOM.render(
   <Provider store={store}>
