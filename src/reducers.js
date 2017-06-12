@@ -24,10 +24,10 @@ function devices(state = [], action) {
             return { ...state };
         case ActionName.DEVICE_CONNECTION_INFO:
             const opt = action.payload.options;
-            console.log(opt);
-            return { devices: opt.printerProfiles.map( (el, idx) => { return {'text':el.name, 'value':el.id}; }),
-                baudrates: opt.baudrates.map( (el, idx) => { return {'text':el, 'value':el}; }),
-                ports: opt.ports.map((el, idx) => { return {'text':el.name, 'value':el.id}}),
+            return {
+                devices: opt.printerProfiles.map( (el, idx) => { return {'text':el.name, 'value':el.id, 'key':idx }; }),
+                baudrates: opt.baudrates.map( (el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
+                ports: opt.ports.map((el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
                 ...state };
         default:
             return { ...state };
