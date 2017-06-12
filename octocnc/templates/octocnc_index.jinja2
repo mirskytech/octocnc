@@ -19,7 +19,8 @@
 
   <script type="application/json" id="_server_config">{
       "base_uri": "{{ url_for('index') }}",
-      "api_key": "{{ uiApiKey|e }}"
+      "api_key": "{{ uiApiKey|e }}",
+      "plugin_uri": "/plugin/octocnc/static/"
   }</script>
 
   <script src="{{ url_for("plugin.octocnc.static", filename="js/bundle.js") }}"></script>

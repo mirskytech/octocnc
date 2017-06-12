@@ -25,16 +25,16 @@ OctoPrint.options.baseurl = config.base_uri;
 OctoPrint.options.apikey = config.api_key;
 
 OctoPrint.socket.onMessage("connected", function(data) {
-    let payload = data.data;
+    // let payload = data.data;
     // OctoPrint.options.apikey = payload.apikey;
     //
     // // update the API key directly in jquery's ajax options too,
     // // to ensure the fileupload plugin and any plugins still using
     // // $.ajax directly still work fine too
     // UI_API_KEY = payload["apikey"];
-    $.ajaxSetup({
-        headers: {"X-Api-Key": payload.apikey}
-    });
+    // $.ajaxSetup({
+    //     headers: {"X-Api-Key": payload.apikey}
+    // });
 
     // console.log("octoprint has connected");
     // console.log(data);
@@ -43,7 +43,7 @@ OctoPrint.socket.onMessage("connected", function(data) {
 
 const client_socket = OctoPrint.socket.connect({debug: true});
 
-const store = configureStore(client_socket, config);
+const store = configureStore(client_socket, {'config':config});
 
 const browserHistory = useRouterHistory(createHistory)({
     basename: '/'

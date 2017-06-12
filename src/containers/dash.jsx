@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Connection from './connection';
+import {Grid} from "semantic-ui-react";
 type Props = {
 
 };
@@ -14,9 +15,16 @@ class Dash extends React.Component {
 
     render() {
         return (
-        <div>
-            <Connection />
-        </div>
+            <Grid columns={3} divided>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Connection />
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                        other stuff
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         )
     }
 }

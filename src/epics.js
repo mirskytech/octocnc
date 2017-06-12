@@ -15,20 +15,19 @@ function mapToAction(actionCreator) {
     };
 }
 
-const el = document.getElementById('_server_config');
-const server_config = JSON.parse(el ? el.innerHTML : '{}');
+
 
 declare class ReduxObservable<T> extends rxjs$Observable<T> {
      ofType(actionType: string): rxjs$Observable<T>;
 }
 
-export default function createRootEpics(socket: WebSocket, config: Object) {
+export default function createRootEpics(socket: WebSocket, initialState: Object) {
 
     const deviceConnectionsEpic  = (action$) => {
         return action$
             .ofType(ActionName.REQUEST_DEVICE_CONNECTIONS)
             .switchMap((action) => {
-                let ajax$ = ajax.getJSON(`/api/connection`, {'X-Api-Key':server_config.api_key});
+                let ajax$ = ajax.getJSON(`/api/connection`, {'X-Api-Key':initialState.config.api_key});
                 return ajax$.retry(1).map(actions.deviceConnectionInfo).catch(actions.ajaxError);
             });
     };

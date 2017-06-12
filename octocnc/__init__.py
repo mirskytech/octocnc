@@ -48,7 +48,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
 		    gcodeMobileThreshold=settings().get(["gcodeViewer", "mobileSizeThreshold"]),
 		    gcodeThreshold=settings().get(["gcodeViewer", "sizeThreshold"]),
 		    wizard=None,
-		    now=now,
+		    now=now
 	    ))
 
 	    render_kwargs['templates']['tab']['order'] = self._filter_tabs(render_kwargs['templates']['tab']['order'])

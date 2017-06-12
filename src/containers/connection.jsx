@@ -2,9 +2,16 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {requestDeviceConnections} from "../action_creators";
+import ReactSVG from "react-svg";
+import {Dropdown} from "semantic-ui-react";
 
 type Props = {
 
+};
+
+const iconStyle = {
+    'width':'36px',
+    'float':'left'
 };
 
 class Connection extends React.Component {
@@ -18,15 +25,24 @@ class Connection extends React.Component {
     }
 
     render() {
+
+        console.log(this.props.devices);
+
         return (
-        <div>my connections</div>
+        <div>
+            <h3>Connections<img src={this.props.plugin_uri + 'imgs/connection.svg'} style={iconStyle}/></h3>
+            <Dropdown placeholder='Select Device' fluid selection options={this.props.devices} />
+        </div>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-
+        plugin_uri:state.config.plugin_uri,
+        devices:state.devices.devices,
+        baudrates:state.devices.baudrates,
+        ports:state.devices.ports
     };
 }
 
