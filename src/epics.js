@@ -50,8 +50,20 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
             });
     };
 
+    const disconnectFromDeviceEpic= (action$) => {
+        return action$
+            .ofType(ActionName.DISCONNECT_FROM_DEVICE)
+            .switchMap((action) => {
+                let ajax$ = ajax.post(`/api/connection`,
+                    JSON.stringify({'command':'disconnect'}),
+                    {'X-Api-Key':initialState.config.api_key, 'Content-Type':'application/json'});
+                return ajax$.ignoreElements();
+            });
+    };
+
     return combineEpics(
         deviceConnectionsEpic,
-        connectToDeviceEpic
+        connectToDeviceEpic,
+        disconnectFromDeviceEpic
     );
 };

@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import { Segment, Menu } from 'semantic-ui-react';
+import {Segment, Menu, Grid} from 'semantic-ui-react';
 
 type Props = {
     children: Element<any>
 };
 
-const logo_style = {
-    size: '12px'
+const logoStyle = {
+    'width': '175px',
+    'marginBottom': '-11px',
+    'marginTop':'-8px'
 };
 
 export default class App extends React.Component {
@@ -28,8 +30,7 @@ export default class App extends React.Component {
                     <div className="twelve wide column">
                     <Menu inverted>
                         <Menu.Item>
-                            <h1>OctoCNC</h1>
-                            <h5 className="italic">powered by OctoPrint</h5>
+                            <img src={'/plugin/octocnc/static/' + 'imgs/octocnc-logo.svg'} style={logoStyle}/>
                         </Menu.Item>
                         <Menu.Item name='Dash' active={activeItem === 'dash'}>
                             <Link to="dash">Dashboard</Link>

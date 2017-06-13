@@ -2,8 +2,8 @@
 
 import {combineReducers} from 'redux';
 import {routerReducer as routing} from 'react-router-redux';
-import type {Action} from './action_creators';
 import { ActionName } from './actions';
+import { ConnectionState } from './enums';
 
 function config(state=[], action) {
     return state;
@@ -18,7 +18,6 @@ function _mapBaudRates(rates) {
 }
 
 function devices(state = [], action) {
-
     switch(action.type) {
         case ActionName.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };
@@ -29,7 +28,28 @@ function devices(state = [], action) {
                 baudrates: opt.baudrates.map( (el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
                 ports: opt.ports.map((el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
                 ...state };
+        case ActionName.CONNECTING:
+            return {
+                ...state,
+                status: ConnectionState.CONNECTING
+            };
+        case ActionName.CONNECTED:
+            return {
+                ...state,
+                status: ConnectionState.CONNECTED
+            };
+        case ActionName.DISCONNECTING:
+            return {
+                ...state,
+                status: ConnectionState.DISCONNECTING
+            };
+        case ActionName.DISCONNECTED:
+            return {
+                ...state,
+                status: ConnectionState.DISCONNECTED
+            };
         default:
+            console.log(action.type);
             return { ...state };
     }
 }

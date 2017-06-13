@@ -13,6 +13,8 @@ import './semantic/dist/semantic.min.css';
 import 'basscss-typography/index.css';
 import 'basscss-margin/index.css';
 import 'basscss-align/index.css';
+import 'basscss-type-scale/index.css';
+import {ActionName} from './actions';
 
 import Dash from './containers/dash';
 
@@ -44,13 +46,17 @@ OctoPrint.socket.onMessage("*", (msg) => {
     const action = {'action':'', 'payload':{}};
 
     if(msg.event === 'event') {
-        action.type = msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase();
+        action.type = ActionName.enumValueOf(msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase());
         action.payload = msg.data.payload;
     } else {
-        action.type = "SOCKET_" + msg.event.toUpperCase();
+        action.type = ActionName.enumValueOf("SOCKET_" + msg.event.toUpperCase());
         action.payload = msg.data;
     }
-    console.log(action);
+
+    if(action.type === undefined) {
+        return;
+    }
+
     store.dispatch(action);
 });
 

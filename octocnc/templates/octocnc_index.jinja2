@@ -5,6 +5,10 @@
   <meta charset="utf-8">
   <title>OctoCNC powered by OctoPrint</title>
   <base href="" />
+{#    <link rel="icon" type="image/svg" sizes="any" href="{{ url_for("plugin.octocnc.static", filename='imgs/favicon.svg') }}"/>#}
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for("plugin.octocnc.static", filename='imgs/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for("plugin.octocnc.static", filename='imgs/favicon-16.png') }}">
 
     <script src="{{ url_for("static", filename="js/lib/jquery/jquery.min.js") }}"></script>
     <script src="{{ url_for("static", filename="js/lib/lodash.min.js") }}"></script>

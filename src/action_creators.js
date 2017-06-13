@@ -31,14 +31,8 @@ export const connectToDevice = (port: string, device: string, speed: string) : A
     }
 });
 
-export const deviceConnected = (info: any): Action => ({
-    type: ActionName.DEVICE_CONNECTED,
-    payload: info
-});
-
-export const deviceDisconnected = (info: any): Action => ({
-    type: ActionName.DEVICE_DISCONNECTED,
-    payload: info
+export const disconnectFromDevice = () : Action => ({
+    type: ActionName.DISCONNECT_FROM_DEVICE
 });
 
 export const deviceError = (info: any): Action => ({

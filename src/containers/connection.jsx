@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {connectToDevice, requestDeviceConnections} from "../action_creators";
+import {connectToDevice, disconnectFromDevice, requestDeviceConnections} from "../action_creators";
 import {Button, Dropdown} from "semantic-ui-react";
+import {ConnectionState} from "../enums";
 
 type Props = {
 
@@ -24,8 +25,7 @@ class Connection extends React.Component {
         this.state = {
             device: '',
             state: '',
-            speed: '',
-            connecting: false
+            speed: ''
         };
     }
 
@@ -33,50 +33,56 @@ class Connection extends React.Component {
         this.props.update();
     }
 
-    deviceSelection(event, data) {
+    deviceSelection = (event, data) => {
         this.setState({'device': data.value});
-    }
+    };
 
-    portSelection(event, data) {
+    portSelection = (event, data) => {
         this.setState({'port': data.value});
-    }
+    };
 
-    speedSelection(event, data) {
+    speedSelection = (event, data) => {
         this.setState({'speed': data.value});
-    }
+    };
 
     connect = (e, d) => {
         this.props.connect(this.state.port, this.state.device, this.state.speed);
-        this.setState({'connecting':true});
-    };
-
-    disconnect = (e, d) => {
-
     };
 
     render() {
+
         let ready = !!this.state.device && !!this.state.port && !!this.state.speed;
 
         let button = null;
-        if(!this.props.connected) {
-            button = <Button style={buttonStyle}
+
+        switch(this.props.status) {
+            case ConnectionState.DISCONNECTED:
+            case ConnectionState.CONNECTING:
+                button = <Button style={buttonStyle}
                              disabled={!ready}
-                             loading={this.state.connecting}
+                             loading={this.props.status === ConnectionState.CONNECTING}
                              color="green"
                              onClick={this.connect}>Connect</Button>
-        } else {
-            button = <Button style={buttonStyle}
+                break;
+            case ConnectionState.CONNECTED:
+            case ConnectionState.DISCONNECTING:
+            default:
+                button = <Button style={buttonStyle}
                              inverted
+                             disabled={this.props.status !== ConnectionState.CONNECTED}
+                             loading={this.props.status === ConnectionState.DISCONNECTING}
                              color="green"
-                             onClick={this.disconnect}>Disconnect</Button>
+                             onClick={this.props.disconnect}>Disconnect</Button>
         }
+
+        let enabled = this.props.status === ConnectionState.DISCONNECTED;
 
         return (
         <div>
             <h3>Connections<img src={this.props.plugin_uri + 'imgs/connection.svg'} style={iconStyle}/></h3>
-            <Dropdown className="mt2" placeholder='Select Device' fluid selection options={this.props.devices} onChange={this.deviceSelection.bind(this)}/>
-            <Dropdown className="mt1" placeholder='Select Port' fluid selection options={this.props.ports} onChange={this.portSelection.bind(this)}/>
-            <Dropdown className="mt1" placeholder='Select Speed' fluid selection options={this.props.baudrates} onChange={this.speedSelection.bind(this)}/>
+            <Dropdown className="mt2" disabled={!enabled} placeholder='Select Device' fluid selection options={this.props.devices} onChange={this.deviceSelection}/>
+            <Dropdown className="mt1" disabled={!enabled} placeholder='Select Port' fluid selection options={this.props.ports} onChange={this.portSelection}/>
+            <Dropdown className="mt1" disabled={!enabled} placeholder='Select Speed' fluid selection options={this.props.baudrates} onChange={this.speedSelection}/>
             {button}
         </div>
         )
@@ -88,7 +94,8 @@ function mapStateToProps(state) {
         plugin_uri:state.config.plugin_uri,
         devices:state.devices.devices,
         baudrates:state.devices.baudrates,
-        ports:state.devices.ports
+        ports:state.devices.ports,
+        status:state.devices.status
     };
 }
 
@@ -97,7 +104,7 @@ Connection.defaultProps = {
     baudrates: [],
     ports: [],
     devices: [],
-    connected: false
+    status: ConnectionState.DISCONNECTED
 };
 
 Connection.propTypes = {
@@ -110,7 +117,8 @@ Connection.propTypes = {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         update: requestDeviceConnections,
-        connect: connectToDevice
+        connect: connectToDevice,
+        disconnect: disconnectFromDevice
     }, dispatch);
 }
 
