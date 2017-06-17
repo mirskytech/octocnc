@@ -5,7 +5,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../octocnc/static/js/'),
     filename: 'bundle.js',
-    publicPath: '/plugins/octocnc/static/js/'
+    publicPath: '/plugin/octocnc/static/js/'
   },
   devtool: 'source-map',
   module: {

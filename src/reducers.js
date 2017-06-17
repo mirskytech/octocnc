@@ -49,7 +49,6 @@ function devices(state = [], action) {
                 status: ConnectionState.DISCONNECTED
             };
         default:
-            console.log(action.type);
             return { ...state };
     }
 }

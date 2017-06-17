@@ -61,18 +61,15 @@ class Connection extends React.Component {
                 button = <Button style={buttonStyle}
                              disabled={!ready}
                              loading={this.props.status === ConnectionState.CONNECTING}
-                             color="green"
-                             onClick={this.connect}>Connect</Button>
+                             onClick={this.connect}>Connect</Button>;
                 break;
             case ConnectionState.CONNECTED:
             case ConnectionState.DISCONNECTING:
             default:
                 button = <Button style={buttonStyle}
-                             inverted
                              disabled={this.props.status !== ConnectionState.CONNECTED}
                              loading={this.props.status === ConnectionState.DISCONNECTING}
-                             color="green"
-                             onClick={this.props.disconnect}>Disconnect</Button>
+                             onClick={this.props.disconnect}>Disconnect</Button>;
         }
 
         let enabled = this.props.status === ConnectionState.DISCONNECTED;

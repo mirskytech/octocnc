@@ -9,7 +9,7 @@ import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './configure_store';
 import App from './containers/app';
-import './semantic/dist/semantic.min.css';
+import 'semantic-ui-css/semantic.min.css';
 import 'basscss-typography/index.css';
 import 'basscss-margin/index.css';
 import 'basscss-align/index.css';

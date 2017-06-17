@@ -2,7 +2,11 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import {Segment, Menu, Grid} from 'semantic-ui-react';
+import {Segment, Menu, Grid, Icon} from 'semantic-ui-react';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import { ConnectionState } from '../enums';
 
 type Props = {
     children: Element<any>
@@ -14,7 +18,7 @@ const logoStyle = {
     'marginTop':'-8px'
 };
 
-export default class App extends React.Component {
+class App extends React.Component {
 
     handleItemClick() {
         console.log('has been clicked');
@@ -24,6 +28,12 @@ export default class App extends React.Component {
     render() {
 
         let activeItem = "dash";
+
+        let status_icon = <Icon inverted name='circle thin' />;
+
+        if(this.props.status === ConnectionState.CONNECTED) {
+            status_icon = <Icon inverted color='green' name='circle' />;
+        }
 
         return (
                 <div className="ui twelve column centered grid">
@@ -37,6 +47,9 @@ export default class App extends React.Component {
                         </Menu.Item>
                         <Menu.Item name='B' active={activeItem === 'b'} onClick={this.handleItemClick} />
                         <Menu.Item name='C' active={activeItem === 'c'} onClick={this.handleItemClick} />
+                        <Menu.Menu position='right'>
+                          <Menu.Item name="status">{this.props.status.name.toLowerCase()} {status_icon}</Menu.Item>
+                        </Menu.Menu>
                     </Menu>
 
                     <Segment>
@@ -48,3 +61,24 @@ export default class App extends React.Component {
     }
 }
 
+App.defaultProps = {
+  status: ConnectionState.DISCONNECTED
+};
+
+function mapStateToProps(state) {
+  return {
+    status: state.devices.status
+  };
+}
+
+App.propTypes = {
+
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
