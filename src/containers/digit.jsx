@@ -5,9 +5,25 @@ import digit from '../assets/segment-digit.svg';
 import ReactSVG from 'react-svg';
 
 const segment_map = {
+    0: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'l'],
     1: ['c', 'd'],
+    2: ['a', 'b', 'c', 'o', 'q', 'g', 'f', 'e'],
+    3: ['a', 'b', 'c', 'd','e', 'f', 'o', 'q'],
+    4: ['o', 'q', 'h', 'c', 'd'],
+    5: ['a', 'b', 'h', 'o', 'q', 'd', 'e', 'f'],
+    6: ['a', 'b', 'o', 'q', 'd', 'e', 'f', 'g', 'h'],
+    7: ['a', 'b', 'c', 'd'],
+    8: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'o','q'],
+    9: ['a', 'b', 'c', 'd', 'h', 'o', 'q'],
+    '-': ['o', 'q'],
+    '+': ['n', 'o', 'q', 'r'],
+    'X': ['i', 'j', 'k', 'l'],
+    'Y': ['i', 'j', 'r', 'p'],
+    'Z': ['a','b', 'e', 'f', 'j', 'l', ]
 
 };
+
+const digitStyle = { width: 50, display:'inline', float:'left'};
 
 
 class Digit extends React.Component {
@@ -16,39 +32,47 @@ class Digit extends React.Component {
         this.state = {
 
         };
-        this.count = 0;
     }
 
     digitLoaded = (svg) => {
         this.display = svg;
-        this.display.children['segment_a'].fill = '#ff0000';
+        this.setSegments();
     };
 
-    handleClick(e) {
-      if(this.display !== undefined)   {
-          const display = segment_map[1];
-          for(let item of display) {
-              this.display.children['segment_'+item].style = { fill: '#ff0000'};
+
+    setSegments = () => {
+        if(this.display !== undefined && this.props.value !== undefined) {
+            for(let item of this.display.children) {
+                item.style.fill = this.props.backgroundColor;
+            }
+
+          for(let item of segment_map[this.props.value]) {
+              this.display.children['segment_'+item].style.fill = this.props.fillColor;
           }
-      }
+        }
     };
 
-
+    shouldComponentUpdate() {
+        this.setSegments();
+        return this.display === undefined;
+    }
 
     render() {
 
+        let styling = {
+            ...this.props.style,
+            ...digitStyle
+        };
+
         return (
-            <div>
             <ReactSVG
               path={digit}
               callback={this.digitLoaded}
               className="digit"
               evalScript="once"
-              style={{ width: 50 }}
+              style={styling}
               onClick={this.handleClick}
             />
-                <button onClick={this.handleClick.bind(this)}>count</button>
-            </div>
         )
     }
 }
@@ -60,7 +84,10 @@ function mapStateToProps(state) {
 }
 
 Digit.defaultProps = {
-    value: 1
+    style:{},
+    value: null,
+    fillColor:'#3A7A91',
+    backgroundColor:'#f0f0f0'
 };
 
 function mapDispatchToProps(dispatch) {

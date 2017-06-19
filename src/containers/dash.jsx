@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Connection from './connection';
-import {Grid, Input, Menu, Segment} from "semantic-ui-react";
-import Digit from './digit';
+import {Grid, Menu, Segment} from "semantic-ui-react";
+import AxisDisplay from './axis_display';
 
 class Dash extends React.Component {
     constructor(props) {
@@ -28,7 +28,11 @@ class Dash extends React.Component {
       let getSegment = () => {
         switch(this.state.active) {
           case 'bio': {
-            return(<Segment attached="bottom"><Digit value={this.state.count}/></Segment>);
+            return(<Segment attached="bottom">
+                <AxisDisplay title='X' value={1.23}/>
+                <AxisDisplay title='Y' value={4.56}/>
+                <AxisDisplay title='Z' value={78.90}/>
+            </Segment>);
           }
           case 'photos': {
             return(<Segment attached="bottom">bar</Segment>)

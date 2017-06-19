@@ -8,10 +8,6 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionState } from '../enums';
 
-type Props = {
-    children: Element<any>
-};
-
 const logoStyle = {
     'width': '175px',
     'marginBottom': '-11px',
