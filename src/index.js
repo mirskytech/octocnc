@@ -11,6 +11,7 @@ import configureStore from './configure_store';
 import App from './containers/app';
 import 'basscss-typography/index.css';
 import 'basscss-margin/index.css';
+import 'basscss-padding/index.css';
 import 'basscss-align/index.css';
 import 'basscss-type-scale/index.css';
 import {ActionName} from './actions';

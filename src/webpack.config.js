@@ -3,9 +3,9 @@ var path = require('path');
 module.exports = {
   entry: './index.js',
   output: {
-    path: path.join(__dirname, '../octocnc/static/js/'),
+    path: path.join(__dirname, '../octocnc/static/dist/'),
     filename: 'bundle.js',
-    publicPath: '/plugin/octocnc/static/js/'
+    publicPath: '/plugin/octocnc/static/dist/'
   },
   devtool: 'source-map',
   module: {
@@ -44,7 +44,7 @@ module.exports = {
       },
       {
           test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,
-          loader: 'file-loader?limit=1024&name=[name]-[hash:8].[ext]!image-webpack-loader',
+          loader: 'file-loader?limit=1024&name=[name]-[hash:8].[ext]',
       }
     ]
   },

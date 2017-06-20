@@ -8,24 +8,15 @@ import { bindActionCreators } from "redux";
 import { ConnectionState } from '../enums';
 
 import { Layout, Menu, Icon } from 'antd';
+import ReactSVG from "react-svg";
+import logo from '../assets/octocnc_sprites_logo.svg'
 const { Header, Content, Footer, Sider } = Layout;
 
-const logoStyle = {
-    'width': '175px',
-    'marginBottom': '-11px',
-    'marginTop':'-8px'
-};
+const logoStyle = { };
 
 class App extends React.Component {
 
-    handleItemClick() {
-        console.log('has been clicked');
-    }
-
-
     render() {
-
-        let activeItem = "dash";
 
         let status_icon = <Icon inverted name='circle thin' />;
 
@@ -36,7 +27,9 @@ class App extends React.Component {
         return (
                 <Layout style={{height: '100vh'}}>
                     <Sider style={{overflow: 'auto'}}>
-                        <div className="logo"/>
+                        <div className="logo">
+                            <ReactSVG path={logo} style={logoStyle} className="m1"/>
+                        </div>
                         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                             <Menu.Item key="1">
                                 <Link to={`connection`}>

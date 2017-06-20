@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import digit from '../assets/segment-digit.svg';
+import digit from '../assets/octocnc_sprites_digit.svg';
 import ReactSVG from 'react-svg';
 
 const segment_map = {
@@ -45,7 +45,6 @@ class Digit extends React.Component {
             for(let item of this.display.children) {
                 item.style.fill = this.props.backgroundColor;
             }
-
           for(let item of segment_map[this.props.value]) {
               this.display.children['segment_'+item].style.fill = this.props.fillColor;
           }

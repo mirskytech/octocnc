@@ -18,7 +18,7 @@ function _mapBaudRates(rates) {
 }
 
 function devices(state = [], action) {
-    console.log(action.type);
+
     switch(action.type) {
         case ActionName.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };

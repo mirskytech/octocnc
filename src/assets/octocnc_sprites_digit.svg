@@ -1,0 +1,39 @@
+<svg id="digit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 151 208">
+    <title>octocnc_sprites</title>
+    <path id="segment_i" d="M33,23,63,73V93H53L23,43V23Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_j" d="M113,23,83,73V93H93l30-50V23Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_k" d="M113,183,83,133V113H93l30,50v20Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_l" d="M33,183l30-50V113H53L23,163v20Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_a" d="M23,3H63L73,13,63,23H23L13,13Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_b" d="M83,3h40l10,10L123,23H83L73,13Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_h" d="M3,93V23L13,13,23,23V93L13,103Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_g" d="M3,183V113l10-10,10,10v70L13,193Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_c" d="M123,93V23l10-10,10,10V93l-10,10Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_d" d="M123,183V113l10-10,10,10v70l-10,10Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_f" d="M23,183H63l10,10L63,203H23L13,193Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_e" d="M83,183h40l10,10-10,10H83L73,193Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_q" d="M23,93H63l10,10L63,113H23L13,103Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <path id="segment_o" d="M83,93h40l10,10-10,10H83L73,103Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <polygon id="segment_m" points="73 13 63 23 63 51 73 41 83 51 83 23 73 13" fill="#e6e6e6" stroke="#fff"
+             stroke-linecap="square" stroke-width="2"/>
+    <path id="segment_n" d="M83,52V92L73,102,63,92V52L73,42Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+    <polygon id="segment_p" points="73 193 83 183 83 155 73 165 63 155 63 183 73 193" fill="#e6e6e6" stroke="#fff"
+             stroke-linecap="square" stroke-width="2"/>
+    <path id="segment_r" d="M63,155V115l10-10,10,10v40L73,165Z" fill="#e6e6e6" stroke="#fff" stroke-linecap="square"
+          stroke-width="2"/>
+</svg>
