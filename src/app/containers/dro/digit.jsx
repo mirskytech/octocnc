@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import digit from 'assets/octocnc_sprites_digit.svg';
 import ReactSVG from 'react-svg';
+import {Colors} from 'enums';
 
 const segment_map = {
     0: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'l'],
@@ -23,7 +24,7 @@ const segment_map = {
 
 };
 
-const digitStyle = { width: 50, display:'inline', float:'left'};
+const digitStyle = { height: 70 };
 
 
 class Digit extends React.Component {
@@ -64,14 +65,16 @@ class Digit extends React.Component {
         };
 
         return (
-            <ReactSVG
-              path={digit}
-              callback={this.digitLoaded}
-              className="digit"
-              evalScript="once"
-              style={styling}
-              onClick={this.handleClick}
-            />
+            <div style={{display:'inline-block'}}>
+                <ReactSVG
+                  path={digit}
+                  callback={this.digitLoaded}
+                  className="digit"
+                  evalScript="once"
+                  onClick={this.handleClick}
+                  style={styling}
+                />
+            </div>
         )
     }
 }
@@ -83,10 +86,12 @@ function mapStateToProps(state) {
 }
 
 Digit.defaultProps = {
-    style:{},
+    style:{
+        height:70
+    },
     value: null,
-    fillColor:'#3A7A91',
-    backgroundColor:'#f0f0f0'
+    fillColor: Colors.lightBlue.color,
+    backgroundColor: Colors.lightGray.color
 };
 
 function mapDispatchToProps(dispatch) {

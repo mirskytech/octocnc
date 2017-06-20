@@ -1,4 +1,5 @@
 var path = require('path');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: './app/index.js',
@@ -19,7 +20,7 @@ module.exports = {
           plugins: [
               'transform-object-rest-spread',
               'transform-class-properties',
-              ["import", { libraryName: "antd", style: "css" }]
+              ["import", { libraryName: "antd", style: true }]
           ],
           babelrc: false
         }
@@ -34,13 +35,42 @@ module.exports = {
           loader: "sass-loader" // compiles Sass to CSS
         }]
       },
+        {
+            test: /\.less$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                        plugins: () => [
+                            require('postcss-flexbugs-fixes'),
+                            autoprefixer({
+                                browsers: [
+                                    '>1%',
+                                    'last 4 versions',
+                                    'Firefox ESR',
+                                    'not ie < 9', // React doesn't support IE8 anyway
+                                ],
+                                flexbox: 'no-2009',
+                            }),
+                        ],
+                    },
+                },
+                {
+                    loader: 'less-loader',
+                    options: {
+                        modifyVars: {
+                            "@primary-color": "#BA8B00",
+                            "@error-color": "#E83F6F"},
+                    },
+                },
+            ],
+        },
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-      },
-      {
-          test: /\.less/,
-          loader: 'style!css!less',
       },
       {
           test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,

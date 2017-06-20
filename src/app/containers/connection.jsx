@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {connectToDevice, disconnectFromDevice, requestDeviceConnections} from "../action_creators";
+import {connectToDevice, disconnectFromDevice, requestDeviceConnections} from "action_creators";
 import {ConnectionState} from "../enums";
 import {Button, Select} from "antd";
 
