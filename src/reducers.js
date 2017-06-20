@@ -18,10 +18,12 @@ function _mapBaudRates(rates) {
 }
 
 function devices(state = [], action) {
+    console.log(action.type);
     switch(action.type) {
         case ActionName.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };
         case ActionName.DEVICE_CONNECTION_INFO:
+            console.log(action.payload.options);
             const opt = action.payload.options;
             return {
                 devices: opt.printerProfiles.map( (el, idx) => { return {'text':el.name, 'value':el.id, 'key':idx }; }),

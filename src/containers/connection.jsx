@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {connectToDevice, disconnectFromDevice, requestDeviceConnections} from "../action_creators";
-import {Button, Dropdown} from "semantic-ui-react";
 import {ConnectionState} from "../enums";
+import {Button, Select} from "antd";
 
 type Props = {
 
@@ -33,16 +33,16 @@ class Connection extends React.Component {
         this.props.update();
     }
 
-    deviceSelection = (event, data) => {
-        this.setState({'device': data.value});
+    deviceSelection = (value, option) => {
+        this.setState({'device': value});
     };
 
-    portSelection = (event, data) => {
-        this.setState({'port': data.value});
+    portSelection = (value) => {
+        this.setState({'port': value});
     };
 
-    speedSelection = (event, data) => {
-        this.setState({'speed': data.value});
+    speedSelection = (value) => {
+        this.setState({'speed': value});
     };
 
     connect = (e, d) => {
@@ -77,9 +77,19 @@ class Connection extends React.Component {
         return (
         <div>
             <h3>Connections<img src={this.props.plugin_uri + 'imgs/connection.svg'} style={iconStyle}/></h3>
-            <Dropdown className="mt2" disabled={!enabled} placeholder='Select Device' fluid selection options={this.props.devices} onChange={this.deviceSelection}/>
-            <Dropdown className="mt1" disabled={!enabled} placeholder='Select Port' fluid selection options={this.props.ports} onChange={this.portSelection}/>
-            <Dropdown className="mt1" disabled={!enabled} placeholder='Select Speed' fluid selection options={this.props.baudrates} onChange={this.speedSelection}/>
+            <Select placeholder="Select Profile" style={{ width: 120 }} onSelect={this.deviceSelection}>
+                {this.props.devices.map( (device, idx) => { return (<Select.Option key={idx} value={device.value}>{device.text}</Select.Option>) })}
+            </Select>
+            <Select placeholder="Select Speed" style={{ width: 120 }} onSelect={this.speedSelection}>
+                {this.props.rates.map( (device, idx) => { return (<Select.Option key={idx} value={`${device.value}`}>{device.text}</Select.Option>) })}
+            </Select>
+            <Select placeholder="Select Port" style={{ width: 120 }} onSelect={this.portSelection}>
+                {this.props.ports.map( (device, idx) => { return (<Select.Option key={idx} value={device.value}>{device.text}</Select.Option>) })}
+            </Select>
+
+
+            {/*<Select className="mt1" disabled={!enabled} placeholder='Select Port' fluid selection options={this.props.ports} onChange={this.portSelection}/>*/}
+            {/*<Select className="mt1" disabled={!enabled} placeholder='Select Speed' fluid selection options={this.props.baudrates} onChange={this.speedSelection}/>*/}
             {button}
         </div>
         )
@@ -90,7 +100,7 @@ function mapStateToProps(state) {
     return {
         plugin_uri:state.config.plugin_uri,
         devices:state.devices.devices,
-        baudrates:state.devices.baudrates,
+        rates:state.devices.baudrates,
         ports:state.devices.ports,
         status:state.devices.status
     };
@@ -98,7 +108,7 @@ function mapStateToProps(state) {
 
 Connection.defaultProps = {
     plugin_uri: '',
-    baudrates: [],
+    rates: [],
     ports: [],
     devices: [],
     status: ConnectionState.DISCONNECTED
@@ -106,7 +116,7 @@ Connection.defaultProps = {
 
 Connection.propTypes = {
     plugin_uri: React.PropTypes.string.isRequired,
-    baudrates: React.PropTypes.array.isRequired,
+    rates: React.PropTypes.array.isRequired,
     ports: React.PropTypes.array.isRequired,
     devices: React.PropTypes.array.isRequired
 };

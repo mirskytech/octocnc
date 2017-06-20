@@ -2,11 +2,13 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import {Segment, Menu, Grid, Icon} from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { ConnectionState } from '../enums';
+
+import { Layout, Menu, Icon } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
 
 const logoStyle = {
     'width': '175px',
@@ -32,27 +34,60 @@ class App extends React.Component {
         }
 
         return (
-                <div className="ui twelve column centered grid">
-                    <div className="twelve wide column">
-                    <Menu inverted>
-                        <Menu.Item>
-                            <img src={'/plugin/octocnc/static/' + 'imgs/octocnc-logo.svg'} style={logoStyle}/>
-                        </Menu.Item>
-                        <Menu.Item name='Dash' active={activeItem === 'dash'}>
-                            <Link to="dash">Dashboard</Link>
-                        </Menu.Item>
-                        <Menu.Item name='B' active={activeItem === 'b'} onClick={this.handleItemClick} />
-                        <Menu.Item name='C' active={activeItem === 'c'} onClick={this.handleItemClick} />
-                        <Menu.Menu position='right'>
-                          <Menu.Item name="status">{this.props.status.name.toLowerCase()} {status_icon}</Menu.Item>
-                        </Menu.Menu>
-                    </Menu>
-
-                    <Segment>
-                        {this.props.children}
-                    </Segment>
-                    </div>
-                </div>
+                <Layout style={{height: '100vh'}}>
+                    <Sider style={{overflow: 'auto'}}>
+                        <div className="logo"/>
+                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                            <Menu.Item key="1">
+                                <Link to={`connection`}>
+                                    <Icon type="user"/>
+                                    <span className="nav-text">Connection</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="2">
+                                <Link to={`position`}>
+                                    <Icon type="video-camera"/>
+                                    <span className="nav-text">Position</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="3">
+                                <Icon type="upload"/>
+                                <span className="nav-text">nav 3</span>
+                            </Menu.Item>
+                            <Menu.Item key="4">
+                                <Icon type="bar-chart"/>
+                                <span className="nav-text">nav 4</span>
+                            </Menu.Item>
+                            <Menu.Item key="5">
+                                <Icon type="cloud-o"/>
+                                <span className="nav-text">nav 5</span>
+                            </Menu.Item>
+                            <Menu.Item key="6">
+                                <Icon type="appstore-o"/>
+                                <span className="nav-text">nav 6</span>
+                            </Menu.Item>
+                            <Menu.Item key="7">
+                                <Icon type="team"/>
+                                <span className="nav-text">nav 7</span>
+                            </Menu.Item>
+                            <Menu.Item key="8">
+                                <Icon type="shop"/>
+                                <span className="nav-text">nav 8</span>
+                            </Menu.Item>
+                        </Menu>
+                    </Sider>
+                    <Layout>
+                        <Header style={{background: '#fff', padding: 0}}/>
+                        <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
+                            <div style={{padding: 24, background: '#fff', textAlign: 'center'}}>
+                                {this.props.children}
+                            </div>
+                        </Content>
+                        <Footer style={{textAlign: 'center'}}>
+                            OctoCNC powered by OctoPrint
+                        </Footer>
+                    </Layout>
+                </Layout>
         );
     }
 }

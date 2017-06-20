@@ -16,7 +16,11 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           presets: ['es2015', 'react'],
-          plugins: ['transform-object-rest-spread', 'transform-class-properties'],
+          plugins: [
+              'transform-object-rest-spread',
+              'transform-class-properties',
+              ["import", { libraryName: "antd", style: "css" }]
+          ],
           babelrc: false
         }
       },

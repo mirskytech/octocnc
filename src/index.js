@@ -4,19 +4,19 @@ import 'rxjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createHistory } from 'history';
+import { createHashHistory } from 'history';
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './configure_store';
 import App from './containers/app';
-import 'semantic-ui-css/semantic.min.css';
 import 'basscss-typography/index.css';
 import 'basscss-margin/index.css';
 import 'basscss-align/index.css';
 import 'basscss-type-scale/index.css';
 import {ActionName} from './actions';
+import Connection from './containers/connection';
+import PositionDisplay from './containers/position_display';
 
-import Dash from './containers/dash';
 
 // get server configuration from rendered page
 const el = document.getElementById('_server_config');
@@ -31,7 +31,7 @@ OctoPrint.options.apikey = config.api_key;
 const client_socket = OctoPrint.socket.connect({debug: true});
 const store = configureStore(client_socket, {'config':config});
 
-const browserHistory = useRouterHistory(createHistory)({
+const browserHistory = useRouterHistory(createHashHistory)({
     basename: '/'
 });
 
@@ -64,8 +64,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path='/' component={App}>
-        <IndexRoute component={Dash} />
-        <Route path="dash" component={Dash} />
+        <IndexRoute component={Connection} />
+          <Route path="connection" component={Connection} />
+          <Route path="position" component={PositionDisplay} />
       </Route>
     </Router>
   </Provider>,
