@@ -5,11 +5,11 @@ import { Link } from 'react-router';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { ConnectionState } from '../enums';
+import { ConnectionState } from 'enums';
 
 import { Layout, Menu, Icon } from 'antd';
 import ReactSVG from "react-svg";
-import logo from '../assets/octocnc_sprites_logo.svg'
+import logo from 'assets/octocnc_sprites_logo.svg'
 const { Header, Content, Footer, Sider } = Layout;
 
 const logoStyle = { };

@@ -16,7 +16,7 @@ import 'basscss-align/index.css';
 import 'basscss-type-scale/index.css';
 import {ActionName} from './actions';
 import Connection from './containers/connection';
-import PositionDisplay from './containers/position_display';
+import DRO from './containers/dro';
 
 
 // get server configuration from rendered page
@@ -67,7 +67,7 @@ ReactDOM.render(
       <Route path='/' component={App}>
         <IndexRoute component={Connection} />
           <Route path="connection" component={Connection} />
-          <Route path="position" component={PositionDisplay} />
+          <Route path="position" component={DRO} />
       </Route>
     </Router>
   </Provider>,

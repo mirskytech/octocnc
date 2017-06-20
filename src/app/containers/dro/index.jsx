@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import AxisDisplay from './axis_display';
+import Axis from './axis';
 
-class PositionDisplay extends React.Component {
+class DRO extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,9 +18,9 @@ class PositionDisplay extends React.Component {
 
         return (
             <div>
-                <AxisDisplay title='X' value={1.23}/>
-                <AxisDisplay title='Y' value={4.56}/>
-                <AxisDisplay title='Z' value={78.90}/>
+                <Axis title='X' value={1.23}/>
+                <Axis title='Y' value={4.56}/>
+                <Axis title='Z' value={78.90}/>
             </div>
         );
     }
@@ -38,4 +38,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PositionDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(DRO);

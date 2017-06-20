@@ -1,11 +1,11 @@
 var path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: './app/index.js',
   output: {
     path: path.join(__dirname, '../octocnc/static/dist/'),
     filename: 'bundle.js',
-    publicPath: '/plugin/octocnc/static/dist/'
+    publicPath: '/plugin/octocnc/static/dist/',
   },
   devtool: 'source-map',
   module: {
@@ -50,5 +50,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    modules: [
+        path.resolve('./app'),
+        path.resolve('./node_modules')
+    ]
   }
-}
+};

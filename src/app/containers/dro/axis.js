@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Digit from './digit';
-import COLORS from '../constants';
+import COLORS from 'constants';
 
 
-class AxisDisplay extends React.Component {
+class Axis extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
@@ -44,7 +44,7 @@ class AxisDisplay extends React.Component {
     }
 }
 
-AxisDisplay.defaultProps ={
+Axis.defaultProps ={
     title: null,
 };
 
@@ -60,4 +60,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AxisDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(Axis);
