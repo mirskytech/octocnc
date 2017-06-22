@@ -17,6 +17,7 @@ import 'basscss-type-scale/index.css';
 import {ActionName} from './actions';
 import Connection from './containers/connection';
 import DRO from './containers/dro';
+import CommandWindow from 'containers/gcode';
 
 
 // get server configuration from rendered page
@@ -68,6 +69,7 @@ ReactDOM.render(
         <IndexRoute component={Connection} />
           <Route path="connection" component={Connection} />
           <Route path="position" component={DRO} />
+          <Route path="commands" component={CommandWindow} />
       </Route>
     </Router>
   </Provider>,

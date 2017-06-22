@@ -44,8 +44,10 @@ class App extends React.Component {
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
-                                <Icon type="upload"/>
-                                <span className="nav-text">nav 3</span>
+                                <Link to={`commands`}>
+                                    <Icon type="upload"/>
+                                    <span className="nav-text">Commands</span>
+                                </Link>
                             </Menu.Item>
                             <Menu.Item key="4">
                                 <Icon type="bar-chart"/>

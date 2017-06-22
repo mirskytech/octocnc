@@ -44,3 +44,12 @@ export const ajaxError = (info: Error): Action => ({
     type: ActionName.AJAX_ERROR,
     payload: info
 });
+
+export const requestSystemCommands = (): Action => ({
+    type: ActionName.REQUEST_SYSTEM_COMMANDS
+});
+
+export const availableSystemCommands = (info: any): Action => ({
+    type: ActionName.AVAILABLE_SYSTEM_COMMANDS,
+    payload: info
+});

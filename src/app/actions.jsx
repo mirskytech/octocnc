@@ -12,5 +12,8 @@ ActionName.initEnum({
     'DISCONNECTING':{},
     'DISCONNECTED':{},
     'CONNECTING':{},
-    'CONNECTED':{}
+    'CONNECTED':{},
+    'REQUEST_SYSTEM_COMMANDS': {},
+    'AVAILABLE_SYSTEM_COMMANDS': {},
+    'EXECUTE_COMMAND': {}
 });

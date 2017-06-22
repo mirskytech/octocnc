@@ -61,9 +61,31 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
             });
     };
 
+    const requestSystemCommandsEpic = (action$) => {
+        return action$
+            .ofType(ActionName.REQUEST_SYSTEM_COMMANDS)
+            .switchMap((action) => {
+                let ajax$ = ajax.getJSON(`/api/system/commands/core`, {'X-Api-Key':initialState.config.api_key});
+                return ajax$.retry(1).map(actions.availableSystemCommands).catch(actions.ajaxError);
+            });
+    };
+
+    const executeCommandEpic = (action$) => {
+        return action$
+            .ofType(ActionName.EXECUTE_COMMAND)
+            .switchMap((action) => {
+                let ajax$ = ajax.post(`/api/printer/command`,
+                    JSON.stringify({'command': action.command}),
+                    {'X-Api-Key': initialState.config.api_key, 'Content-Type': 'application/json'});
+                return ajax$.ignoreElements();
+            });
+    };
+
     return combineEpics(
         deviceConnectionsEpic,
         connectToDeviceEpic,
-        disconnectFromDeviceEpic
+        disconnectFromDeviceEpic,
+        requestSystemCommandsEpic,
+        executeCommandEpic
     );
 };

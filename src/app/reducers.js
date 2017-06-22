@@ -23,7 +23,6 @@ function devices(state = [], action) {
         case ActionName.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };
         case ActionName.DEVICE_CONNECTION_INFO:
-            console.log(action.payload.options);
             const opt = action.payload.options;
             return {
                 devices: opt.printerProfiles.map( (el, idx) => { return {'text':el.name, 'value':el.id, 'key':idx }; }),
@@ -55,8 +54,18 @@ function devices(state = [], action) {
     }
 }
 
+function commands(state = [], action) {
+    switch(action.type) {
+        case ActionName.AVAILABLE_SYSTEM_COMMANDS:
+            return {...state};
+        default:
+            return {...state};
+    }
+}
+
 export default combineReducers({
     routing,
     config,
-    devices
+    devices,
+    commands
 });
