@@ -1,15 +1,6 @@
 // @flow
-import {Action} from "./payload_types";
+import type {Action} from "./types";
 import { ActionName } from "./actions";
-
-
-export type WebsocketAction = {
-    type: 'WEBSOCKET_MESSAGE',
-    payload: {
-        type: number,
-        data: any
-    }
-}
 
 
 export const requestDeviceConnections = (payload: any): Action => ({
@@ -32,7 +23,8 @@ export const connectToDevice = (port: string, device: string, speed: string) : A
 });
 
 export const disconnectFromDevice = () : Action => ({
-    type: ActionName.DISCONNECT_FROM_DEVICE
+    type: ActionName.DISCONNECT_FROM_DEVICE,
+    payload: null
 });
 
 export const deviceError = (info: any): Action => ({
@@ -46,7 +38,8 @@ export const ajaxError = (info: Error): Action => ({
 });
 
 export const requestSystemCommands = (): Action => ({
-    type: ActionName.REQUEST_SYSTEM_COMMANDS
+    type: ActionName.REQUEST_SYSTEM_COMMANDS,
+    payload: null
 });
 
 export const availableSystemCommands = (info: any): Action => ({

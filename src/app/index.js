@@ -1,5 +1,3 @@
-// @flow
-
 import 'rxjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,10 +12,11 @@ import 'basscss-margin/index.css';
 import 'basscss-padding/index.css';
 import 'basscss-align/index.css';
 import 'basscss-type-scale/index.css';
+import 'font-awesome/scss/font-awesome.scss';
 import {ActionName} from './actions';
-import Connection from './containers/connection';
-import DRO from './containers/dro';
-import CommandWindow from 'containers/gcode';
+import Connection from 'containers/connection';
+import DRO from 'containers/dro';
+import CommandWindow from 'containers/commands';
 
 
 // get server configuration from rendered page

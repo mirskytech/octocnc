@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { ConnectionState } from 'enums';
+import { ConnectionStatus } from 'enums';
 
 import { Layout, Menu, Icon } from 'antd';
 import ReactSVG from "react-svg";
@@ -20,7 +20,7 @@ class App extends React.Component {
 
         let status_icon = <Icon inverted name='circle thin' />;
 
-        if(this.props.status === ConnectionState.CONNECTED) {
+        if(this.props.status === ConnectionStatus.CONNECTED) {
             status_icon = <Icon inverted color='green' name='circle' />;
         }
 
@@ -74,7 +74,7 @@ class App extends React.Component {
                     <Layout>
                         <Header style={{background: '#fff', padding: 0}}/>
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
-                            <div style={{padding: 24, background: '#fff', textAlign: 'center'}}>
+                            <div style={{padding: 24, textAlign: 'center'}}>
                                 {this.props.children}
                             </div>
                         </Content>
@@ -88,7 +88,7 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
-  status: ConnectionState.DISCONNECTED
+  status: ConnectionStatus.DISCONNECTED
 };
 
 function mapStateToProps(state) {

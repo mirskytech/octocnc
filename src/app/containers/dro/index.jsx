@@ -17,7 +17,7 @@ class DRO extends React.Component {
     render() {
 
         return (
-            <div>
+            <div style={{background: 'white', borderRadius:10}}>
                 <Axis title='X' value={1.23}/>
                 <Axis title='Y' value={4.56}/>
                 <Axis title='Z' value={78.90}/>
