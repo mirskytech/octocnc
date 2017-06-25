@@ -63,7 +63,9 @@ module.exports = {
                     options: {
                         modifyVars: {
                             "@primary-color": "#BA8B00",
-                            "@error-color": "#E83F6F"},
+                            "@error-color": "#E83F6F",
+                            "@icon-url": "'/plugin/octocnc/static/fonts/iconfont'"
+                        },
                     },
                 },
             ],

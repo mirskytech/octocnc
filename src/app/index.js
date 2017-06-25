@@ -18,7 +18,6 @@ import Connection from 'containers/connection';
 import DRO from 'containers/dro';
 import CommandWindow from 'containers/commands';
 
-
 // get server configuration from rendered page
 const el = document.getElementById('_server_config');
 const config = JSON.parse(el ? el.innerHTML : '{}');

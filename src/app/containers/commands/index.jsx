@@ -23,11 +23,10 @@ class CommandWindow extends React.Component {
         this.state = {
 
         };
-        this.scrollable  = null;
     }
 
     componentDidMount() {
-        this.props.getCommands();
+
     }
 
     render() {
