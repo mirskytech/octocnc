@@ -6,8 +6,8 @@ import {LOCATION_CHANGE} from 'react-router-redux';
 import {ajax} from 'rxjs/observable/dom/ajax';
 import {of} from 'rxjs/observable/of';
 import {timer} from 'rxjs/observable/timer';
-import * as actions from "./action_creators";
-import {ActionName} from "./actions";
+import * as actions from "action_creators";
+import {ActionType} from "enums";
 
 function mapToAction(actionCreator) {
     return (action) => {
@@ -26,7 +26,7 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
     const deviceConnectionsEpic  = (action$) => {
 
         return action$
-            .ofType(ActionName.REQUEST_DEVICE_CONNECTIONS)
+            .ofType(ActionType.REQUEST_DEVICE_CONNECTIONS)
             .switchMap((action) => {
                 let ajax$ = ajax.getJSON(`/api/connection`, {'X-Api-Key':initialState.config.api_key});
                 return ajax$.retry(1).map(actions.deviceConnectionInfo).catch(actions.ajaxError);
@@ -35,7 +35,7 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
 
     const connectToDeviceEpic = (action$) => {
         return action$
-            .ofType(ActionName.CONNECT_TO_DEVICE)
+            .ofType(ActionType.CONNECT_TO_DEVICE)
             .switchMap((action) => {
                 let ajax$ = ajax.post(`/api/connection`,
                     JSON.stringify(
@@ -52,7 +52,7 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
 
     const disconnectFromDeviceEpic= (action$) => {
         return action$
-            .ofType(ActionName.DISCONNECT_FROM_DEVICE)
+            .ofType(ActionType.DISCONNECT_FROM_DEVICE)
             .switchMap((action) => {
                 let ajax$ = ajax.post(`/api/connection`,
                     JSON.stringify({'command':'disconnect'}),
@@ -63,7 +63,7 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
 
     const requestSystemCommandsEpic = (action$) => {
         return action$
-            .ofType(ActionName.REQUEST_SYSTEM_COMMANDS)
+            .ofType(ActionType.REQUEST_SYSTEM_COMMANDS)
             .switchMap((action) => {
                 let ajax$ = ajax.getJSON(`/api/system/commands/core`, {'X-Api-Key':initialState.config.api_key});
                 return ajax$.retry(1).map(actions.availableSystemCommands).catch(actions.ajaxError);
@@ -72,10 +72,10 @@ export default function createRootEpics(socket: WebSocket, initialState: Object)
 
     const executeCommandEpic = (action$) => {
         return action$
-            .ofType(ActionName.EXECUTE_COMMAND)
+            .ofType(ActionType.EXECUTE_COMMAND)
             .switchMap((action) => {
                 let ajax$ = ajax.post(`/api/printer/command`,
-                    JSON.stringify({'command': action.command}),
+                    JSON.stringify({'command': action.payload}),
                     {'X-Api-Key': initialState.config.api_key, 'Content-Type': 'application/json'});
                 return ajax$.ignoreElements();
             });

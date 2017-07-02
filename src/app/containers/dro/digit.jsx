@@ -5,7 +5,7 @@ import digit from 'assets/octocnc_sprites_digit.svg';
 import ReactSVG from 'react-svg';
 import {Colors} from 'enums';
 
-const segment_map = {
+const SEGMENT_MAP = {
     0: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'l'],
     1: ['c', 'd'],
     2: ['a', 'b', 'c', 'o', 'q', 'g', 'f', 'e'],
@@ -46,9 +46,12 @@ class Digit extends React.Component {
             for(let item of this.display.children) {
                 item.style.fill = this.props.backgroundColor;
             }
-          for(let item of segment_map[this.props.value]) {
-              this.display.children['segment_'+item].style.fill = this.props.fillColor;
-          }
+            if(!this.props.value) {
+                return;
+            }
+            for(let item of SEGMENT_MAP[this.props.value]) {
+                this.display.children['segment_'+item].style.fill = this.props.fillColor;
+            }
         }
     };
 

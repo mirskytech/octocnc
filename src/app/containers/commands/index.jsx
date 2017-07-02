@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {requestSystemCommands} from "action_creators";
+import {requestSystemCommands, executeCommand} from "action_creators";
 
-import {Timeline, Row, Col, Button} from 'antd';
+import {Input, Row, Col, Button} from 'antd';
 import List from './list';
 
 const columnStyle = {
@@ -21,13 +21,23 @@ class CommandWindow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            command:''
         };
     }
 
     componentDidMount() {
 
     }
+
+    setCommand = (e) => {
+      this.setState({command:e.target.value})
+    };
+
+
+    sendCommand = () => {
+      this.props.executeCommand(this.state.command);
+    };
+
 
     render() {
 
@@ -45,6 +55,12 @@ class CommandWindow extends React.Component {
                     <div style={windowStyle}>
                         <List commands={this.props.commands}/>
                     </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={12}>
+                    <Input placeholder="gcode" onChange={this.setCommand} />
+                    <Button onClick={this.sendCommand}>Go</Button>
                 </Col>
             </Row>
         </div>
@@ -68,7 +84,8 @@ CommandWindow.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        getCommands:requestSystemCommands
+        getCommands:requestSystemCommands,
+        executeCommand:executeCommand
     }, dispatch);
 }
 

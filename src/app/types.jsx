@@ -1,7 +1,6 @@
 // @flow
 
-import {CommandStatus} from "./enums";
-import {ActionName} from "./actions";
+import {CommandStatus, ActionType} from "./enums";
 
 export type Device = {
     name: string,
@@ -24,7 +23,7 @@ export type Command = {
 
 
 export type Action = {
-    type: ActionName,
+    type: ActionType,
     payload: any
 };
 

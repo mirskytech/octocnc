@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
 import {routerReducer as routing} from 'react-router-redux';
-import { ActionName } from './actions';
-import { ConnectionStatus, CommandStatus } from './enums';
+import { ConnectionStatus, CommandStatus, ActionType } from 'enums';
 import type {Device} from "./types";
 
 function config(state=[], action) {
@@ -19,9 +18,9 @@ function _mapBaudRates(rates) {
 function devices(state = [], action): any {
 
     switch(action.type) {
-        case ActionName.REQUEST_DEVICE_CONNECTIONS:
+        case ActionType.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };
-        case ActionName.DEVICE_CONNECTION_INFO:
+        case ActionType.DEVICE_CONNECTION_INFO:
             const opt = action.payload.options;
             return {
                 ...state,
@@ -29,22 +28,22 @@ function devices(state = [], action): any {
                 baudrates: opt.baudrates.map( (el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
                 ports: opt.ports.map((el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
                 };
-        case ActionName.CONNECTING:
+        case ActionType.CONNECTING:
             return {
                 ...state,
                 status: ConnectionStatus.CONNECTING
             };
-        case ActionName.CONNECTED:
+        case ActionType.CONNECTED:
             return {
                 ...state,
                 status: ConnectionStatus.CONNECTED
             };
-        case ActionName.DISCONNECTING:
+        case ActionType.DISCONNECTING:
             return {
                 ...state,
                 status: ConnectionStatus.DISCONNECTING
             };
-        case ActionName.DISCONNECTED:
+        case ActionType.DISCONNECTED:
             return {
                 ...state,
                 status: ConnectionStatus.DISCONNECTED
@@ -56,9 +55,9 @@ function devices(state = [], action): any {
 
 function commands(state = [], action) {
     switch(action.type) {
-        case ActionName.AVAILABLE_SYSTEM_COMMANDS:
+        case ActionType.AVAILABLE_SYSTEM_COMMANDS:
             return {...state};
-        // case ActionName.GCODE_COMMANDS_FROM_FILE:
+        // case ActionType.GCODE_COMMANDS_FROM_FILE:
         //     return {
         default:
             return {'available_commands': [

@@ -13,7 +13,7 @@ import 'basscss-padding/index.css';
 import 'basscss-align/index.css';
 import 'basscss-type-scale/index.css';
 import 'font-awesome/scss/font-awesome.scss';
-import {ActionName} from './actions';
+import {ActionType} from 'enums';
 import Connection from 'containers/connection';
 import DRO from 'containers/dro';
 import CommandWindow from 'containers/commands';
@@ -46,17 +46,17 @@ OctoPrint.socket.onMessage("*", (msg) => {
     const action = {'action':'', 'payload':{}};
 
     if(msg.event === 'event') {
-        action.type = ActionName.enumValueOf(msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase());
+        action.type = ActionType.enumValueOf(msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase());
         action.payload = msg.data.payload;
     } else {
-        action.type = ActionName.enumValueOf("SOCKET_" + msg.event.toUpperCase());
+        action.type = ActionType.enumValueOf("SOCKET_" + msg.event.toUpperCase());
         action.payload = msg.data;
     }
 
     if(action.type === undefined) {
+        console.log(msg);
         return;
     }
-
     store.dispatch(action);
 });
 

@@ -11,6 +11,7 @@ import { Layout, Menu, Icon } from 'antd';
 import ReactSVG from "react-svg";
 import logo from 'assets/octocnc_sprites_logo.svg'
 const { Header, Content, Footer, Sider } = Layout;
+import FontAwesome from 'react-fontawesome';
 
 const logoStyle = { };
 
@@ -18,10 +19,10 @@ class App extends React.Component {
 
     render() {
 
-        let status_icon = <Icon inverted name='circle thin' />;
+        let status_icon = <FontAwesome name='circle-o' size='lg'/>
 
         if(this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <Icon inverted color='green' name='circle' />;
+            status_icon = <FontAwesome name='circle' style={{color:'green'}} size='lg'/>;
         }
 
         return (
@@ -30,45 +31,45 @@ class App extends React.Component {
                         <div className="logo">
                             <ReactSVG path={logo} style={logoStyle} className="m1"/>
                         </div>
-                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                        <Menu theme="dark" mode="inline">
                             <Menu.Item key="1">
                                 <Link to={`connection`}>
-                                    <Icon type="user"/>
-                                    <span className="nav-text">Connection</span>
+                                    {status_icon}
+                                    <span className="pl1  h5">Connection</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <Icon type="video-camera"/>
-                                    <span className="nav-text">Position</span>
+                                    <FontAwesome name='arrows' size='lg'/>
+                                    <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link to={`commands`}>
-                                    <Icon type="upload"/>
-                                    <span className="nav-text">Commands</span>
+                                    <FontAwesome name='terminal' size='lg'/>
+                                    <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="4">
-                                <Icon type="bar-chart"/>
-                                <span className="nav-text">nav 4</span>
-                            </Menu.Item>
-                            <Menu.Item key="5">
-                                <Icon type="cloud-o"/>
-                                <span className="nav-text">nav 5</span>
-                            </Menu.Item>
-                            <Menu.Item key="6">
-                                <Icon type="appstore-o"/>
-                                <span className="nav-text">nav 6</span>
-                            </Menu.Item>
-                            <Menu.Item key="7">
-                                <Icon type="team"/>
-                                <span className="nav-text">nav 7</span>
-                            </Menu.Item>
-                            <Menu.Item key="8">
-                                <Icon type="shop"/>
-                                <span className="nav-text">nav 8</span>
-                            </Menu.Item>
+                            {/*<Menu.Item key="4">*/}
+                                {/*<Icon type="bar-chart"/>*/}
+                                {/*<span className="nav-text">nav 4</span>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="5">*/}
+                                {/*<Icon type="cloud-o"/>*/}
+                                {/*<span className="nav-text">nav 5</span>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="6">*/}
+                                {/*<Icon type="appstore-o"/>*/}
+                                {/*<span className="nav-text">nav 6</span>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="7">*/}
+                                {/*<Icon type="team"/>*/}
+                                {/*<span className="nav-text">nav 7</span>*/}
+                            {/*</Menu.Item>*/}
+                            {/*<Menu.Item key="8">*/}
+                                {/*<Icon type="shop"/>*/}
+                                {/*<span className="nav-text">nav 8</span>*/}
+                            {/*</Menu.Item>*/}
                         </Menu>
                     </Sider>
                     <Layout>
