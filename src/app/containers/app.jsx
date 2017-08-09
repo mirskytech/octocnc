@@ -15,6 +15,8 @@ import FontAwesome from 'react-fontawesome';
 
 const logoStyle = { };
 
+import './app.scss';
+
 class App extends React.Component {
 
     render() {
@@ -22,7 +24,7 @@ class App extends React.Component {
         let status_icon = <FontAwesome name='circle-o' size='lg'/>
 
         if(this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesome name='circle' style={{color:'green'}} size='lg'/>;
+            status_icon = <FontAwesome name='circle' className="active-circle" size='lg'/>;
         }
 
         return (

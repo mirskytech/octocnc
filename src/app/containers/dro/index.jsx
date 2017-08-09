@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Axis from './axis';
@@ -18,9 +19,9 @@ class DRO extends React.Component {
 
         return (
             <div style={{background: 'white', borderRadius:10}}>
-                <Axis title='X' value={1.23}/>
-                <Axis title='Y' value={4.56}/>
-                <Axis title='Z' value={78.90}/>
+                <Axis title='X' value={this.props.xPosition}/>
+                <Axis title='Y' value={this.props.yPosition}/>
+                <Axis title='Z' value={this.props.zPosition}/>
             </div>
         );
     }
@@ -28,9 +29,23 @@ class DRO extends React.Component {
 
 function mapStateToProps(state) {
     return {
-
+        xPosition: state.position.X,
+        yPosition: state.position.Y,
+        zPosition: state.position.Z
     };
 }
+
+DRO.defaultProps = {
+    xPosition: 0.0,
+    yPosition: 0.0,
+    zPosition: 0.0
+};
+
+DRO.propTypes = {
+    xPosition: PropTypes.number.isRequired,
+    yPosition: PropTypes.number.isRequired,
+    zPosition: PropTypes.number.isRequired
+};
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({

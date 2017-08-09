@@ -58,32 +58,31 @@ class Connection extends React.Component {
 
     render() {
 
-        let ready = !!this.state.device && !!this.state.port && !!this.state.speed;
-
-        let button = null;
-
-        switch(this.props.status) {
-            case ConnectionStatus.DISCONNECTED:
-            case ConnectionStatus.CONNECTING:
-                button = <Button style={buttonStyle}
-                             disabled={!ready}
-                             loading={this.props.status === ConnectionStatus.CONNECTING}
-                             onClick={this.connect}>Connect</Button>;
-                break;
-            case ConnectionStatus.CONNECTED:
-            case ConnectionStatus.DISCONNECTING:
-            default:
-                button = <Button style={buttonStyle}
-                             disabled={this.props.status !== ConnectionStatus.CONNECTED}
-                             loading={this.props.status === ConnectionStatus.DISCONNECTING}
-                             onClick={this.props.disconnect}>Disconnect</Button>;
+        if(this.props.status === undefined) {
+            return(
+                <div>
+                    <h3>Waiting for connection status...</h3>
+                </div>
+            );
         }
 
-        let enabled = this.props.status === ConnectionStatus.DISCONNECTED;
+        if(this.props.status === ConnectionStatus.CONNECTED) {
+            return(
+                <div>
+                    <h3>Device Connected</h3>
+                    <Button style={buttonStyle}
+                            disabled={this.props.status !== ConnectionStatus.CONNECTED}
+                            loading={this.props.status === ConnectionStatus.DISCONNECTING}
+                            onClick={this.props.disconnect}>Disconnect</Button>
+                </div>
+            )
+        }
+
+        let ready = !!this.state.device && !!this.state.port && !!this.state.speed;
 
         return (
         <div>
-            <h3>Connections<img src={this.props.plugin_uri + 'imgs/connection.svg'} style={iconStyle}/></h3>
+            <h3>Connect to Device<img src={this.props.plugin_uri + 'imgs/connection.svg'} style={iconStyle}/></h3>
             <Select placeholder="Select Profile" style={{ width: 120 }} onSelect={this.deviceSelection}>
                 {this.props.devices.map( (device:Device, idx) => { return (<Select.Option key={idx} value={device.id}>{device.name}</Select.Option>) })}
             </Select>
@@ -93,7 +92,7 @@ class Connection extends React.Component {
             <Select placeholder="Select Port" style={{ width: 120 }} onSelect={this.portSelection}>
                 {this.props.ports.map( (port, idx) => { return (<Select.Option key={idx} value={port.value}>{port.text}</Select.Option>) })}
             </Select>
-            {button}
+            <Button style={buttonStyle} disabled={!ready} loading={this.props.status === ConnectionStatus.CONNECTING} onClick={this.connect}>Connect</Button>
         </div>
         )
     }
@@ -114,7 +113,7 @@ Connection.defaultProps = {
     rates: [],
     ports: [],
     devices: [],
-    status: ConnectionStatus.DISCONNECTED
+    status: undefined
 };
 
 Connection.propTypes = {

@@ -15,6 +15,20 @@ function _mapBaudRates(rates) {
 
 }
 
+function position(state = [], action) : any {
+
+    switch(action.type) {
+        case ActionType.POSITION_UPDATE:
+            return {
+                X: action.payload.x,
+                Y: action.payload.y,
+                Z: action.payload.z
+            };
+        default:
+            return { ...state };
+    }
+}
+
 function devices(state = [], action): any {
 
     switch(action.type) {
@@ -48,6 +62,15 @@ function devices(state = [], action): any {
                 ...state,
                 status: ConnectionStatus.DISCONNECTED
             };
+        case ActionType.SOCKET_HISTORY:
+            console.log('history');
+            console.log(action.payload);
+            if(!action.payload.state.flags.closedOrError) {
+                return {
+                    ...state,
+                    status: ConnectionStatus.CONNECTED
+                }
+            }
         default:
             return { ...state };
     }
@@ -78,6 +101,7 @@ function commands(state = [], action) {
 
 export default combineReducers({
     routing,
+    position,
     config,
     devices,
     commands

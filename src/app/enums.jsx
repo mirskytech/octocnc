@@ -17,7 +17,9 @@ ActionType.initEnum({
     'CONNECTED':{},
     'REQUEST_SYSTEM_COMMANDS': {},
     'AVAILABLE_SYSTEM_COMMANDS': {},
-    'EXECUTE_COMMAND': {}
+    'EXECUTE_COMMAND': {},
+    'SOCKET_HISTORY': {},
+    'POSITION_UPDATE': {}
 });
 
 

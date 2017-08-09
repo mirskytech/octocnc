@@ -40,6 +40,11 @@ class CommandWindow extends React.Component {
 
 
     render() {
+        if(!this.props.commands) {
+            return(
+                <div>No commands at this time.</div>
+            )
+        }
 
         return (
         <div>

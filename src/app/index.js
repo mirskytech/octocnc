@@ -54,7 +54,9 @@ OctoPrint.socket.onMessage("*", (msg) => {
     }
 
     if(action.type === undefined) {
-        console.log(msg);
+        if (msg.event === "current") {
+            return;
+        }
         return;
     }
     store.dispatch(action);

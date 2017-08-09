@@ -1,0 +1,12 @@
+.active-circle {
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0%,100% {
+    color: #404040;
+  }
+  50% {
+    color: #BA8B00;
+  }
+}
