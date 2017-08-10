@@ -63,14 +63,11 @@ function devices(state = [], action): any {
                 status: ConnectionStatus.DISCONNECTED
             };
         case ActionType.SOCKET_HISTORY:
-            console.log('history');
-            console.log(action.payload);
             if(!action.payload.state.flags.closedOrError) {
-                return {
-                    ...state,
-                    status: ConnectionStatus.CONNECTED
-                }
+                return { ...state, status: ConnectionStatus.CONNECTED };
             }
+            return { ...state, status: ConnectionStatus.DISCONNECTED };
+
         default:
             return { ...state };
     }
