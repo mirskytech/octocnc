@@ -23,11 +23,19 @@ class Axis extends React.Component {
 
     render() {
 
-        let fixedValue = this.props.value.toFixed(3).split('.');
-        let majorValue = this.pad(fixedValue[0],5,'0');
-        let minorValue = fixedValue[1];
+        let majorValue = new Array(5).fill(null);
+        let minorValue = new Array(3).fill(null);
+        let sign = null;
 
-        let sign = this.props.value >= 0 ? '+' : '-';
+        if(this.props.active) {
+
+            let fixedValue = this.props.value.toFixed(3).split('.');
+            majorValue = this.pad(fixedValue[0], 5, '0');
+            minorValue = fixedValue[1];
+
+            sign = this.props.value >= 0 ? '+' : '-';
+        }
+
 
 
         return (
@@ -43,7 +51,7 @@ class Axis extends React.Component {
                         <Digit value={majorValue[2]} />
                         <Digit value={majorValue[3]} />
                         <Digit value={majorValue[4]} />
-                        <Decimal />
+                        <Decimal active={this.props.active} />
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
                         <Digit value={minorValue[2]} />
@@ -58,6 +66,7 @@ class Axis extends React.Component {
 
 Axis.defaultProps ={
     title: null,
+    active: false
 };
 
 function mapStateToProps(state) {

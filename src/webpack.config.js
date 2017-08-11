@@ -2,7 +2,7 @@ var path = require('path');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  entry: './app/index.js',
+  entry: './app/index.jsx',
   output: {
     path: path.join(__dirname, '../octocnc/static/dist/'),
     filename: 'bundle.js',

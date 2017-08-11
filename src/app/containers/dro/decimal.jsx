@@ -4,14 +4,16 @@ import { bindActionCreators } from "redux";
 import ReactSVG from 'react-svg';
 import decimal from 'assets/octocnc_sprites_decimal.svg';
 
-const decimalStyle = { height: 70 };
-
+const decimalStyle = { height: 70, decimal: {fill: 'red' }};
+import styles from './decimal.scss';
 
 class Decimal extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
     }
+
+
 
     render() {
         return (
@@ -29,7 +31,7 @@ function mapStateToProps(state) {
 }
 
 Decimal.defaultProps = {
-
+    active: false
 };
 
 Decimal.propTypes = {
