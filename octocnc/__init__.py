@@ -1,81 +1,103 @@
 from __future__ import absolute_import
 
+import os
+import flask
+
 import octoprint.plugin
 from octoprint.settings import settings
+
+from . import models, api, db
 
 class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
                     octoprint.plugin.TemplatePlugin,
                     octoprint.plugin.SettingsPlugin,
                     octoprint.plugin.AssetPlugin,
-                    octoprint.plugin.UiPlugin):
+                    octoprint.plugin.UiPlugin,
+                    octoprint.plugin.BlueprintPlugin,
+                    api.API
 
-    def on_after_startup(self):
-        self._logger.info("Hello World! (more: %s)" % self._settings.get(["url"]))
+                    ):
 
-    def get_settings_defaults(self):
-        return dict(url="https://octocnc.com")
+	def __init__(self):
+		self._db = None
 
-    def get_template_configs(self):
-        return [
-            dict(type="navbar", custom_bindings=False),
-            dict(type="settings", custom_bindings=False)
-        ]
+	def on_after_startup(self):
 
-    def get_template_vars(self):
-        return {'static_url': "{}/static".format(self._basefolder)}
+		import tornado.autoreload
+		tornado.autoreload.start()
+		for dir, _, files in os.walk(os.path.join(self._basefolder, 'octocnc')):
+			[tornado.autoreload.watch(dir + '/' + f) for f in files if not f.startswith('.')]
 
-    def get_assets(self):
-        return dict(
-            js=["js/octocnc.js"],
-            less=["less/octocnc.less"],
-        )
+		db_path = os.path.join(self.get_plugin_data_folder(), "octocnc.db")
+		db.octocnc_db.init(db_path)
 
-    def will_handle_ui(self, request):
-	    return True
+		db.octocnc_db.create_tables([models.CommandHistory], safe=True)
 
-    def _filter_tabs(self, templates):
-	    return [ t for t in templates if t not in ('temperature', 'gcodeviewer', 'control')]
+	def get_settings_defaults(self):
+		return dict(url="myurl")
 
-    def on_ui_render(self, now, request, render_kwargs):
-	    from flask import make_response, render_template
+	def get_template_configs(self):
+		return [
+			# dict(type="navbar", custom_bindings=False),
+			# dict(type="settings", custom_bindings=False)
+		]
 
-	    render_kwargs.update(dict(
-		    webcamStream=settings().get(["webcam", "stream"]),
-		    enableTemperatureGraph=settings().get(["feature", "temperatureGraph"]),
-		    enableAccessControl=True, #enable_accesscontrol,
-		    accessControlActive=True, #accesscontrol_active,
-		    enableSdSupport=settings().get(["feature", "sdSupport"]),
-		    gcodeMobileThreshold=settings().get(["gcodeViewer", "mobileSizeThreshold"]),
-		    gcodeThreshold=settings().get(["gcodeViewer", "sizeThreshold"]),
-		    wizard=None,
-		    now=now
-	    ))
+	def get_template_vars(self):
+		return {'static_url': "{}/static".format(self._basefolder)}
 
-	    render_kwargs['templates']['tab']['order'] = self._filter_tabs(render_kwargs['templates']['tab']['order'])
+	def get_assets(self):
+		return dict(
+			# js=["js/octocnc.js"],
+			# less=["less/octocnc.less"],
+		)
 
-	    self._logger.info(render_kwargs['templates'].keys())
+	def will_handle_ui(self, request):
+		return True
 
-	    return make_response(render_template("octocnc_index.jinja2", **render_kwargs))
+	# def _filter_tabs(self, templates):
+	# 	return [t for t in templates if t not in ('temperature', 'gcodeviewer', 'control')]
 
-    def suppress_temperature(self, comm, phase, cmd, cmd_type, gcode, *args, **kwargs):
+	def on_ui_render(self, now, request, render_kwargs):
+		from flask import make_response, render_template
+
+		# render_kwargs.update(dict(
+		# 	webcamStream=settings().get(["webcam", "stream"]),
+		# 	enableTemperatureGraph=settings().get(["feature", "temperatureGraph"]),
+		# 	enableAccessControl=True,  # enable_accesscontrol,
+		# 	accessControlActive=True,  # accesscontrol_active,
+		# 	enableSdSupport=settings().get(["feature", "sdSupport"]),
+		# 	gcodeMobileThreshold=settings().get(["gcodeViewer", "mobileSizeThreshold"]),
+		# 	gcodeThreshold=settings().get(["gcodeViewer", "sizeThreshold"]),
+		# 	wizard=None,
+		# 	now=now
+		# ))
+		#
+		# render_kwargs['templates']['tab']['order'] = self._filter_tabs(render_kwargs['templates']['tab']['order'])
+		#
+		# self._logger.info(render_kwargs['templates'].keys())
+
+		return make_response(render_template("octocnc_index.jinja2", **render_kwargs))
+
+	def suppress_temperature(self, comm, phase, cmd, cmd_type, gcode, *args, **kwargs):
 
 		# cancel the temperature timer
-	    if comm._temperature_timer:
-		    comm._temperature_timer.cancel()
-		    comm._temperature_timer = None
+		if comm._temperature_timer:
+			comm._temperature_timer.cancel()
+			comm._temperature_timer = None
 
 		# supress the M105
-	    if gcode and gcode == "M105":
-	        return None,
+		if gcode and gcode == "M105":
+			return None,
 
 
 __plugin_name__ = "OctoCNC"
+
+
 def __plugin_load__():
-    plugin = OctoCNCPlugin()
+	plugin = OctoCNCPlugin()
 
-    global __plugin_implementation__
-    __plugin_implementation__ = plugin
+	global __plugin_implementation__
+	__plugin_implementation__ = plugin
 
-    global __plugin_hooks__
-    __plugin_hooks__ = {"octoprint.comm.protocol.gcode.queuing": plugin.suppress_temperature}
-
+	global __plugin_hooks__
+	__plugin_hooks__ = {"octoprint.comm.protocol.gcode.queuing": plugin.suppress_temperature}

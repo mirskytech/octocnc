@@ -5,20 +5,46 @@ import { createEpicMiddleware } from 'redux-observable';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import rootReducer from './reducers';
-import createRootEpic from './epics';
+import { rootEpic } from './epics';
 
-export default function configureStore(socket: WebSocket, initialState: Object) {
-  const epicMiddleware = createEpicMiddleware(createRootEpic(socket, initialState));
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(
-    rootReducer,
-    initialState,
-    composeEnhancers(
-      applyMiddleware(
-        epicMiddleware,
-        routerMiddleware(browserHistory)
-      )
-    )
-  );
+import { ajax } from 'rxjs/observable/dom/ajax';
+
+// export default function configureStore(socket: WebSocket, initialState: Object) {
+//   const epicMiddleware = createEpicMiddleware(rootEpic, {
+//       dependencies: {
+//         getJSON: ajax.getJSON
+//       }
+//   });
+//   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//   const store = createStore(
+//     rootReducer,
+//     initialState,
+//     composeEnhancers(
+//       applyMiddleware(
+//         epicMiddleware,
+//         routerMiddleware(browserHistory)
+//       )
+//     )
+//   );
+//   return store;
+// }
+
+
+
+export default function configureStore(socket, initialState) {
+
+    const epicMiddleware = createEpicMiddleware(rootEpic, {
+        dependencies: {
+            socket: socket,
+            initialState: initialState
+        }
+    });
+
+    const store = createStore(
+        rootReducer,
+        applyMiddleware(epicMiddleware)
+    );
+
+
   return store;
 }
