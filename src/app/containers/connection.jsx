@@ -70,6 +70,8 @@ class Connection extends React.Component {
             return(
                 <div>
                     <h3>Device Connected</h3>
+                    <p>{this.props.current.device}</p>
+                    <p>{this.props.current.port}</p>
                     <Button style={buttonStyle}
                             disabled={this.props.status !== ConnectionStatus.CONNECTED}
                             loading={this.props.status === ConnectionStatus.DISCONNECTING}
@@ -104,7 +106,8 @@ function mapStateToProps(state) {
         devices:state.devices.devices,
         rates:state.devices.baudrates,
         ports:state.devices.ports,
-        status:state.devices.status
+        status:state.devices.status,
+        current:state.devices.current
     };
 }
 
@@ -113,7 +116,8 @@ Connection.defaultProps = {
     rates: [],
     ports: [],
     devices: [],
-    status: undefined
+    status: undefined,
+    current: null
 };
 
 Connection.propTypes = {

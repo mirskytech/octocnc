@@ -19,7 +19,9 @@ ActionType.initEnum({
     'AVAILABLE_SYSTEM_COMMANDS': {},
     'EXECUTE_COMMAND': {},
     'SOCKET_HISTORY': {},
-    'POSITION_UPDATE': {}
+    'POSITION_UPDATE': {},
+    'GET_COMMAND_HISTORY': {},
+    'COMMAND_HISTORY_DATA': {}
 });
 
 

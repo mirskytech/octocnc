@@ -6,12 +6,38 @@ export default function (state = [], action): any {
         case ActionType.REQUEST_DEVICE_CONNECTIONS:
             return { ...state };
         case ActionType.DEVICE_CONNECTION_INFO:
-            const opt = action.payload.options;
+
+            let current = {};
+            if(action.payload.current !== undefined && action.payload.current.state !== "Closed") {
+                current = {
+                    device: action.payload.current.printerProfile,
+                    port: action.payload.current.port,
+                    baudrate: action.payload.current.baudrate
+                }
+            }
+
+            let available = {};
+            if(action.payload.options !== undefined) {
+                const opt = action.payload.options;
+
+                available = {
+                    devices: opt.printerProfiles.map((el, idx) => {
+                        return {'name': el.name, 'id': el.id};
+                    }),
+                    baudrates: opt.baudrates.map((el, idx) => {
+                        return {'text': el, 'value': el, 'key': idx};
+                    }),
+                    ports: opt.ports.map((el, idx) => {
+                        return {'text': el, 'value': el, 'key': idx};
+                    }),
+                }
+            }
+
             return {
                 ...state,
-                devices: opt.printerProfiles.map( (el, idx):Device => { return {'name':el.name, 'id':el.id}; }),
-                baudrates: opt.baudrates.map( (el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
-                ports: opt.ports.map((el, idx) => { return {'text':el, 'value':el, 'key':idx }; }),
+                ...available,
+                current: current,
+
                 };
         case ActionType.CONNECTING:
             return {

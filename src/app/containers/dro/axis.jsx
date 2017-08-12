@@ -51,7 +51,7 @@ class Axis extends React.Component {
                         <Digit value={majorValue[2]} />
                         <Digit value={majorValue[3]} />
                         <Digit value={majorValue[4]} />
-                        <Decimal />
+                        <Decimal active={this.props.active} />
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
                         <Digit value={minorValue[2]} />

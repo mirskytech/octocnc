@@ -30,7 +30,11 @@ module.exports = {
         use: [{
           loader: "style-loader" // creates style nodes from JS strings
         }, {
-          loader: "css-loader" // translates CSS into CommonJS
+          loader: "css-loader",
+          query: {
+            modules: true,
+            localIdentName: '[name]__[local]___[hash:base64:5]'
+          }
         }, {
           loader: "sass-loader" // compiles Sass to CSS
         }]
@@ -72,7 +76,16 @@ module.exports = {
         },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: [{
+            loader: 'style-loader'
+        },
+        {
+            loader:'css-loader',
+            query: {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              }
+        }]
       },
       {
           test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,

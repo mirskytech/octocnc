@@ -5,6 +5,7 @@ import {requestSystemCommands, executeCommand} from "action_creators";
 
 import {Input, Row, Col, Button} from 'antd';
 import List from './list';
+import {ConnectionStatus} from "../../enums";
 
 const columnStyle = {
     padding: 10
@@ -36,11 +37,17 @@ class CommandWindow extends React.Component {
 
     sendCommand = () => {
       this.props.executeCommand(this.state.command);
+      this.setState({command:''});
     };
 
+    enterCommand = (e) => {
+        if(e.key === 'Enter') {
+            this.sendCommand();
+        }
+    };
 
     render() {
-        if(!this.props.commands) {
+        if(this.props.history.length < 1) {
             return(
                 <div>No commands at this time.</div>
             )
@@ -58,14 +65,19 @@ class CommandWindow extends React.Component {
                 <Col span={12} style={columnStyle}>
                     <h3>Machine</h3>
                     <div style={windowStyle}>
-                        <List commands={this.props.commands}/>
+                        <List commands={this.props.history}/>
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col span={12}>
-                    <Input placeholder="gcode" onChange={this.setCommand} />
-                    <Button onClick={this.sendCommand}>Go</Button>
+                    <Input
+                        value={this.state.command}
+                        placeholder="gcode"
+                        onChange={this.setCommand}
+                        onKeyPress={this.enterCommand}
+                        disabled={!this.props.active}/>
+                    <Button onClick={this.sendCommand} disabled={!this.props.active}>Go</Button>
                 </Col>
             </Row>
         </div>
@@ -75,12 +87,16 @@ class CommandWindow extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        commands: state.commands.available_commands
+        commands: state.commands.available_commands,
+        history: state.commands.history,
+        active: state.devices.status === ConnectionStatus.CONNECTED
     };
 }
 
 CommandWindow.defaultProps = {
-    commands: []
+    commands: [],
+    history: [],
+    active: false
 };
 
 CommandWindow.propTypes = {

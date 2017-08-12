@@ -51,3 +51,13 @@ export const executeCommand = (command: string): Action => ({
     type: ActionType.EXECUTE_COMMAND,
     payload: command
 });
+
+export const getCommandHistory = (device: string): Action => ({
+    type: ActionType.GET_COMMAND_HISTORY,
+    payload: device
+});
+
+export const commandHistoryData = (history: any): Action => ({
+    type: ActionType.COMMAND_HISTORY_DATA,
+    payload: history
+});

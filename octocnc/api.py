@@ -1,27 +1,41 @@
 from flask import jsonify, request, make_response
 from octoprint.plugin import BlueprintPlugin
 from octoprint.server import NO_CONTENT
+from playhouse.shortcuts import model_to_dict
 
 from . import models, constants
 
 
 class API(object):
 
-	@BlueprintPlugin.route("/command", methods=["POST"])
+	@BlueprintPlugin.route("/command/send", methods=["POST"])
 	def command(self):
 
 		if not self._printer.is_operational():
 			return make_response("Printer is not operational", 409)
 
-		command = request.get_json()['command']
+		d = request.get_json()
+		if 'command' in d and d['command']:
 
-		models.CommandHistory.create(command=command, status=constants.CommandStatus.COMPLETED.name)
+			(connection_string, port, baudrate, device) = self._printer.get_current_connection()
 
-		self._printer.commands([command, ])
+			models.CommandHistory.create(command=d['command'], status=constants.CommandStatus.COMPLETED.name, device=device['id'])
+
+			self._printer.commands([d['command'], ])
 
 		return NO_CONTENT
 
 
-	@BlueprintPlugin.route("/history", methods=["GET"])
+	@BlueprintPlugin.route("/command/history", methods=["GET"])
 	def history(self):
-		pass
+		d = request.values
+
+		results = []
+
+		for command in models.CommandHistory.select().where(models.CommandHistory.device == d['device'],
+		                                                    models.CommandHistory.command != ""):
+			results.append(model_to_dict(command))
+
+
+		return jsonify({'history':results})
+

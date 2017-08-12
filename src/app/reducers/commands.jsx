@@ -4,10 +4,21 @@ export default function(state = [], action) {
     switch(action.type) {
         case ActionType.AVAILABLE_SYSTEM_COMMANDS:
             return {...state};
-        // case ActionType.GCODE_COMMANDS_FROM_FILE:
-        //     return {
+
+        case ActionType.COMMAND_HISTORY_DATA:
+            return {
+                ...state,
+                history: action.payload.history.map((el, idx) => {
+                    return {
+                        'command': el.command,
+                        'status': CommandStatus.enumValueOf(el.status),
+                        'date': el.executed_on
+                    }
+                })
+            };
+
         default:
-            return {'available_commands': [
+            return {...state, 'available_commands': [
                 {command: 'G17 G20 G90 G94 G54', status: CommandStatus.COMPLETED},
                 {command: 'G0 Z0.25', status: CommandStatus.COMPLETED},
                 {command: 'X-0.5 Y0.', status: CommandStatus.SKIPPED},

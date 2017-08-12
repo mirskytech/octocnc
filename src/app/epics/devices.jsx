@@ -42,3 +42,10 @@ export const disconnectFromDeviceEpic = (action$, store, {socket, initialState})
         });
 };
 
+export const determineConnectedDeviceEpic = (action$, store, { socket, initialState}) => {
+    return action$
+        .filter(action => {
+            return (action.type === ActionType.SOCKET_HISTORY && !action.payload.state.flags.closedOrError) || action.type === ActionType.CONNECTED
+        }).map(actions.requestDeviceConnections).catch(error => of(actions.ajaxError(error)));
+};
+
