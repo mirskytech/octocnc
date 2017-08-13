@@ -17,6 +17,20 @@ export default function(state = [], action) {
                 })
             };
 
+        case ActionType.EXECUTE_COMMAND:
+            let history = state.history || [];
+            history.append({
+                'command': action.payload,
+                'status': CommandStatus.COMPLETED,
+                'date': new Date()
+
+            });
+
+            return {
+                ...state,
+                history: history
+            };
+
         default:
             return {...state, 'available_commands': [
                 {command: 'G17 G20 G90 G94 G54', status: CommandStatus.COMPLETED},
