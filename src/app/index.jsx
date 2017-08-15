@@ -23,17 +23,18 @@
 //
 //
 // // get server configuration from rendered page
-// const el = document.getElementById('_server_config');
-// const config = JSON.parse(el ? el.innerHTML : '{}');
+const el = document.getElementById('_server_config');
+const config = JSON.parse(el ? el.innerHTML : '{}');
+const initialState = {'config':config};
 //
 // // configure octoprint api & socket
-// OctoPrint = window.OctoPrint;
-// OctoPrint.options.baseurl = config.base_uri;
-// OctoPrint.options.apikey = config.api_key;
-//
-// // open the socket and create store
-// // const client_socket = OctoPrint.socket.connect({debug: true});
-// // const store = configureStore(client_socket, {'config':config});
+OctoPrint = window.OctoPrint;
+OctoPrint.options.baseurl = config.base_uri;
+OctoPrint.options.apikey = config.api_key;
+
+// open the socket and create store
+const octo_socket = OctoPrint.socket.connect({debug: true});
+// const store = configureStore(client_socket, {'config':config});
 //
 //
 //
@@ -103,43 +104,39 @@
 //   document.querySelector('.app')
 // );
 
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import createHistory from 'history/createHashHistory';
+import { routerReducer, routerMiddleware, push } from 'react-router-redux';
+import rootReducer from './reducers';
+
+const history = createHistory();
+
+const middleware = routerMiddleware(history);
+
+
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic } from './epics';
+
+
+const epicMiddleware = createEpicMiddleware(rootEpic, {
+        dependencies: {
+            socket: octo_socket,
+            initialState: initialState
+        }
+    });
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(epicMiddleware)
+);
+
+
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-
-// import createHistory from 'history/createBrowserHistory'
-import createHistory from 'history/createHashHistory';
-// import { Route } from 'react-router'
-
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
-
-import reducers from './reducers' // Or wherever you keep your reducers
-
-// Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory()
-
-// Build the middleware for intercepting and dispatching navigation actions
-const middleware = routerMiddleware(history)
-
-// Add the reducer to your store on the `router` key
-// Also apply our middleware for navigating
-const store = createStore(
-  combineReducers({
-    ...reducers,
-    router: routerReducer
-  }),
-  applyMiddleware(middleware)
-);
-
-// Now you can dispatch navigation actions from anywhere!
-// store.dispatch(push('/foo'))
-
 import App  from './containers/app';
-import configureStore from "./configure_store";
-
 
 ReactDOM.render(
     <Provider store={store}>

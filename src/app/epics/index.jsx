@@ -6,11 +6,11 @@ import { connectToDeviceEpic, determineConnectedDeviceEpic, deviceConnectionsEpi
 import {requestSystemCommandsEpic, executeCommandEpic, getCommandHistoryEpic} from './commands';
 
 export const rootEpic = combineEpics(
-    deviceConnectionsEpic,
-    connectToDeviceEpic,
-    disconnectFromDeviceEpic,
-    determineConnectedDeviceEpic,
-    requestSystemCommandsEpic,
-    executeCommandEpic,
-    getCommandHistoryEpic
+    deviceConnectionsEpic
+    // connectToDeviceEpic,
+    // disconnectFromDeviceEpic,
+    // determineConnectedDeviceEpic,
+    // requestSystemCommandsEpic,
+    // executeCommandEpic,
+    // getCommandHistoryEpic
 );
