@@ -3,7 +3,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { browserHistory } from 'react-router';
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
 import rootReducer from './reducers';
 import { rootEpic } from './epics';
 
@@ -30,6 +30,7 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 // }
 
 
+// import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 export default function configureStore(socket, initialState) {
 
@@ -42,6 +43,7 @@ export default function configureStore(socket, initialState) {
 
     const store = createStore(
         rootReducer,
+        routerReducer,
         applyMiddleware(epicMiddleware)
     );
 
