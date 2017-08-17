@@ -1,3 +1,4 @@
+import 'rxjs';
 // import React from 'react';
 // import ReactDOM from 'react-dom';
 // import { Provider } from 'react-redux';
@@ -110,6 +111,8 @@ import createHistory from 'history/createHashHistory';
 import { routerReducer, routerMiddleware, push } from 'react-router-redux';
 import rootReducer from './reducers';
 
+import { ActionType } from 'enums';
+
 const history = createHistory();
 
 const middleware = routerMiddleware(history);
@@ -132,6 +135,28 @@ const store = createStore(
   applyMiddleware(epicMiddleware)
 );
 
+
+// for messages received, transform into redux format and dispatch
+OctoPrint.socket.onMessage("*", (msg) => {
+
+    const action = {'action':'', 'payload':{}};
+
+    if(msg.event === 'event') {
+        action.type = ActionType.enumValueOf(msg.data.type.replace(/([a-z\d])([A-Z])/g, '$1_$2').toUpperCase());
+        action.payload = msg.data.payload;
+    } else {
+        action.type = ActionType.enumValueOf("SOCKET_" + msg.event.toUpperCase());
+        action.payload = msg.data;
+    }
+
+    if(action.type === undefined) {
+        if (msg.event === "current") {
+            return;
+        }
+        return;
+    }
+    store.dispatch(action);
+});
 
 
 import React from 'react'
