@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { routerReducer as routing} from 'react-router-redux';
-import { CommandStatus, ActionType } from '../enums';
+import { routerReducer } from 'react-router-redux';
+import { ActionType } from '../enums';
 
 import devices from './devices';
 import commands from './commands';
@@ -22,7 +22,7 @@ function errors(state=[], action) {
 }
 
 export default combineReducers({
-    routing,
+    routerReducer,
     errors,
     position,
     config,

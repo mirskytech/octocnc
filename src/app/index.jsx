@@ -115,19 +115,15 @@ import { ActionType } from 'enums';
 
 const history = createHistory();
 
-const middleware = routerMiddleware(history);
-
-
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics';
 
 
-const epicMiddleware = createEpicMiddleware(rootEpic, {
-        dependencies: {
-            socket: octo_socket,
-            initialState: initialState
-        }
-    });
+const epicMiddleware = createEpicMiddleware(
+    rootEpic, { dependencies: {
+        socket: octo_socket,
+        initialState: initialState
+    }});
 
 const store = createStore(
   rootReducer,
