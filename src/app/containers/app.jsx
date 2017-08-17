@@ -19,6 +19,9 @@ const logoStyle = { };
 //
 // import './app.scss';
 
+import styles from 'font-awesome/scss/font-awesome.scss';
+
+
 const Home = () => (
   <div>
     <h2>Home</h2>
@@ -42,28 +45,28 @@ class App extends React.Component {
                 <Layout style={{height: '100vh'}}>
                     <Sider style={{overflow: 'auto'}}>
                         <div className="logo">
-                            <ReactSVG path={logo} style={logoStyle} className="m1"/>
+                            <ReactSVG path={logo} className="m1"/>
                         </div>
-                        {/*<Menu theme="dark" mode="inline">*/}
-                        {/*<Menu.Item key="1">*/}
-                        {/*<Link to={`connection`}>*/}
-                        {/*{status_icon}*/}
-                        {/*<span className="pl1  h5">Connection</span>*/}
-                        {/*</Link>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="2">*/}
-                        {/*<Link to={`position`}>*/}
-                        {/*<FontAwesome name='arrows' size='lg'/>*/}
-                        {/*<span className="pl1 h5">Position</span>*/}
-                        {/*</Link>*/}
-                        {/*</Menu.Item>*/}
-                        {/*<Menu.Item key="3">*/}
-                        {/*<Link to={`commands`}>*/}
-                        {/*<FontAwesome name='terminal' size='lg'/>*/}
-                        {/*<span className="pl1 h5">Command</span>*/}
-                        {/*</Link>*/}
-                        {/*</Menu.Item>*/}
-                        {/*</Menu>*/}
+                        <Menu theme="dark" mode="inline" className={styles.fawrapper}>
+                            <Menu.Item key="1">
+                                <Link to={`connection`}>
+                                    {status_icon}
+                                    <span className="pl1  h5">Connection</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="2">
+                                <Link to={`position`}>
+                                    <FontAwesome name='arrows' size='lg'/>
+                                    <span className="pl1 h5">Position</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="3">
+                                <Link to={`commands`}>
+                                    <FontAwesome name='terminal' size='lg'/>
+                                    <span className="pl1 h5">Command</span>
+                                </Link>
+                            </Menu.Item>
+                        </Menu>
                     </Sider>
                     <Layout>
                         <Header style={{background: '#fff', padding: 0}}/>
@@ -71,20 +74,20 @@ class App extends React.Component {
                             <div style={{padding: 24, textAlign: 'center'}}>
 
                                 <div>
-                                    <ul>
-                                        <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/about">About</Link></li>
-                                        <li><Link to="/topics">Topics</Link></li>
-                                    </ul>
-                                    <hr/>
+                                    {/*<ul>*/}
+                                        {/*<li><Link to="/">Home</Link></li>*/}
+                                        {/*<li><Link to="/about">About</Link></li>*/}
+                                        {/*<li><Link to="/topics">Topics</Link></li>*/}
+                                    {/*</ul>*/}
+                                    {/*<hr/>*/}
                                     <Switch>
-                                        <Route path='/' exact component={Connection}/>
-                                        <Route path='/about' exact render={() => {
+                                        <Route path='/position' exact render={() => {
                                             return (<h1>about</h1>)
                                         }}/>
-                                        <Route path='/topics' exact render={() => {
+                                        <Route path='/commands' exact render={() => {
                                             return (<h1>topics</h1>)
                                         }}/>
+                                        <Route path='/' component={Connection}/>
                                     </Switch>
                                 </div>
 

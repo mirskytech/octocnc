@@ -20,7 +20,6 @@ import 'rxjs';
 // // import 'basscss-padding/index.css';
 // // import 'basscss-align/index.css';
 // // import 'basscss-type-scale/index.css';
-// // import 'font-awesome/scss/font-awesome.scss';
 //
 //
 // // get server configuration from rendered page

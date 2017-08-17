@@ -27,9 +27,23 @@ module.exports = {
       },
       {
         test: /\.scss$/,
+        exclude: path.resolve(__dirname, "app"),
+        use: [{
+          loader: "style-loader"
+        },
+        {
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader"
+        }]
+      },
+      {
+        test: /\.scss$/,
+        include: path.resolve(__dirname, "app"),
         use: [{
           loader: "style-loader" // creates style nodes from JS strings
-        }, {
+        },
+        {
           loader: "css-loader",
           query: {
             modules: true,
