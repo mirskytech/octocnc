@@ -25,34 +25,35 @@ module.exports = {
           babelrc: false
         }
       },
+
       {
         test: /\.scss$/,
         exclude: path.resolve(__dirname, "app"),
         use: [{
-          loader: "style-loader"
-        },
-        {
-          loader: "css-loader"
+          loader: "style-loader" // creates style nodes from JS strings
         }, {
-          loader: "sass-loader"
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "sass-loader" // compiles Sass to CSS
         }]
       },
+
       {
         test: /\.scss$/,
         include: path.resolve(__dirname, "app"),
         use: [{
           loader: "style-loader" // creates style nodes from JS strings
-        },
-        {
+        }, {
           loader: "css-loader",
-          query: {
-            modules: true,
-            localIdentName: '[name]__[local]___[hash:base64:5]'
-          }
+            query: {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+            }
         }, {
           loader: "sass-loader" // compiles Sass to CSS
         }]
       },
+
         {
             test: /\.less$/,
             use: [
@@ -90,16 +91,7 @@ module.exports = {
         },
       {
         test: /\.css$/,
-        use: [{
-            loader: 'style-loader'
-        },
-        {
-            loader:'css-loader',
-            query: {
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]'
-              }
-        }]
+        use: [ 'style-loader', 'css-loader' ]
       },
       {
           test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,

@@ -17,14 +17,14 @@ import {Route, Link, Switch, HashRouter} from 'react-router-dom';
 
 const logoStyle = { };
 //
-// import './app.scss';
+import styles from './app.scss';
 
-import styles from 'font-awesome/scss/font-awesome.scss';
+import stylesfa from 'font-awesome/scss/font-awesome.scss';
 
 
 const Home = () => (
   <div>
-    <h2>Home</h2>
+    <h2>position</h2>
   </div>
 );
 
@@ -36,9 +36,9 @@ class App extends React.Component {
 
         let status_icon = <FontAwesome name='circle-o' size='lg'/>
 
-        if (this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesome name='circle' className="active-circle" size='lg'/>;
-        }
+        // if (this.props.status === ConnectionStatus.CONNECTED) {
+            status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
+        // }
 
         return (
             <HashRouter history={this.props.history}>
@@ -82,10 +82,10 @@ class App extends React.Component {
                                     {/*<hr/>*/}
                                     <Switch>
                                         <Route path='/position' exact render={() => {
-                                            return (<h1>about</h1>)
+                                            return (<h1>position</h1>)
                                         }}/>
                                         <Route path='/commands' exact render={() => {
-                                            return (<h1>topics</h1>)
+                                            return (<h1>commands</h1>)
                                         }}/>
                                         <Route path='/' component={Connection}/>
                                     </Switch>
