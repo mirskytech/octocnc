@@ -38,8 +38,7 @@ export const ajaxError = (info: Error): Action => ({
 });
 
 export const requestSystemCommands = (): Action => ({
-    type: ActionType.REQUEST_SYSTEM_COMMANDS,
-    payload: null
+    type: ActionType.REQUEST_SYSTEM_COMMANDS
 });
 
 export const availableSystemCommands = (info: any): Action => ({
@@ -60,4 +59,23 @@ export const getCommandHistory = (device: string): Action => ({
 export const commandHistoryData = (history: any): Action => ({
     type: ActionType.COMMAND_HISTORY_DATA,
     payload: history
+});
+
+export const authLogin = (username, password) => ({
+   type: ActionType.AUTH_LOGIN,
+   username: username,
+   password: password
+});
+
+export const authLogout = () => ({
+   type: ActionType.AUTH_LOGOUT
+});
+
+export const authSuccess = () => ({
+    type: ActionType.AUTH_SUCCESS
+});
+
+export const authFailure = (error) => ({
+    type: ActionType.AUTH_FAILURE,
+    payload: error
 });

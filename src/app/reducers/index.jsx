@@ -5,6 +5,7 @@ import { ActionType } from '../enums';
 import devices from './devices';
 import commands from './commands';
 import position from './position';
+import auth from './auth';
 
 function config(state=[], action) {
     return state;
@@ -27,5 +28,6 @@ export default combineReducers({
     position,
     config,
     devices,
-    commands
+    commands,
+    auth
 });

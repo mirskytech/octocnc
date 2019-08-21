@@ -21,7 +21,11 @@ ActionType.initEnum({
     'SOCKET_HISTORY': {},
     'POSITION_UPDATE': {},
     'GET_COMMAND_HISTORY': {},
-    'COMMAND_HISTORY_DATA': {}
+    'COMMAND_HISTORY_DATA': {},
+    'AUTH_LOGIN': {},
+    'AUTH_SUCCESS': {},
+    'AUTH_FAILURE': {},
+    'AUTH_LOGOUT': {}
 });
 
 

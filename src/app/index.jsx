@@ -59,15 +59,14 @@ OctoPrint.socket.onMessage("*", (msg) => {
     store.dispatch(action);
 });
 
-
-import React from 'react'
-import ReactDOM from 'react-dom'
+// render the base component
+import React from 'react';
+import ReactDOM from 'react-dom';
 import App  from './containers/app';
 import { Provider } from 'react-redux'
 
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
-
 
 ReactDOM.render(
     <Provider store={store}>

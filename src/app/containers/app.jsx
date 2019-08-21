@@ -24,7 +24,10 @@ import 'basscss-padding/index.css';
 import Connection from './connection';
 import DRO from './dro';
 import Commands from './commands';
+import Login from './login';
+
 import {PrivateRoute, PublicRoute} from "../routes";
+import { shouldHandleLogin } from "../selectors";
 
 class App extends React.Component {
 
@@ -68,24 +71,12 @@ class App extends React.Component {
                         <Header style={{background: '#fff', padding: 0}}/>
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                             <div style={{padding: 24, textAlign: 'center'}}>
-
-                                <div>
-                                    {/*<ul>*/}
-                                        {/*<li><Link to="/">Home</Link></li>*/}
-                                        {/*<li><Link to="/about">About</Link></li>*/}
-                                        {/*<li><Link to="/topics">Topics</Link></li>*/}
-                                    {/*</ul>*/}
-                                    {/*<hr/>*/}
-                                    <Switch>
-                                        <Route path='/login' exact render={() => {
-                                            return (<h1>login</h1>)
-                                        }}/>
-                                        <PrivateRoute path='/position' exact component={DRO} authed={this.props.auth} />
-                                        <PrivateRoute path='/commands' exact component={Commands} authed={this.props.auth} />
-                                        <PrivateRoute path='/' component={Connection} authed={this.props.auth} />
-                                    </Switch>
-                                </div>
-
+                                <Switch>
+                                    <Route path='/login' exact component={Login} />
+                                    <PrivateRoute path='/position' exact component={DRO} authed={this.props.authenticated} />
+                                    <PrivateRoute path='/commands' exact component={Commands} authed={this.props.authenticated} />
+                                    <PrivateRoute path='/' component={Connection} authed={this.props.authenticated} />
+                                </Switch>
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
@@ -98,49 +89,15 @@ class App extends React.Component {
     }
 }
 
-
-
-// class App extends React.Component {
-//
-//     render() {
-//         return (
-//           <div>
-//               <HashRouter history={this.props.history}>
-//               <div>
-//               <ul>
-//                   <li><Link to="/">Home</Link></li>
-//                   <li><Link to="/about">About</Link></li>
-//                   <li><Link to="/topics">Topics</Link></li>
-//               </ul>
-//               <hr/>
-//               <Switch>
-//                   <Route path='/' exact component={Connection} />
-//                   <Route path='/about' exact render={()=>{ return(<h1>about</h1>)}}/>
-//                   <Route path='/topics' exact render={()=>{ return(<h1>topics</h1>)}}/>
-//               </Switch>
-//               </div>
-//               </HashRouter>
-//           </div>
-//         );
-//     }
-// }
-
-
-function mapStateToProps(state) {
+const mapStateToProps = () => {
+  return (state, props) => {
     return {
-        auth: false
+        authenticated: !shouldHandleLogin()(state,props)
     };
-}
-
-// App.defaultProps = {
-//   // status: ConnectionStatus.DIS             <uunction mapStateToProps(state) {
-//   return {
-//     // status: state.devices.status
-//   };
-// }
+}};
 
 App.defaultProps = {
-  auth: false
+  authenticated: false
 };
 
 App.propTypes = {
