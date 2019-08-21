@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import ReactSVG from "react-svg";
 import logo from 'assets/octocnc_sprites_logo.svg'
@@ -15,20 +15,16 @@ import FontAwesome from 'react-fontawesome';
 
 import {Route, Link, Switch, HashRouter} from 'react-router-dom';
 
-const logoStyle = { };
-//
 import styles from './app.scss';
 
-import stylesfa from 'font-awesome/scss/font-awesome.scss';
-
-
-const Home = () => (
-  <div>
-    <h2>position</h2>
-  </div>
-);
+import 'font-awesome/scss/font-awesome.scss';
+import 'basscss-margin/index.css';
+import 'basscss-padding/index.css';
 
 import Connection from './connection';
+import DRO from './dro';
+import Commands from './commands';
+import {PrivateRoute, PublicRoute} from "../routes";
 
 class App extends React.Component {
 
@@ -36,9 +32,9 @@ class App extends React.Component {
 
         let status_icon = <FontAwesome name='circle-o' size='lg'/>
 
-        // if (this.props.status === ConnectionStatus.CONNECTED) {
+        if (this.props.status === ConnectionStatus.CONNECTED) {
             status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
-        // }
+        }
 
         return (
             <HashRouter history={this.props.history}>
@@ -81,13 +77,12 @@ class App extends React.Component {
                                     {/*</ul>*/}
                                     {/*<hr/>*/}
                                     <Switch>
-                                        <Route path='/position' exact render={() => {
-                                            return (<h1>position</h1>)
+                                        <Route path='/login' exact render={() => {
+                                            return (<h1>login</h1>)
                                         }}/>
-                                        <Route path='/commands' exact render={() => {
-                                            return (<h1>commands</h1>)
-                                        }}/>
-                                        <Route path='/' component={Connection}/>
+                                        <PrivateRoute path='/position' exact component={DRO} authed={this.props.auth} />
+                                        <PrivateRoute path='/commands' exact component={Commands} authed={this.props.auth} />
+                                        <PrivateRoute path='/' component={Connection} authed={this.props.auth} />
                                     </Switch>
                                 </div>
 
@@ -132,7 +127,9 @@ class App extends React.Component {
 
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        auth: false
+    };
 }
 
 // App.defaultProps = {
@@ -141,6 +138,10 @@ function mapStateToProps(state) {
 //     // status: state.devices.status
 //   };
 // }
+
+App.defaultProps = {
+  auth: false
+};
 
 App.propTypes = {
 

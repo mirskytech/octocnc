@@ -60,6 +60,8 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
 	def on_ui_render(self, now, request, render_kwargs):
 		from flask import make_response, render_template
 
+		render_kwargs['user_management'] = self._user_manager.enabled
+
 		# render_kwargs.update(dict(
 		# 	webcamStream=settings().get(["webcam", "stream"]),
 		# 	enableTemperatureGraph=settings().get(["feature", "temperatureGraph"]),

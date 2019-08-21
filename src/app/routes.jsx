@@ -1,4 +1,5 @@
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
+import { Route,  Redirect } from 'react-router-dom'
+import React from 'react';
 
 export function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -15,9 +16,7 @@ export function PublicRoute ({component: Component, authed, ...rest}) {
   return (
     <Route
       {...rest}
-      render={(props) => authed === false
-        ? <Component {...props} />
-        : <Redirect to='/dashboard' />}
+      render={(props) => <Component {...props} /> }
     />
   )
 }
