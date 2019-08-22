@@ -71,8 +71,9 @@ export const authLogout = () => ({
    type: ActionType.AUTH_LOGOUT
 });
 
-export const authSuccess = () => ({
-    type: ActionType.AUTH_SUCCESS
+export const authSuccess = (response) => ({
+    type: ActionType.AUTH_SUCCESS,
+    payload: response
 });
 
 export const authFailure = (error) => ({

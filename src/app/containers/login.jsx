@@ -2,9 +2,10 @@ import React from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {Form, Icon, Input, Button} from 'antd';
-import {shouldHandleLogin} from "../selectors";
+import {Form, Icon, Input, Button, Alert} from 'antd';
+import {shouldHandleLogin} from "../selectors/index";
 import {authLogin} from "../action_creators";
+import {Redirect} from "react-router-dom";
 
 const FormItem = Form.Item;
 
@@ -26,14 +27,15 @@ class Login extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                this.props.login()
-            }
-        });
+        this.props.form.validateFields();
+        this.props.login(this.props.form.getFieldValue('userName'), this.props.form.getFieldValue('password'));
     };
 
     render() {
+
+        if(this.props.authenticated) {
+            return(<Redirect to={{pathname: '/'}} />);
+        }
         const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
 
         // Only show error after a field is touched.
@@ -42,7 +44,9 @@ class Login extends React.Component {
 
         return (
           <div>
+              {/*{ this.props.authenticated && <Redirect to={{pathname: '/'}} />}*/}
               <h1>Login</h1>
+              { this.props.message !== null && <Alert message={this.props.message} type="error" /> }
               <Form layout="inline" onSubmit={this.handleSubmit}>
                   <FormItem
                     validateStatus={userNameError ? 'error' : ''}
@@ -82,12 +86,16 @@ class Login extends React.Component {
 const mapStateToProps = () => {
     return (state, props) => {
         return {
-            authenticated: shouldHandleLogin()(state, props)
+            authenticated: !shouldHandleLogin()(state, props),
+            message: state.auth.message
         }
     };
 };
 
-Login.defaultProps = {};
+Login.defaultProps = {
+    authenticated: false,
+    message:null
+};
 
 Login.propTypes = {};
 

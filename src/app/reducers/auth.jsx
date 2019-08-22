@@ -2,15 +2,24 @@ import {ActionType} from 'enums';
 
 export default function(state = [], action) {
     switch(action.type) {
-        case ActionType.AUTH_LOGIN:
-            return {
-                ...state,
-                username: action.username
-            };
+        // case ActionType.AUTH_LOGIN:
+        //     return {
+        //         ...state
+        //     };
         case ActionType.AUTH_SUCCESS:
+            // {active: true, admin: true, apikey: null, name: "andrew", settings: {}, user: true}
+            console.log('login is successful');
             return {
                 ...state,
-                authenticated: true
+                authenticated: true,
+                username: action.payload.name
+            };
+        case ActionType.AUTH_FAILURE:
+            console.log('login failure');
+            return {
+                ...state,
+                authenticated: false,
+                message: "username or password is not correct"
             };
         case ActionType.AUTH_LOGOUT:
             return {
