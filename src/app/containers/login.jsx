@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {Form, Icon, Input, Button, Alert} from 'antd';
+import {Form, Icon, Input, Button, Alert, Row, Col} from 'antd';
 import {shouldHandleLogin} from "../selectors/index";
 import {authLogin} from "../action_creators";
 import {Redirect} from "react-router-dom";
@@ -46,7 +46,14 @@ class Login extends React.Component {
           <div>
               {/*{ this.props.authenticated && <Redirect to={{pathname: '/'}} />}*/}
               <h1>Login</h1>
-              { this.props.message !== null && <Alert message={this.props.message} type="error" /> }
+              <Row>
+                  <Col span={8}>col-8</Col>
+                  <Col span={8}>
+                      {this.props.message !== null && <Alert message={this.props.message} type="error"/>}
+                  </Col>
+                  <Col span={8}>col-8</Col>
+              </Row>
+
               <Form layout="inline" onSubmit={this.handleSubmit}>
                   <FormItem
                     validateStatus={userNameError ? 'error' : ''}
