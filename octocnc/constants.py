@@ -9,26 +9,26 @@ from enum import Enum, EnumMeta, unique
 
 
 class StructuredEnum(Enum):
-	def __init__(self, value, kwargs):
-		cls = self.__class__
+    def __init__(self, value, kwargs):
+        cls = self.__class__
 
-		if any(self.value == e.value for e in cls):
-			a = self.name
-			e = cls(self.value).name
-			raise ValueError("aliases not allowed in UniqueEnum:  %r --> %r" % (a, e))
+        if any(self.value == e.value for e in cls):
+            a = self.name
+            e = cls(self.value).name
+            raise ValueError("aliases not allowed in UniqueEnum:  %r --> %r" % (a, e))
 
-		self._value_ = value
-		for k, v in kwargs.items():
-			setattr(self, k, v)
+        self._value_ = value
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
-	@classmethod
-	def members(cls):
-		return cls.__members__.items()
+    @classmethod
+    def members(cls):
+        return cls.__members__.items()
 
 
 class CommandStatus(StructuredEnum):
-	PENDING = 1, {}
-	ACTIVE = 2, {}
-	SKIPPED = 3, {}
-	COMPLETED = 4, {}
-	ERROR = 5, {}
+    PENDING = 1, {}
+    ACTIVE = 2, {}
+    SKIPPED = 3, {}
+    COMPLETED = 4, {}
+    ERROR = 5, {}

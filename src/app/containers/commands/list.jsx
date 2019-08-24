@@ -4,10 +4,10 @@ import { bindActionCreators } from "redux";
 
 import FontAwesome from 'react-fontawesome';
 import CustomScroll from 'react-custom-scroll';
-import {Timeline} from 'antd';
+import {Alert, Timeline} from 'antd';
 import Moment from 'react-moment';
 
-import {Colors, CommandStatus} from "enums";
+import {Colors, CommandStatus, ConnectionStatus} from "enums";
 
 import styles from './list.scss';
 
@@ -35,10 +35,23 @@ class List extends React.Component {
     };
 
     render() {
-        console.log('styling');
-        console.log(styles);
+
+        if(!this.props.connected) {
+            return (
+              <CustomScroll className={styles['custom-scroll']} heightRelativeToParent="100%">
+                  <Alert message="disconnected" type="success   "/>
+              </CustomScroll>);
+        }
+
+        if(this.props.commands.length < 1) {
+            return (
+              <CustomScroll className={styles['custom-scroll']} heightRelativeToParent="100%">
+                  <h6>empty command set.</h6>
+              </CustomScroll>);
+        }
+
         return (
-            <CustomScroll className={styles['custom-scroll']} heightRelativeToParent="100%">
+            <CustomScroll className={styles['custom-scroll']} keepAtBottom={true} heightRelativeToParent="100%">
                 <Timeline>
                 {
                     this.props.commands.map((command, idx) => {
@@ -47,7 +60,7 @@ class List extends React.Component {
                                 dot={this.createDot(command.status)}
                                 key={idx}>
                                     <span className={styles.command}>
-                                        a{command.command}
+                                        {command.command}
                                     </span>
                                     <span className={styles.date}>
                                         <Moment fromNow>{command.date}</Moment>
@@ -64,7 +77,7 @@ class List extends React.Component {
 
 function mapStateToProps(state) {
     return {
-
+        connected: state.devices.status === ConnectionStatus.CONNECTED
     };
 }
 

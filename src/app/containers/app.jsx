@@ -20,6 +20,7 @@ import styles from './app.scss';
 import 'font-awesome/scss/font-awesome.scss';
 import 'basscss-margin/index.css';
 import 'basscss-padding/index.css';
+import 'basscss-layout/index.css';
 
 import Connection from './connection';
 import DRO from './dro';
@@ -37,6 +38,20 @@ class App extends React.Component {
 
         if (this.props.status === ConnectionStatus.CONNECTED) {
             status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
+        }
+
+        let authenticated = <div/>;
+        if(this.props.authenticated && this.props.auth_enabled) {
+            authenticated =
+              <div className="right">
+                  <span>
+                      <FontAwesome name='user-o' size='lg'/>
+                      Logged in as: {this.props.username}.
+                  </span>
+                  <Link to={`logout`}>
+                      <span>Logout</span>
+                  </Link>
+              </div>;
         }
 
         return (
@@ -68,7 +83,9 @@ class App extends React.Component {
                         </Menu>
                     </Sider>
                     <Layout>
-                        <Header style={{background: '#fff', padding: 0}}/>
+                        <Header style={{background: '#fff', padding: 0}}>
+                            {authenticated}
+                        </Header>
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                             <div style={{padding: 24, textAlign: 'center'}}>
                                 <Switch>
@@ -80,7 +97,7 @@ class App extends React.Component {
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
-                            OctoCNC powered by OctoPrint
+                            <a href="http://octocnc.org">OctoCNC</a> powered by <a href="http://octoprint.org">OctoPrint</a>.
                         </Footer>
                     </Layout>
                 </Layout>
@@ -92,7 +109,10 @@ class App extends React.Component {
 const mapStateToProps = () => {
   return (state, props) => {
     return {
-        authenticated: !shouldHandleLogin()(state,props)
+        auth_enabled: state.config.user_management,
+        authenticated: !shouldHandleLogin()(state,props),
+        username: state.auth.username,
+        status: state.devices.status
     };
 }};
 

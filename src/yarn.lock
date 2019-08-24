@@ -999,6 +999,10 @@ basscss-typography@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/basscss-typography/-/basscss-typography-3.0.3.tgz#182cf43df7c4ebed02750dc748041cbadff60d43"
 
+basscss-utility-typography@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/basscss-utility-typography/-/basscss-utility-typography-2.1.0.tgz#fe7a84e5b9055561502e1e605fa24cdee462ece1"
+
 basscss@^8.0.2:
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/basscss/-/basscss-8.0.3.tgz#720607254e89d363cd8d46b3aefa01d3c2b91363"

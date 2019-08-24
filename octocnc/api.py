@@ -7,35 +7,32 @@ from . import models, constants
 
 
 class API(object):
+    @BlueprintPlugin.route("/command/send", methods=["POST"])
+    def command(self):
 
-	@BlueprintPlugin.route("/command/send", methods=["POST"])
-	def command(self):
+        if not self._printer.is_operational():
+            return make_response("Printer is not operational", 409)
 
-		if not self._printer.is_operational():
-			return make_response("Printer is not operational", 409)
+        d = request.get_json()
+        if 'command' in d and d['command']:
+            (connection_string, port, baudrate, device) = self._printer.get_current_connection()
 
-		d = request.get_json()
-		if 'command' in d and d['command']:
+            models.CommandHistory.create(command=d['command'], status=constants.CommandStatus.COMPLETED.name,
+                                         device=device['id'])
 
-			(connection_string, port, baudrate, device) = self._printer.get_current_connection()
+            self._printer.commands([d['command'], ])
 
-			models.CommandHistory.create(command=d['command'], status=constants.CommandStatus.COMPLETED.name, device=device['id'])
+        return NO_CONTENT
 
-			self._printer.commands([d['command'], ])
+    @BlueprintPlugin.route("/command/history", methods=["GET"])
+    def history(self):
+        d = request.values
 
-		return NO_CONTENT
+        results = []
+        commands = models.CommandHistory.select().where(models.CommandHistory.device == d['device'],
+                                                        models.CommandHistory.command != "")
 
+        for command in commands:
+            results.append(model_to_dict(command))
 
-	@BlueprintPlugin.route("/command/history", methods=["GET"])
-	def history(self):
-		d = request.values
-
-		results = []
-
-		for command in models.CommandHistory.select().where(models.CommandHistory.device == d['device'],
-		                                                    models.CommandHistory.command != ""):
-			results.append(model_to_dict(command))
-
-
-		return jsonify({'history':results})
-
+        return jsonify({'history': results})

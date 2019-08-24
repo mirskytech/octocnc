@@ -4,5 +4,5 @@ octocnc_db = SqliteDatabase(None)
 
 class OctoCNCModel(Model):
     class Meta:
-	    database = octocnc_db
-	    abstract = True
+        database = octocnc_db
+        abstract = True

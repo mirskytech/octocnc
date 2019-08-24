@@ -18,13 +18,13 @@ export default function(state = [], action) {
             };
 
         case ActionType.EXECUTE_COMMAND:
-            let history = state.history || [];
-            history.append({
+            let previous_history = state.history || [];
+            let history = [ ...previous_history, {
                 'command': action.payload,
                 'status': CommandStatus.COMPLETED,
                 'date': new Date()
 
-            });
+            }];
 
             return {
                 ...state,

@@ -10,3 +10,14 @@ export const shouldHandleLogin = () => {
           return user_management && !authenticated;
       });
 };
+
+// const getCommandHistory = (state, props) => state.commands.history;
+//
+// export const determineCommandHistory = () = {
+//     return createSelector(
+//       [getCommandHistory],
+//       (history) => {
+//           return history;
+//       }
+//     )
+// };

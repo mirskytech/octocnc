@@ -5,7 +5,7 @@ import {requestSystemCommands, executeCommand} from "action_creators";
 
 import {Input, Row, Col, Button} from 'antd';
 import List from './list';
-import {ConnectionStatus} from "../../enums";
+import {ConnectionStatus} from "enums";
 
 const columnStyle = {
     padding: 10
@@ -47,23 +47,18 @@ class CommandWindow extends React.Component {
     };
 
     render() {
-        if(this.props.history.length < 1) {
-            return(
-                <div>No commands at this time.</div>
-            )
-        }
 
         return (
         <div>
             <Row>
                 <Col span={12} style={columnStyle}>
-                    <h3>Commands</h3>
+                    <h3>Command Queue</h3>
                     <div style={windowStyle}>
                         <List commands={this.props.commands}/>
                     </div>
                 </Col>
                 <Col span={12} style={columnStyle}>
-                    <h3>Machine</h3>
+                    <h3>Command History</h3>
                     <div style={windowStyle}>
                         <List commands={this.props.history}/>
                     </div>
