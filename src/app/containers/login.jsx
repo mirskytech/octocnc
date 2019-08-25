@@ -47,11 +47,11 @@ class Login extends React.Component {
               {/*{ this.props.authenticated && <Redirect to={{pathname: '/'}} />}*/}
               <h1>Login</h1>
               <Row>
-                  <Col span={8}>col-8</Col>
+                  <Col span={8} />
                   <Col span={8}>
                       {this.props.message !== null && <Alert message={this.props.message} type="error"/>}
                   </Col>
-                  <Col span={8}>col-8</Col>
+                  <Col span={8} />
               </Row>
 
               <Form layout="inline" onSubmit={this.handleSubmit}>

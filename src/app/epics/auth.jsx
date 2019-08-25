@@ -20,9 +20,19 @@ export const loginEpic = (action$, store, {socket, initialState}) => {
               return of(actions.ajaxError(error))
           });
       });
-
-
-
-
 };
+
+export const checkAuthEpic = (action$, store, {socket, initialState}) => {
+    return action$
+      .ofType(ActionType.AUTH_CHECK)
+      .switchMap((action) => {
+        let ajax$ = ajax.post(`/api/login`,
+          {passive: true},
+          {'X-Api-Key': initialState.config.api_key});
+
+        return ajax$.map((payload) => {
+            if(payload === undefined)
+        })
+      })
+}
 
