@@ -25,7 +25,8 @@ ActionType.initEnum({
     'AUTH_LOGIN': {},
     'AUTH_SUCCESS': {},
     'AUTH_FAILURE': {},
-    'AUTH_LOGOUT': {}
+    'AUTH_LOGOUT': {},
+    'AUTH_CHECK': {}
 });
 
 

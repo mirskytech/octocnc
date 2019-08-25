@@ -29,8 +29,15 @@ import Login from './login';
 
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
+import {authCheck} from "../action_creators";
 
 class App extends React.Component {
+
+    componentDidMount() {
+        if(this.props.authEnabled) {
+            this.props.checkAuth();
+        }
+    }
 
     render() {
 
@@ -109,7 +116,7 @@ class App extends React.Component {
 const mapStateToProps = () => {
   return (state, props) => {
     return {
-        auth_enabled: state.config.user_management,
+        authEnabled: state.config.user_management,
         authenticated: !shouldHandleLogin()(state,props),
         username: state.auth.username,
         status: state.devices.status
@@ -126,7 +133,7 @@ App.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-
+        checkAuth: authCheck
   }, dispatch);
 }
 

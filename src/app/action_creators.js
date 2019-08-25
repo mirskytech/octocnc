@@ -80,3 +80,8 @@ export const authFailure = (error) => ({
     type: ActionType.AUTH_FAILURE,
     payload: error
 });
+
+export const authCheck = () => ({
+    type: ActionType.AUTH_CHECK,
+    payload: null
+});

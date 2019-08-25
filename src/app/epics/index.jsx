@@ -4,7 +4,7 @@ import {combineEpics} from 'redux-observable';
 
 import { connectToDeviceEpic, determineConnectedDeviceEpic, deviceConnectionsEpic, disconnectFromDeviceEpic } from './devices';
 import {requestSystemCommandsEpic, executeCommandEpic, getCommandHistoryEpic} from './commands';
-import {loginEpic} from "./auth";
+import {checkAuthEpic, loginEpic} from "./auth";
 
 export const rootEpic = combineEpics(
     deviceConnectionsEpic,
@@ -14,5 +14,6 @@ export const rootEpic = combineEpics(
     // requestSystemCommandsEpic,
     executeCommandEpic,
     getCommandHistoryEpic,
-    loginEpic
+    loginEpic,
+  checkAuthEpic
 );
