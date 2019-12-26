@@ -3188,7 +3188,7 @@ is-png@^1.0.0:
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
-  resolved "http://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
+  resolved "https://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
 
 is-primitive@^2.0.0:
   version "2.0.0"
@@ -5078,9 +5078,9 @@ react-slick@~0.14.2:
     object-assign "^4.1.0"
     slick-carousel "^1.6.0"
 
-react-svg@^2.1.21:
-  version "2.1.21"
-  resolved "https://registry.yarnpkg.com/react-svg/-/react-svg-2.1.21.tgz#0caf34002649542967f04e197480d784768e914c"
+react-svg@^2.2.18:
+  version "2.2.18"
+  resolved "https://registry.yarnpkg.com/react-svg/-/react-svg-2.2.18.tgz#78985d5db84813d8e57f5e762951246774bf8644"
   dependencies:
     svg-injector "^1.1.3"
 
