@@ -41,7 +41,7 @@ class App extends React.Component {
 
     render() {
 
-        let status_icon = <FontAwesome name='circle-o' size='lg'/>
+        // let status_icon = <FontAwesome name='circle-o' size='lg'/>
 
         if (this.props.status === ConnectionStatus.CONNECTED) {
             status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
