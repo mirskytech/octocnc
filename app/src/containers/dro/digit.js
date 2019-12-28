@@ -33,32 +33,46 @@ class Digit extends React.Component {
         this.state = {
 
         };
+        this.display = null;
     }
 
-    digitLoaded = (svg) => {
+    digitLoaded = (err, svg) => {
         this.display = svg;
         this.setSegments();
     };
 
 
     setSegments = () => {
-        if(this.display !== undefined && this.props.value !== undefined) {
+        let rx = /segment_(\w)(-\d*)?/;
+
+
+
+        if(this.display != null && this.props.value != null) {
+
+            if(!SEGMENT_MAP.hasOwnProperty(this.props.value)) {
+                console.log("missing display: " + this.props.value);
+            }
+
             for(let item of this.display.children) {
-                item.style.fill = this.props.backgroundColor;
-            }
-            if(!this.props.value) {
-                return;
-            }
-            for(let item of SEGMENT_MAP[this.props.value]) {
-                this.display.children['segment_'+item].style.fill = this.props.fillColor;
+
+                let segment = item.id.match(rx);
+                if(segment == null) {
+                    continue;
+                }
+
+                if (SEGMENT_MAP[this.props.value].includes(segment[1])) {
+                    item.style.fill = this.props.fillColor;
+                } else {
+                    item.style.fill = this.props.backgroundColor;
+                }
             }
         }
     };
 
-    shouldComponentUpdate() {
-        this.setSegments();
-        return this.display === undefined;
-    }
+    // shouldComponentUpdate() {
+    //     this.setSegments();
+    //     return this.display === undefined;
+    // }
 
     render() {
 
@@ -68,13 +82,13 @@ class Digit extends React.Component {
         };
 
         return (
-            <div style={{display:'inline-block'}}>
+            <div style={{display:'inline-block', height:70, width:70}}>
                 <ReactSVG
-                  path={digit}
-                  callback={this.digitLoaded}
+                  src={digit}
+                  afterInjection={this.digitLoaded}
                   className="digit"
-                  evalScript="once"
-                  onClick={this.handleClick}
+                  // evalScript="once"
+                  // onClick={this.handleClick}
                   style={styling}
                 />
             </div>

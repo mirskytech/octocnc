@@ -11,9 +11,9 @@ export const rootEpic = combineEpics(
     connectToDeviceEpic,
     disconnectFromDeviceEpic,
     determineConnectedDeviceEpic,
-    // requestSystemCommandsEpic,
+    requestSystemCommandsEpic,
     executeCommandEpic,
     getCommandHistoryEpic,
     loginEpic,
-  checkAuthEpic
+    checkAuthEpic
 );

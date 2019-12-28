@@ -36,7 +36,7 @@ class Decimal extends React.Component {
     render() {
         return (
             <div style={{display:'inline-block'}}>
-                <ReactSVG path={decimal} style={decimalStyle} callback={this.decimalLoaded}/>
+
             </div>
         )
     }

@@ -17,8 +17,7 @@ const octo_socket = OctoPrint.socket.connect({debug: true});
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics';
 
-const epicMiddleware = createEpicMiddleware(
-    rootEpic, {
+const epicMiddleware = createEpicMiddleware({
         dependencies: {
             socket: octo_socket,
             initialState: initialState
@@ -34,7 +33,9 @@ const store = createStore(
   initialState,
   applyMiddleware(epicMiddleware)
 );
-//
+
+epicMiddleware.run(rootEpic);
+
 // // for messages received, transform into redux format and dispatch
 import { ActionType } from 'enums';
 
