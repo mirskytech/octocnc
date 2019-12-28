@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ExtendedPropTypes from "extended-proptypes";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ReactSVG from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import decimal from 'assets/octocnc_sprites_decimal.svg';
 import { Colors } from 'enums';
 

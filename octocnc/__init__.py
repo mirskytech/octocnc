@@ -138,7 +138,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
 
 
 __plugin_name__ = "OctoCNC"
-
+__plugin_pythoncompat__ = ">=2.7,<4" # python 2 and 3
 
 def __plugin_load__():
     plugin = OctoCNCPlugin()

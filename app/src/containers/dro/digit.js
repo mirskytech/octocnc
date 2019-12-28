@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import digit from 'assets/octocnc_sprites_digit.svg';
-import ReactSVG from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import {Colors} from 'enums';
 
 const SEGMENT_MAP = {

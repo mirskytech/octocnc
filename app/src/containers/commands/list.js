@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import FontAwesome from 'react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CustomScroll from 'react-custom-scroll';
 import {Alert, Timeline} from 'antd';
 import Moment from 'react-moment';
@@ -20,16 +20,16 @@ class List extends React.Component {
     createDot = (status) => {
         switch(status) {
             case CommandStatus.COMPLETED:
-                return(<FontAwesome name='circle-o' size='2x' style={{color:Colors.darkBlue.color}}/>);
+                return(<FontAwesomeIcon name='circle-o' size='2x' style={{color:Colors.darkBlue.color}}/>);
             case CommandStatus.ACTIVE:
-                return(<FontAwesome name='circle-o-notch' size='2x' spin={true} style={{color:Colors.goldenRod.color}}/>);
+                return(<FontAwesomeIcon name='circle-o-notch' size='2x' spin={true} style={{color:Colors.goldenRod.color}}/>);
             case CommandStatus.ERROR:
-                return(<FontAwesome name='circle-o' size='2x' style={{color:Colors.paradisePink.color}}/>);
+                return(<FontAwesomeIcon name='circle-o' size='2x' style={{color:Colors.paradisePink.color}}/>);
             case CommandStatus.SKIPPED:
-                return(<FontAwesome name='circle-o' size='2x' style={{color:Colors.lightGray.color}}/>);
+                return(<FontAwesomeIcon name='circle-o' size='2x' style={{color:Colors.lightGray.color}}/>);
             case CommandStatus.PENDING:
             default:
-                return(<FontAwesome name='circle-o' size='2x' style={{color:'rgba(0,0,0,0.1)'}}/>);
+                return(<FontAwesomeIcon name='circle-o' size='2x' style={{color:'rgba(0,0,0,0.1)'}}/>);
 
         }
     };

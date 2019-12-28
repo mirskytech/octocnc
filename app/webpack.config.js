@@ -2,6 +2,11 @@ var path = require('path');
 
 module.exports = {
     entry: './src/index.js',
+    output: {
+        path: path.join(__dirname, '../octocnc/static/dist/'),
+        filename: 'bundle.js',
+        publicPath: '/plugin/octocnc/static/dist/',
+    },
     module: {
         rules: [
             {
@@ -10,6 +15,22 @@ module.exports = {
                 use: {
                     loader: "babel-loader"
                 }
+            },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                ],
+            },
+            {
+                test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,
+                loader: 'file-loader?limit=1024&name=[name]-[hash:8].[ext]',
             }
         ]
     },

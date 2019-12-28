@@ -8,16 +8,16 @@ import { ConnectionStatus } from 'enums';
 
 import { Layout, Menu } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import ReactSVG from "react-svg";
+import { ReactSVG } from "react-svg";
 import logo from 'assets/octocnc_sprites_logo.svg'
 
-import FontAwesome from 'react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {Route, Link, Switch, HashRouter} from 'react-router-dom';
 
 import styles from './app.scss';
+import 'antd/dist/antd.css';
 
-import 'font-awesome/scss/font-awesome.scss';
 import 'basscss-margin/index.css';
 import 'basscss-padding/index.css';
 import 'basscss-layout/index.css';
@@ -41,10 +41,10 @@ class App extends React.Component {
 
     render() {
 
-        // let status_icon = <FontAwesome name='circle-o' size='lg'/>
+        let status_icon = <FontAwesomeIcon name='circle-o' size='lg'/>;
 
         if (this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
+            status_icon = <FontAwesomeIcon name='circle' className={styles.activecircle} size='lg'/>;
         }
 
         let authenticated = <div/>;
@@ -52,7 +52,7 @@ class App extends React.Component {
             authenticated =
               <div className="right">
                   <span>
-                      <FontAwesome name='user-o' size='lg'/>
+                      <FontAwesomeIcon name='user-o' size='lg'/>
                       Logged in as: {this.props.username}.
                   </span>
                   <Link to={`logout`}>
@@ -77,13 +77,13 @@ class App extends React.Component {
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <FontAwesome name='arrows' size='lg'/>
+                                    <FontAwesomeIcon name='arrows' size='lg'/>
                                     <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link to={`commands`}>
-                                    <FontAwesome name='terminal' size='lg'/>
+                                    <FontAwesomeIcon name='terminal' size='lg'/>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>

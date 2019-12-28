@@ -1,6 +1,5 @@
 import {Enum} from 'enumify';
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
 
 export class ActionType extends Enum {}
 

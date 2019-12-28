@@ -1,6 +1,6 @@
 import {ActionType} from "enums";
-import {ajax} from 'rxjs/observable/dom/ajax';
-import {of} from 'rxjs/observable/of';
+import {ajax} from 'rxjs/ajax';
+import {of} from 'rxjs';
 
 import * as actions from "action_creators";
 
