@@ -11,7 +11,7 @@ export const requestSystemCommandsEpic = (action$, store, {socket, initialState}
     return action$.pipe(
         ofType(ActionType.REQUEST_SYSTEM_COMMANDS),
         switchMap((action) => {
-            let ajax$ = ajax.getJSON(`/api/system/commands/core`, {'X-Api-Key':initialState.config.api_key});
+            let ajax$ = ajax.getJSON(`/api/system/commands/core`, {'X-Api-Key':store.value.api_key});
             return ajax$.pipe(
                 retry(1),
                 map(actions.availableSystemCommands),
@@ -27,7 +27,7 @@ export const executeCommandEpic = (action$, store, {socket, initialState}) => {
         switchMap((action) => {
             let ajax$ = ajax.post(`/plugin/octocnc/command/send`,
                 JSON.stringify({'command': action.payload}),
-                {'X-Api-Key': initialState.config.api_key, 'Content-Type': 'application/json'});
+                {'X-Api-Key': store.value.api_key, 'Content-Type': 'application/json'});
             return ajax$.pipe(
                 ignoreElements(),
                 catchError(error => of(actions.ajaxError(error)))
@@ -43,7 +43,7 @@ export const getCommandHistoryEpic = (action$, store, {socket, initialState}) =>
       }),
       switchMap((action) => {
           let ajax$ = ajax.getJSON(`/plugin/octocnc/command/history?device=${action.payload.current.printerProfile}`,
-              {'X-Api-Key': initialState.config.api_key}
+              {'X-Api-Key': store.value.api_key}
           );
           return ajax$.pipe(
               retry(1),

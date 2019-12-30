@@ -6,8 +6,9 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
+
 import { ReactSVG } from "react-svg";
 import logo from 'assets/octocnc_sprites_logo.svg'
 
@@ -30,7 +31,7 @@ import Login from './login';
 
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
-import {authCheck} from "../action_creators";
+import {authCheck, authLogout} from "../action_creators";
 
 class App extends React.Component {
 
@@ -49,16 +50,14 @@ class App extends React.Component {
         }
 
         let authenticated = <div/>;
-        if(this.props.authenticated && this.props.auth_enabled) {
+        if(this.props.authenticated) {
             authenticated =
               <div className="right">
                   <span>
                       <FontAwesomeIcon icon={faUser} size='lg'/>
                       Logged in as: {this.props.username}.
                   </span>
-                  <Link to={`logout`}>
-                      <span>Logout</span>
-                  </Link>
+                  <Button type="link" onClick={this.props.logout}>Logout</Button>
               </div>;
         }
 
@@ -134,7 +133,8 @@ App.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-        checkAuth: authCheck
+        checkAuth: authCheck,
+        logout: authLogout
   }, dispatch);
 }
 
