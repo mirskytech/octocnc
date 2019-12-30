@@ -2,16 +2,16 @@ import { combineReducers } from 'redux';
 
 import { ActionType } from '../enums';
 
-import devices from './devices';
-import commands from './commands';
-import position from './position';
-import auth from './auth';
+import deviceReducer from './devices';
+import commandReducer from './commands';
+import positionReducer from './position';
+import authReducer from './auth';
 
-function config(state=[], action) {
+function configReducer(state=[], action) {
     return state;
 }
 
-function errors(state=[], action) {
+function errorReducer(state=[], action) {
     switch(action.type) {
         case ActionType.AJAX_ERROR:
             console.log("error received: ");
@@ -23,10 +23,10 @@ function errors(state=[], action) {
 }
 
 export default combineReducers({
-    errors,
-    position,
-    config,
-    devices,
-    commands,
-    auth
+    errors: errorReducer,
+    position: positionReducer,
+    config: configReducer,
+    devices: deviceReducer,
+    commands: commandReducer,
+    auth: authReducer
 });
