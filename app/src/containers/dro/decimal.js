@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import ExtendedPropTypes from "extended-proptypes";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ReactSVG from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import decimal from 'assets/octocnc_sprites_decimal.svg';
 import { Colors } from 'enums';
 
-const decimalStyle = { height: 70, decimal: {fill: 'red' }};
-import styles from './decimal.scss';
 
 class Decimal extends React.Component {
     constructor(props) {
@@ -35,8 +33,10 @@ class Decimal extends React.Component {
 
     render() {
         return (
-            <div style={{display:'inline-block'}}>
-                <ReactSVG path={decimal} style={decimalStyle} callback={this.decimalLoaded}/>
+            <div className={'decimal'}>
+                <ReactSVG
+                  src={decimal}
+                />
             </div>
         )
     }

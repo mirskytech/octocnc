@@ -22,9 +22,17 @@ export const connectToDevice = (port: string, device: string, speed: string) : A
     }
 });
 
+export const deviceConnected = () : Action => ({
+    type: ActionType.CONNECTED
+});
+
 export const disconnectFromDevice = () : Action => ({
     type: ActionType.DISCONNECT_FROM_DEVICE,
     payload: null
+});
+
+export const deviceDisconnected = () : Action => ({
+    type: ActionType.DISCONNECTED
 });
 
 export const deviceError = (info: any): Action => ({
@@ -46,8 +54,8 @@ export const availableSystemCommands = (info: any): Action => ({
     payload: info
 });
 
-export const executeCommand = (command: string): Action => ({
-    type: ActionType.EXECUTE_COMMAND,
+export const sendCommand = (command: string): Action => ({
+    type: ActionType.SEND_COMMAND,
     payload: command
 });
 
@@ -73,7 +81,7 @@ export const authLogout = () => ({
 
 export const authSuccess = (response) => ({
     type: ActionType.AUTH_SUCCESS,
-    payload: response
+    payload: response.response
 });
 
 export const authFailure = (error) => ({

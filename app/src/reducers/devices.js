@@ -8,12 +8,16 @@ export default function (state = [], action): any {
         case ActionType.DEVICE_CONNECTION_INFO:
 
             let current = {};
-            if(action.payload.current !== undefined && action.payload.current.state !== "Closed") {
+
+            let status = ConnectionStatus.DISCONNECTED;
+
+            if(action.payload.current.state !== "Closed") {
                 current = {
                     device: action.payload.current.printerProfile,
                     port: action.payload.current.port,
                     baudrate: action.payload.current.baudrate
-                }
+                };
+                status = ConnectionStatus.CONNECTED;
             }
 
             let available = {};
@@ -29,12 +33,13 @@ export default function (state = [], action): any {
                     }),
                     ports: opt.ports.map((el, idx) => {
                         return {'text': el, 'value': el, 'key': idx};
-                    }),
+                    })
                 }
             }
 
             return {
                 ...state,
+                status: status,
                 ...available,
                 current: current,
 

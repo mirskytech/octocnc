@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import digit from 'assets/octocnc_sprites_digit.svg';
-import ReactSVG from 'react-svg';
+import { ReactSVG } from 'react-svg';
 import {Colors} from 'enums';
 
 const SEGMENT_MAP = {
@@ -20,11 +20,10 @@ const SEGMENT_MAP = {
     '+': ['n', 'o', 'q', 'r'],
     'X': ['i', 'j', 'k', 'l'],
     'Y': ['i', 'j', 'r', 'p'],
-    'Z': ['a','b', 'e', 'f', 'j', 'l', ]
+    'Z': ['a','b', 'e', 'f', 'j', 'l', ],
+    'm': ['g', 'q', 'r','p', 'o', 'd' ]
 
 };
-
-const digitStyle = { height: 70 };
 
 
 class Digit extends React.Component {
@@ -33,49 +32,49 @@ class Digit extends React.Component {
         this.state = {
 
         };
+        this.display = null;
     }
 
-    digitLoaded = (svg) => {
+    digitLoaded = (err, svg) => {
         this.display = svg;
         this.setSegments();
     };
 
 
     setSegments = () => {
-        if(this.display !== undefined && this.props.value !== undefined) {
+        let rx = /segment_(\w)(-\d*)?/;
+
+
+
+        if(this.display != null && this.props.value != null) {
+
+            if(!SEGMENT_MAP.hasOwnProperty(this.props.value)) {
+                console.log("missing display: " + this.props.value);
+            }
+
             for(let item of this.display.children) {
-                item.style.fill = this.props.backgroundColor;
-            }
-            if(!this.props.value) {
-                return;
-            }
-            for(let item of SEGMENT_MAP[this.props.value]) {
-                this.display.children['segment_'+item].style.fill = this.props.fillColor;
+
+                let segment = item.id.match(rx);
+                if(segment == null) {
+                    continue;
+                }
+
+                if (SEGMENT_MAP[this.props.value].includes(segment[1])) {
+                    item.style.fill = this.props.fillColor;
+                } else {
+                    item.style.fill = this.props.backgroundColor;
+                }
             }
         }
     };
 
-    shouldComponentUpdate() {
-        this.setSegments();
-        return this.display === undefined;
-    }
-
     render() {
-
-        let styling = {
-            ...this.props.style,
-            ...digitStyle
-        };
-
+        this.setSegments();
         return (
-            <div style={{display:'inline-block'}}>
+            <div className={'digit ' + this.props.className}>
                 <ReactSVG
-                  path={digit}
-                  callback={this.digitLoaded}
-                  className="digit"
-                  evalScript="once"
-                  onClick={this.handleClick}
-                  style={styling}
+                  src={digit}
+                  afterInjection={this.digitLoaded}
                 />
             </div>
         )
@@ -89,9 +88,7 @@ function mapStateToProps(state) {
 }
 
 Digit.defaultProps = {
-    style:{
-        height:70
-    },
+    className: '',
     value: null,
     fillColor: Colors.lightBlue.color,
     backgroundColor: Colors.lightGray.color

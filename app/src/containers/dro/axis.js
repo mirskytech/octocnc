@@ -42,7 +42,7 @@ class Axis extends React.Component {
                 <Row type="flex" justify="center" align="middle">
                     <Col>
                         <Digit value={this.props.title}
-                               style={{marginRight:20}}
+                               className={'title'}
                                backgroundColor='#ffffff'
                                fillColor={Colors.darkBlue.color} />
                         <Digit value={sign}/>
@@ -55,9 +55,14 @@ class Axis extends React.Component {
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
                         <Digit value={minorValue[2]} />
-                    </Col>
-                    <Col>
-                        <Button type="primary" ghost={true} disabled={!this.props.active}>Zero Set</Button>
+                        <Digit value={'m'}
+                               className={'units'}
+                               backgroundColor='#ffffff'
+                               fillColor={Colors.darkBlue.color} />
+                        <Digit value={'m'}
+                               className={'units'}
+                               backgroundColor='#ffffff'
+                               fillColor={Colors.darkBlue.color} />
                     </Col>
                 </Row>
         )

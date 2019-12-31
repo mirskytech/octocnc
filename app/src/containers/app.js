@@ -6,18 +6,20 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import ReactSVG from "react-svg";
+
+import { ReactSVG } from "react-svg";
 import logo from 'assets/octocnc_sprites_logo.svg'
 
-import FontAwesome from 'react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle, faUser, faArrowsAlt, faTerminal } from '@fortawesome/free-solid-svg-icons';
 
 import {Route, Link, Switch, HashRouter} from 'react-router-dom';
 
 import styles from './app.scss';
+import 'antd/dist/antd.css';
 
-import 'font-awesome/scss/font-awesome.scss';
 import 'basscss-margin/index.css';
 import 'basscss-padding/index.css';
 import 'basscss-layout/index.css';
@@ -29,7 +31,7 @@ import Login from './login';
 
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
-import {authCheck} from "../action_creators";
+import {authCheck, authLogout} from "../action_creators";
 
 class App extends React.Component {
 
@@ -41,23 +43,21 @@ class App extends React.Component {
 
     render() {
 
-        let status_icon = <FontAwesome name='circle-o' size='lg'/>
+        let status_icon = <FontAwesomeIcon icon={faCircle} size='lg'/>;
 
         if (this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesome name='circle' className={styles.activecircle} size='lg'/>;
+            status_icon = <FontAwesomeIcon icon={faCircle} className={styles.activecircle} size='lg'/>;
         }
 
         let authenticated = <div/>;
-        if(this.props.authenticated && this.props.auth_enabled) {
+        if(this.props.authenticated) {
             authenticated =
               <div className="right">
                   <span>
-                      <FontAwesome name='user-o' size='lg'/>
+                      <FontAwesomeIcon icon={faUser} size='lg'/>
                       Logged in as: {this.props.username}.
                   </span>
-                  <Link to={`logout`}>
-                      <span>Logout</span>
-                  </Link>
+                  <Button type="link" onClick={this.props.logout}>Logout</Button>
               </div>;
         }
 
@@ -66,7 +66,7 @@ class App extends React.Component {
                 <Layout style={{height: '100vh'}}>
                     <Sider style={{overflow: 'auto'}}>
                         <div className="logo">
-                            <ReactSVG path={logo} className="m1"/>
+                            <ReactSVG src={logo} className="m1"/>
                         </div>
                         <Menu theme="dark" mode="inline" className={styles.fawrapper}>
                             <Menu.Item key="1">
@@ -77,13 +77,13 @@ class App extends React.Component {
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <FontAwesome name='arrows' size='lg'/>
+                                    <FontAwesomeIcon icon={faArrowsAlt} size='lg'/>
                                     <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link to={`commands`}>
-                                    <FontAwesome name='terminal' size='lg'/>
+                                    <FontAwesomeIcon icon={faTerminal} size='lg'/>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>
@@ -104,7 +104,7 @@ class App extends React.Component {
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
-                            <a href="http://octocnc.org">OctoCNC</a> powered by <a href="http://octoprint.org">OctoPrint</a>.
+                            <a target="_blank" href="http://octocnc.github.io">OctoCNC</a> powered by <a target="_blank" href="http://octoprint.org">OctoPrint</a>.
                         </Footer>
                     </Layout>
                 </Layout>
@@ -133,7 +133,8 @@ App.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-        checkAuth: authCheck
+        checkAuth: authCheck,
+        logout: authLogout
   }, dispatch);
 }
 

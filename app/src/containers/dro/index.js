@@ -5,6 +5,9 @@ import { bindActionCreators } from "redux";
 import Axis from './axis';
 import {ConnectionStatus} from "enums";
 
+import './dro.scss';
+import ManualCommand from "../commands/manual_command";
+
 class DRO extends React.Component {
     constructor(props) {
         super(props);
@@ -19,11 +22,13 @@ class DRO extends React.Component {
     render() {
 
         return (
-            <div style={{background: 'white', borderRadius:10}}>
+            <div style={{background: 'white', borderRadius:10}} className={'pt4 pb4'}>
                 <Axis title='X' value={this.props.xPosition} active={this.props.active}/>
                 <Axis title='Y' value={this.props.yPosition} active={this.props.active}/>
                 <Axis title='Z' value={this.props.zPosition} active={this.props.active}/>
+                <ManualCommand/>
             </div>
+
         );
     }
 }

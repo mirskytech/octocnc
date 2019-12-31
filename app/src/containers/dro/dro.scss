@@ -1,0 +1,18 @@
+
+  .digit {
+    display:inline-block;
+    width: 55px;
+    &.title {
+      width: 45px;
+    }
+
+    &.units {
+      width: 40px;
+    }
+
+  }
+
+  .decimal {
+    display:inline-block;
+    width: 16px;
+  }

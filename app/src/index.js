@@ -5,29 +5,30 @@ const el = document.getElementById('_server_config');
 const config = JSON.parse(el ? el.innerHTML : '{}');
 const initialState = {'config':config};
 
-// configure octoprint api & socket
-OctoPrint = window.OctoPrint;
+// // configure octoprint api & socket
+let OctoPrint = window.OctoPrint;
 OctoPrint.options.baseurl = config.base_uri;
 OctoPrint.options.apikey = config.api_key;
-
-// open the octoprint socket
+//
+// // open the octoprint socket
 const octo_socket = OctoPrint.socket.connect({debug: true});
-
-// connect epics, including dependencies to be injected
+//
+// // connect epics, including dependencies to be injected
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics';
 
-const epicMiddleware = createEpicMiddleware(
-    rootEpic, {
+const epicMiddleware = createEpicMiddleware({
         dependencies: {
             socket: octo_socket,
             initialState: initialState
         }
     });
-
-// create store
-import { createStore, applyMiddleware } from 'redux'
+//
+// // create store
+import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from './reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
@@ -35,7 +36,9 @@ const store = createStore(
   applyMiddleware(epicMiddleware)
 );
 
-// for messages received, transform into redux format and dispatch
+epicMiddleware.run(rootEpic);
+
+// // for messages received, transform into redux format and dispatch
 import { ActionType } from 'enums';
 
 OctoPrint.socket.onMessage("*", (msg) => {
@@ -69,8 +72,8 @@ import createHistory from 'history/createHashHistory';
 const history = createHistory();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App history={history}/>
-    </Provider>,
+   <Provider store={store}>
+       <App history={history}/>
+   </Provider>,
   document.querySelector('.app')
 );

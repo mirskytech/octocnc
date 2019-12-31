@@ -12,7 +12,8 @@ export default function(state = [], action) {
             return {
                 ...state,
                 authenticated: true,
-                username: action.payload.name
+                username: action.payload.name,
+                apikey: action.payload.apikey
             };
         case ActionType.AUTH_FAILURE:
             console.log('login failure');
