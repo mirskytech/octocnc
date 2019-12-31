@@ -44,9 +44,9 @@ class Digit extends React.Component {
     setSegments = () => {
         let rx = /segment_(\w)(-\d*)?/;
 
+        if(this.display == null) return;
 
-
-        if(this.display != null && this.props.value != null) {
+        if(this.props.value != null) {
 
             if(!SEGMENT_MAP.hasOwnProperty(this.props.value)) {
                 console.log("missing display: " + this.props.value);
@@ -64,6 +64,10 @@ class Digit extends React.Component {
                 } else {
                     item.style.fill = this.props.backgroundColor;
                 }
+            }
+        } else {
+            for(let item of this.display.children) {
+                item.style.fill = null;
             }
         }
     };

@@ -61,8 +61,8 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         return make_response(render_template("octocnc_index.jinja2", **render_kwargs))
 
     def _get_position_timer_interval(self):
-        busy_default = 10.0
-        target_default = 10.0
+        busy_default = 1
+        target_default = 1
 
         if self._printer.is_ready():
             return target_default
@@ -70,7 +70,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         return busy_default
 
     def _poll_position(self):
-        self._comm.sendCommand("M114", cmd_type="position_poll", tags={"trigger:comm.position_poll"})
+        self._comm.sendCommand("M114", cmd_type="position_poll", tags={"trigger:octocnc.position_poll"})
 
     def set_automatic_updates(self, comm, script_type, script_name, *args, **kwargs):
         '''
@@ -78,13 +78,17 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         time for position updates at regular intervals
         '''
 
-        if not self._position_timer:
+        if script_name == "beforePrinterDisconnected":
+            if self._position_timer:
+                self._position_timer.cancel()
+                self._position_timer = None
+            self._comm = None
+
+        elif script_name == "afterPrinterConnected":
             self._comm = comm
             self._position_timer = RepeatedTimer(self._get_position_timer_interval, self._poll_position, run_first=True)
             self._position_timer.start()
-
-        if not script_type == "gcode" or not script_name == "afterPrinterConnected":
-            return None
+            self._comm.sendCommand("M155 S0", cmd_type="disable_auto_temp", tags={"trigger:octocnc.on_connect"})
 
         if comm._temperature_timer:
             comm._temperature_timer.cancel()
