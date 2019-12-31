@@ -54,8 +54,8 @@ export const availableSystemCommands = (info: any): Action => ({
     payload: info
 });
 
-export const executeCommand = (command: string): Action => ({
-    type: ActionType.EXECUTE_COMMAND,
+export const sendCommand = (command: string): Action => ({
+    type: ActionType.SEND_COMMAND,
     payload: command
 });
 

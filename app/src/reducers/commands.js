@@ -17,7 +17,7 @@ export default function(state = [], action) {
                 })
             };
 
-        case ActionType.EXECUTE_COMMAND:
+        case ActionType.SEND_COMMAND:
             let previous_history = state.history || [];
             let history = [ ...previous_history, {
                 'command': action.payload,

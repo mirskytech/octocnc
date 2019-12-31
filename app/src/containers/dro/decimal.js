@@ -7,8 +7,6 @@ import { ReactSVG } from 'react-svg';
 import decimal from 'assets/octocnc_sprites_decimal.svg';
 import { Colors } from 'enums';
 
-const decimalStyle = { height: 70, decimal: {fill: 'red' }};
-import styles from './decimal.scss';
 
 class Decimal extends React.Component {
     constructor(props) {
@@ -35,8 +33,10 @@ class Decimal extends React.Component {
 
     render() {
         return (
-            <div style={{display:'inline-block'}}>
-
+            <div className={'decimal'}>
+                <ReactSVG
+                  src={decimal}
+                />
             </div>
         )
     }

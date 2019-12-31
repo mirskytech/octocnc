@@ -104,7 +104,7 @@ class App extends React.Component {
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
-                            <a href="http://octocnc.org">OctoCNC</a> powered by <a href="http://octoprint.org">OctoPrint</a>.
+                            <a target="_blank" href="http://octocnc.github.io">OctoCNC</a> powered by <a target="_blank" href="http://octoprint.org">OctoPrint</a>.
                         </Footer>
                     </Layout>
                 </Layout>

@@ -24,10 +24,15 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader',
-                ],
+                    { loader: 'style-loader'},
+                    { loader: 'css-loader' },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    }
+                    ]
             },
             {
                 test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,

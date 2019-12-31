@@ -20,11 +20,10 @@ const SEGMENT_MAP = {
     '+': ['n', 'o', 'q', 'r'],
     'X': ['i', 'j', 'k', 'l'],
     'Y': ['i', 'j', 'r', 'p'],
-    'Z': ['a','b', 'e', 'f', 'j', 'l', ]
+    'Z': ['a','b', 'e', 'f', 'j', 'l', ],
+    'm': ['g', 'q', 'r','p', 'o', 'd' ]
 
 };
-
-const digitStyle = { height: 70 };
 
 
 class Digit extends React.Component {
@@ -69,27 +68,13 @@ class Digit extends React.Component {
         }
     };
 
-    // shouldComponentUpdate() {
-    //     this.setSegments();
-    //     return this.display === undefined;
-    // }
-
     render() {
-
-        let styling = {
-            ...this.props.style,
-            ...digitStyle
-        };
-
+        this.setSegments();
         return (
-            <div style={{display:'inline-block', height:70, width:70}}>
+            <div className={'digit ' + this.props.className}>
                 <ReactSVG
                   src={digit}
                   afterInjection={this.digitLoaded}
-                  className="digit"
-                  // evalScript="once"
-                  // onClick={this.handleClick}
-                  style={styling}
                 />
             </div>
         )
@@ -103,9 +88,7 @@ function mapStateToProps(state) {
 }
 
 Digit.defaultProps = {
-    style:{
-        height:70
-    },
+    className: '',
     value: null,
     fillColor: Colors.lightBlue.color,
     backgroundColor: Colors.lightGray.color

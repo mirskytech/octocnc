@@ -23,7 +23,7 @@ export const requestSystemCommandsEpic = (action$, store, {socket, initialState}
 
 export const executeCommandEpic = (action$, store, {socket, initialState}) => {
     return action$.pipe(
-        ofType(ActionType.EXECUTE_COMMAND),
+        ofType(ActionType.SEND_COMMAND),
         switchMap((action) => {
             let ajax$ = ajax.post(`/plugin/octocnc/command/send`,
                 JSON.stringify({'command': action.payload}),

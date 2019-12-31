@@ -5,28 +5,28 @@ export class ActionType extends Enum {}
 
 // use the object init format. seems that jetbrains can tab complete then
 ActionType.initEnum({
-    'REQUEST_DEVICE_CONNECTIONS': {},
-    'DEVICE_CONNECTION_INFO':{},
     'AJAX_ERROR':{},
+    'AUTH_CHECK': {},
+    'AUTH_FAILURE': {},
+    'AUTH_LOGIN': {},
+    'AUTH_LOGOUT': {},
+    'AUTH_SUCCESS': {},
+    'AVAILABLE_SYSTEM_COMMANDS': {},
+    'COMMAND_HISTORY_DATA': {},
+    'CONNECTED':{},
+    'CONNECTING':{},
     'CONNECT_TO_DEVICE':{},
+    'DEVICE_CONNECTION_INFO':{},
     'DISCONNECT_FROM_DEVICE':{},
     'DISCONNECTING':{},
     'DISCONNECTED':{},
-    'CONNECTING':{},
-    'CONNECTED':{},
-    'REQUEST_SYSTEM_COMMANDS': {},
-    'AVAILABLE_SYSTEM_COMMANDS': {},
-    'EXECUTE_COMMAND': {},
-    'SOCKET_HISTORY': {},
-    'POSITION_UPDATE': {},
     'GET_COMMAND_HISTORY': {},
-    'COMMAND_HISTORY_DATA': {},
-    'AUTH_LOGIN': {},
-    'AUTH_SUCCESS': {},
-    'AUTH_FAILURE': {},
-    'AUTH_LOGOUT': {},
-    'AUTH_CHECK': {},
-    'LOGOUT_SUCCESS': {}
+    'LOGOUT_SUCCESS': {},
+    'POSITION_UPDATE': {},
+    'REQUEST_DEVICE_CONNECTIONS': {},
+    'REQUEST_SYSTEM_COMMANDS': {},
+    'SEND_COMMAND': {},
+    'SOCKET_HISTORY': {}
 });
 
 

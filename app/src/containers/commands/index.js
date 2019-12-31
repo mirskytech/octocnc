@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {requestSystemCommands, executeCommand} from "action_creators";
+import {requestSystemCommands, sendCommand} from "action_creators";
 
 import {Input, Row, Col, Button} from 'antd';
 import List from './list';
@@ -66,13 +66,7 @@ class CommandWindow extends React.Component {
             </Row>
             <Row>
                 <Col span={12}>
-                    <Input
-                        value={this.state.command}
-                        placeholder="gcode"
-                        onChange={this.setCommand}
-                        onKeyPress={this.enterCommand}
-                        disabled={!this.props.active}/>
-                    <Button onClick={this.sendCommand} disabled={!this.props.active}>Go</Button>
+
                 </Col>
             </Row>
         </div>
@@ -101,7 +95,7 @@ CommandWindow.propTypes = {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getCommands:requestSystemCommands,
-        executeCommand:executeCommand
+        executeCommand:sendCommand
     }, dispatch);
 }
 
