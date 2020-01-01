@@ -6,7 +6,7 @@ from playhouse.shortcuts import model_to_dict
 from . import models, constants
 
 
-class API(object):
+class API(BlueprintPlugin):
     @BlueprintPlugin.route("/command/send", methods=["POST"])
     def command(self):
 

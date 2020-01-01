@@ -3,20 +3,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {requestSystemCommands, sendCommand} from "action_creators";
 
-import {Input, Row, Col, Button} from 'antd';
+import { Row, Col } from 'antd';
 import List from './list';
-import {ConnectionStatus} from "enums";
-
-const columnStyle = {
-    padding: 10
-};
-
-const windowStyle = {
-    background:'white',
-    padding:10,
-    height:300,
-    borderRadius:10
-};
+import { ConnectionStatus } from "enums";
+import ManualCommand from './manual_command';
 
 class CommandWindow extends React.Component {
     constructor(props) {
@@ -26,34 +16,14 @@ class CommandWindow extends React.Component {
         };
     }
 
-    componentDidMount() {
-
-    }
-
-    setCommand = (e) => {
-      this.setState({command:e.target.value})
-    };
-
-
-    sendCommand = () => {
-      this.props.executeCommand(this.state.command);
-      this.setState({command:''});
-    };
-
-    enterCommand = (e) => {
-        if(e.key === 'Enter') {
-            this.sendCommand();
-        }
-    };
-
     render() {
 
         return (
         <div>
             <Row>
-                <Col span={12} style={columnStyle}>
+                <Col span={12} className='p1'>
                     <h3>Command Queue</h3>
-                    <div style={windowStyle}>
+                    <div className='commandWindow'>
                         <List commands={this.props.commands}/>
                     </div>
                 </Col>
@@ -64,11 +34,7 @@ class CommandWindow extends React.Component {
                     </div>
                 </Col>
             </Row>
-            <Row>
-                <Col span={12}>
-
-                </Col>
-            </Row>
+            <ManualCommand/>
         </div>
         )
     }

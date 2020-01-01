@@ -1,3 +1,2 @@
-OctoPrint
-peewee
-enum34
+OctoPrint>=1.14.0rc3
+peewee==3.13.1
