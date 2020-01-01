@@ -15,13 +15,12 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
                     octoprint.plugin.SettingsPlugin,
                     octoprint.plugin.AssetPlugin,
                     octoprint.plugin.UiPlugin,
-                    octoprint.plugin.BlueprintPlugin,
                     api.API
 
                     ):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self._db = None
         self._position_timer = None
         self._comm = None

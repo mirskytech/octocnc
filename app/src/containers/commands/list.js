@@ -11,7 +11,8 @@ import Moment from 'react-moment';
 
 import {Colors, CommandStatus, ConnectionStatus} from "enums";
 
-import styles from './list.scss';
+import './list.scss';
+import 'react-custom-scroll/dist/customScroll.css'
 
 class List extends React.Component {
     constructor(props) {
@@ -22,16 +23,16 @@ class List extends React.Component {
     createDot = (status) => {
         switch(status) {
             case CommandStatus.COMPLETED:
-                return(<FontAwesomeIcon icon={faCircle} size='2x' style={{color:Colors.darkBlue.color}}/>);
+                return(<FontAwesomeIcon icon={faCircle} size='1x' style={{color:Colors.darkBlue.color}}/>);
             case CommandStatus.ACTIVE:
-                return(<FontAwesomeIcon icon={faCircleNotch} size='2x' spin={true} style={{color:Colors.goldenRod.color}}/>);
+                return(<FontAwesomeIcon icon={faCircleNotch} size='1x' spin={true} style={{color:Colors.goldenRod.color}}/>);
             case CommandStatus.ERROR:
-                return(<FontAwesomeIcon icon={faCircle} size='2x' style={{color:Colors.paradisePink.color}}/>);
+                return(<FontAwesomeIcon icon={faCircle} size='1x' style={{color:Colors.paradisePink.color}}/>);
             case CommandStatus.SKIPPED:
-                return(<FontAwesomeIcon icon={faCircle} size='2x' style={{color:Colors.lightGray.color}}/>);
+                return(<FontAwesomeIcon icon={faCircle} size='1x' style={{color:Colors.lightGray.color}}/>);
             case CommandStatus.PENDING:
             default:
-                return(<FontAwesomeIcon icon={faCircle} size='2x' style={{color:'rgba(0,0,0,0.1)'}}/>);
+                return(<FontAwesomeIcon icon={faCircle} size='1x' style={{color:'rgba(0,0,0,0.1)'}}/>);
 
         }
     };
@@ -40,40 +41,40 @@ class List extends React.Component {
 
         if(!this.props.connected) {
             return (
-              <CustomScroll className={styles['custom-scroll']} heightRelativeToParent="100%">
+              <CustomScroll heightRelativeToParent="100%">
                   <Alert message="disconnected" type="success   "/>
               </CustomScroll>);
         }
 
         if(this.props.commands.length < 1) {
             return (
-              <CustomScroll className={styles['custom-scroll']} heightRelativeToParent="100%">
+              <CustomScroll heightRelativeToParent="100%">
                   <h6>empty command set.</h6>
               </CustomScroll>);
         }
 
         return (
-            <CustomScroll className={styles['custom-scroll']} keepAtBottom={true} heightRelativeToParent="100%">
-                <Timeline>
+            <CustomScroll keepAtBottom={true} heightRelativeToParent="100%">
+                <Timeline className={'commandList'}>
                 {
                     this.props.commands.map((command, idx) => {
                         return(
                             <Timeline.Item
-                                dot={this.createDot(command.status)}
-                                key={idx}>
-                                    <span className={styles.command}>
-                                        {command.command}
-                                    </span>
-                                    <span className={styles.date}>
-                                        <Moment fromNow>{command.date}</Moment>
-                                    </span>
+                              dot={this.createDot(command.status)}
+                              key={idx}
+                              className={'commandItem'}>
+                                <span className={"command"}>
+                                    {command.command}
+                                </span>
+                                <span className={'date'}>
+                                    <Moment fromNow>{command.date}</Moment>
+                                </span>
                             </Timeline.Item>)
                     })
                 }
                 </Timeline>
             </CustomScroll>
-
-        )
+        );
     }
 }
 
