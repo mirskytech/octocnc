@@ -7,25 +7,18 @@ description: Control for CNC Lathe or Mill
 author: Andrew Mirsky
 license: AGPLv3
 
-# TODO
-date: today's date in format YYYY-MM-DD, e.g. 2015-04-21
+date: 2019-12-31
 
-homepage: https://github.com/mirskytech/OctoCNC
-source: https://github.com/mirskytech/OctoCNC
-archive: https://github.com/mirskytech/OctoCNC/archive/master.zip
+homepage: https://octocnc.github.io
+source: https://github.com/octocnc/octocnc
+archive: https://github.com/octocnc/octocnc/archive/master.zip
 
-# TODO
-# Set this to true if your plugin uses the dependency_links setup parameter to include
-# library versions not yet published on PyPi. SHOULD ONLY BE USED IF THERE IS NO OTHER OPTION!
-#follow_dependency_links: false
-
-# TODO
 tags:
-- a list
-- of tags
-- that apply
-- to your plugin
-- (take a look at the existing plugins for what makes sense here)
+- cnc
+- mill
+- lathe
+- ui
+- react
 
 # TODO
 screenshots:
@@ -47,35 +40,8 @@ featuredimage: url of a featured image for your plugin, /assets/img/...
 
 compatibility:
 
-  # List of compatible versions
-  #
-  # A single version number will be interpretated as a minimum version requirement,
-  # e.g. "1.3.1" will show the plugin as compatible to OctoPrint versions 1.3.1 and up.
-  # More sophisticated version requirements can be modelled too by using PEP440
-  # compatible version specifiers.
-  #
-  # You can also remove the whole "octoprint" block. Removing it will default to all
-  # OctoPrint versions being supported.
-
   octoprint:
-  - 1.2.0
-
-  # List of compatible operating systems
-  #
-  # Valid values:
-  #
-  # - windows
-  # - linux
-  # - macos
-  # - freebsd
-  #
-  # There are also two OS groups defined that get expanded on usage:
-  #
-  # - posix: linux, macos and freebsd
-  # - nix: linux and freebsd
-  #
-  # You can also remove the whole "os" block. Removing it will default to all
-  # operating systems being supported.
+  - 1.4.0rc3
 
   os:
   - linux
@@ -85,5 +51,25 @@ compatibility:
 
 ---
 
-**TODO**: Longer description of your plugin, configuration examples etc. This part will be visible on the page at
-http://plugins.octoprint.org/plugin/octocnc/
+User Interface focused on CNC. 
+
+
+
+While 3d printing and CNC milling both use g-code, the workflow for using the different machines can be
+quite different. And modification of 
+
+
+
+
+### Temperature
+
+Temperature of extruder and bed are a big focus of 
+
+### Z axis
+
+
+
+
+# TODO
+http://plugins.octoprint.org/help/registering/ to get it published.
+
