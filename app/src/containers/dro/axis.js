@@ -13,6 +13,7 @@ class Axis extends React.Component {
         this.state = { };
     }
 
+
     pad(n, width, z) {
         let padded = n.toString().split('');
         while(padded.length < width) {
@@ -46,7 +47,6 @@ class Axis extends React.Component {
                                backgroundColor='#ffffff'
                                fillColor={Colors.darkBlue.color} />
                         <Digit value={sign}/>
-                        <Digit value={majorValue[0]} />
                         <Digit value={majorValue[1]} />
                         <Digit value={majorValue[2]} />
                         <Digit value={majorValue[3]} />
@@ -54,7 +54,6 @@ class Axis extends React.Component {
                         <Decimal active={this.props.active} />
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
-                        <Digit value={minorValue[2]} />
                         <Digit value={'m'}
                                className={'units'}
                                backgroundColor='#ffffff'

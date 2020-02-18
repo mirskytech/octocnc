@@ -66,7 +66,7 @@ class Connection extends React.Component {
             );
         }
 
-        if(this.props.status === ConnectionStatus.CONNECTED) {
+        if(this.props.status === ConnectionStatus.CONNECTED && this.props.current != null) {
             return(
                 <div>
                     <h3>Device Connected</h3>
