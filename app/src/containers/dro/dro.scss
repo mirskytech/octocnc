@@ -12,23 +12,7 @@
   @media(min-width:1260px) {
     width:40px;
   }
-
-
-
-
-  //&.title {
-  //  width: 45px;
-  //}
-  //
-  //&.units {
-  //  width: 30px;
-  //}
-
-
 }
-
-
-
 
 .decimal {
   display:inline-block;
@@ -41,5 +25,14 @@ input.destination {
   margin-bottom: 14px;
   font-size: 35px;
 }
+
+.dialpad {
+  .key {
+    margin: 10px;
+    height: 60px;
+    width: 60px;
+  }
+}
+
 
 

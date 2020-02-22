@@ -69,6 +69,8 @@ export const commandHistoryData = (history: any): Action => ({
     payload: history
 });
 
+// --------- Authentication
+
 export const authLogin = (username, password) => ({
    type: ActionType.AUTH_LOGIN,
    username: username,
@@ -93,3 +95,17 @@ export const authCheck = () => ({
     type: ActionType.AUTH_CHECK,
     payload: null
 });
+
+
+// --------- Commands
+
+export const linearMove = (x, y, z, fr) => ({
+    type: ActionType.LINEAR_MOVE,
+    payload: {
+        nextX: x,
+        nextY: y,
+        nextZ : z,
+        feedRate: fr
+    }
+});
+

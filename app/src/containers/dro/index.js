@@ -8,6 +8,8 @@ import {ConnectionStatus} from "enums";
 import './dro.scss';
 import ManualCommand from "../commands/manual_command";
 import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
+import {linearMove} from "../../action_creators";
+import DialPad from "./dialpad";
 
 
 class DRO extends React.Component {
@@ -34,14 +36,20 @@ class DRO extends React.Component {
     onAxisSet = (e) => {
 
         const axis = 'next' + e.target.name;
-        let newState = {};
-        newState[axis] = e.target.value;
-        this.setState(newState);
+        let newAxisVal = {};
+        newAxisVal[axis] = e.target.value;
+        this.setState(newAxisVal);
+    };
+
+    onGo = (e) => {
+      this.props.linearMove(this.state.nextX, this.state.nextY, this.state.nextZ, this.state.feedRate);
+    };
+
+    onPadPress = (number) => {
+        console.log(number);
     };
 
     render() {
-
-        const ButtonGroup = Button.Group;
 
         return (
             <Row type="flex" justify="center" align="middle">
@@ -92,12 +100,12 @@ class DRO extends React.Component {
                             </Col>
 
                         </Row>
-                        <Button>Go</Button>
+                        <Button onClick={this.onGo}>Go</Button>
                     </Row>
                 </Col>
                 <Col span={7}>
                     <div style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
-                        dialpad
+                        <DialPad/>
                     </div>
                 </Col>
             </Row>
@@ -133,7 +141,7 @@ DRO.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-
+        linearMove: linearMove
     }, dispatch);
 }
 

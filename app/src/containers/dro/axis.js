@@ -14,13 +14,13 @@ class Axis extends React.Component {
     }
 
 
-    pad(n, width, z) {
+    pad = (n, width, z) => {
         let padded = n.toString().split('');
         while(padded.length < width) {
             padded.unshift(null);
         }
         return padded;
-    }
+    };
 
     render() {
 
