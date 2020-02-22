@@ -42,10 +42,11 @@ class Axis extends React.Component {
         return (
                 <Row type="flex" justify="center" align="middle">
                     <Col>
+                        {this.props.title != null ?
                         <Digit value={this.props.title}
                                className={'title'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
+                               fillColor={Colors.darkBlue.color} /> : <span></span>}
                         <Digit value={sign}/>
                         <Digit value={majorValue[1]} />
                         <Digit value={majorValue[2]} />
@@ -70,7 +71,7 @@ class Axis extends React.Component {
 
 Axis.defaultProps ={
     title: null,
-    active: false
+    active: false,
 };
 
 function mapStateToProps(state) {

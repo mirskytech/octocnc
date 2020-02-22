@@ -16,15 +16,14 @@ class DRO extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: 'bio',
             count: 0,
             feedRate: this.props.feedMin,
             nextX:0,
             nextY:0,
-            nextZ:0
+            nextZ:0,
+            active: null
         };
 
-        this.active = 'bio';
     }
 
     onFeedRateChange = (val) => {
@@ -46,7 +45,37 @@ class DRO extends React.Component {
     };
 
     onPadPress = (number) => {
-        console.log(number);
+        if(this.state.active != null) {
+            let new_state = {};
+            let active_axis = 'next' + this.state.active;
+
+            let val = this.state[active_axis];
+            val = val * 100;
+            let sval = val.toString();
+            sval = sval + number.toString();
+            val = Number(sval);
+            val = val / 100;
+
+            new_state[active_axis] = val;
+            console.log(new_state);
+            this.setState(new_state);
+        }
+    };
+
+    onAxisClick = (e, axis) => {
+        let new_state = {};
+        new_state['active'] = axis;
+        new_state['next' + axis] = 0;
+
+        this.setState(new_state);
+    };
+
+    isAxisActive = (axis) => {
+        if(axis === this.state.active) {
+            return "clickable-axis active"
+        }
+
+        return "clickable-axis";
     };
 
     render() {
@@ -67,7 +96,8 @@ class DRO extends React.Component {
                     </div>
                 </Col>
                 <Col span={7}>
-                    <div style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
+                    <div className={'p1 m1 dro-panel'}>
+                        <div>Current</div>
                         <Axis title='X' value={this.props.xPosition} active={this.props.active}/>
                         <Axis title='Y' value={this.props.yPosition} active={this.props.active}/>
                         <Axis title='Z' value={this.props.zPosition} active={this.props.active}/>
@@ -75,10 +105,17 @@ class DRO extends React.Component {
                     </div>
                 </Col>
                 <Col span={7}>
-                    <Row style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
-                        <Input className={'destination'} name={'X'} value={this.state.nextX} onChange={this.onAxisSet}/>
-                        <Input className={'destination'} name={'Y'} value={this.state.nextY} onChange={this.onAxisSet}/>
-                        <Input className={'destination'} name={'Z'} value={this.state.nextZ} onChange={this.onAxisSet}/>
+                    <Row className={'p1 m1 dro-panel'}>
+                        <div>Next</div>
+                        <div className={this.isAxisActive('X')} onClick={(e) => this.onAxisClick(e,'X')}>
+                            <Axis value={this.state.nextX} active={this.props.active}/>
+                        </div>
+                        <div className={this.isAxisActive('Y')} onClick={(e) => this.onAxisClick(e, 'Y')}>
+                            <Axis value={this.state.nextY} active={this.props.active}/>
+                        </div>
+                        <div className={this.isAxisActive('Z')} onClick={(e) => this.onAxisClick(e, 'Z')}>
+                            <Axis value={this.state.nextZ} active={this.props.active}/>
+                        </div>
                         <Row type="flex" justify="center" align="middle">
                             <Col span={14}>
                                 <Slider
@@ -89,7 +126,7 @@ class DRO extends React.Component {
                                     step={10}
                                 />
                             </Col>
-                            <Col span={6}>
+                            <Col span={4}>
                                 <InputNumber
                                     value={this.state.feedRate}
                                     onChange={this.onFeedRateChange}
@@ -104,8 +141,8 @@ class DRO extends React.Component {
                     </Row>
                 </Col>
                 <Col span={7}>
-                    <div style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
-                        <DialPad/>
+                    <div className={'p1 m1 dro-panel'}>
+                        <DialPad numberPressed={this.onPadPress}/>
                     </div>
                 </Col>
             </Row>
