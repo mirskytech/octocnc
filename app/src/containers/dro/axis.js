@@ -28,9 +28,9 @@ class Axis extends React.Component {
         let minorValue = new Array(3).fill(null);
         let sign = null;
 
-        if(this.props.active) {
+        if(this.props.active && this.props.value != null) {
 
-            let fixedValue = this.props.value.toFixed(3).split('.');
+            let fixedValue = Math.abs(this.props.value).toFixed(3).split('.');
             majorValue = this.pad(fixedValue[0], 5, '0');
             minorValue = fixedValue[1];
 

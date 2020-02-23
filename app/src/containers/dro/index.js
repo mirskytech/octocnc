@@ -10,6 +10,7 @@ import ManualCommand from "../commands/manual_command";
 import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
 import {linearMove} from "../../action_creators";
 import DialPad from "./dialpad";
+import {Decimal} from "decimal.js";
 
 
 class DRO extends React.Component {
@@ -18,9 +19,9 @@ class DRO extends React.Component {
         this.state = {
             count: 0,
             feedRate: this.props.feedMin,
-            nextX:0,
-            nextY:0,
-            nextZ:0,
+            nextX:null,
+            nextY:null,
+            nextZ:null,
             active: null
         };
 
@@ -44,30 +45,53 @@ class DRO extends React.Component {
       this.props.linearMove(this.state.nextX, this.state.nextY, this.state.nextZ, this.state.feedRate);
     };
 
-    onPadPress = (number) => {
+    numberPress = (number) => {
         if(this.state.active != null) {
             let new_state = {};
             let active_axis = 'next' + this.state.active;
 
-            let val = this.state[active_axis];
-            val = val * 100;
-            let sval = val.toString();
-            sval = sval + number.toString();
-            val = Number(sval);
-            val = val / 100;
+            let sign = this.state[active_axis] >= 0 ? 1 : -1;
 
-            new_state[active_axis] = val;
-            console.log(new_state);
+
+            let val = Math.abs(this.state[active_axis]);
+            let dval = new Decimal(val).times(100);
+            let sval = dval.toDecimalPlaces(2).toString();
+
+            if(sval.length < 6) {
+                sval = sval + number.toString().slice(-6);
+                new_state[active_axis] = new Decimal(sval).dividedBy(100).times(sign);
+                this.setState(new_state);
+            }
+        }
+    };
+
+    invertSign = () => {
+        if(this.state.active != null){
+            let new_state = {};
+
+            new_state['next' + this.state.active] = -1 * this.state['next' + this.state.active];
+            this.setState(new_state);
+        }
+    };
+
+    clearValue = () => {
+        if(this.state.active != null) {
+            let new_state = {};
+            new_state['next' + this.state.active] = null;
             this.setState(new_state);
         }
     };
 
     onAxisClick = (e, axis) => {
-        let new_state = {};
-        new_state['active'] = axis;
-        new_state['next' + axis] = 0;
 
-        this.setState(new_state);
+        if(this.state.active != axis) {
+
+            let new_state = {};
+            new_state['active'] = axis;
+            new_state['next' + axis] = null;
+
+            this.setState(new_state);
+        }
     };
 
     isAxisActive = (axis) => {
@@ -142,7 +166,7 @@ class DRO extends React.Component {
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>
-                        <DialPad numberPressed={this.onPadPress}/>
+                        <DialPad numberPressed={this.numberPress} invertSign={this.invertSign} clearPressed={this.clearValue}/>
                     </div>
                 </Col>
             </Row>

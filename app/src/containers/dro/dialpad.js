@@ -40,13 +40,13 @@ class DialPad extends React.Component {
                 </Row>
                 <Row type="flex" justify="center" align="middle">
                     <Col>
-                        <Button className={'key'} onClick={() => this.props.numberPressed(1)}>7</Button>
+                        <Button className={'key'} onClick={() => this.props.numberPressed(7)}>7</Button>
                     </Col>
                     <Col>
-                        <Button className={'key'} onClick={() => this.props.numberPressed(2)}>8</Button>
+                        <Button className={'key'} onClick={() => this.props.numberPressed(8)}>8</Button>
                     </Col>
                     <Col>
-                        <Button className={'key'} onClick={() => this.props.numberPressed(3)}>9</Button>
+                        <Button className={'key'} onClick={() => this.props.numberPressed(9)}>9</Button>
                     </Col>
                 </Row>
                 <Row type="flex" justify="center" align="middle">
@@ -57,7 +57,7 @@ class DialPad extends React.Component {
                         <Button className={'key'} onClick={() => this.props.numberPressed(0)}>0</Button>
                     </Col>
                     <Col>
-                        <Button className={'key'} onClick={this.props.deletePressed}>DLT</Button>
+                        <Button className={'key'} onClick={this.props.invertSign}>+/-</Button>
                     </Col>
                 </Row>
             </div>
@@ -68,7 +68,8 @@ class DialPad extends React.Component {
 DialPad.defaultProps = {
     numberPressed: (num) => {console.log("button pressed: " + num)},
     clearPressed: () => {console.log("clear pressed")},
-    deletePressed: () => {console.log("delete pressed")}
+    deletePressed: () => {console.log("delete pressed")},
+    invertSign: () => {console.log("invert sign")}
 };
 
 function mapStateToProps(state) {
