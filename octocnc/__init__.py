@@ -25,6 +25,8 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         self._position_timer = None
         self._comm = None
 
+        self._isAbsolute = None
+
     def on_after_startup(self):
 
         import tornado.autoreload
@@ -88,12 +90,22 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
             self._position_timer = RepeatedTimer(self._get_position_timer_interval, self._poll_position, run_first=True)
             self._position_timer.start()
             self._comm.sendCommand("M155 S0", cmd_type="disable_auto_temp", tags={"trigger:octocnc.on_connect"})
+            self._comm.sendCommand("G90", )
+            self._isAbsolute = True
 
         if comm._temperature_timer:
             comm._temperature_timer.cancel()
             comm._temperature_timer = None
 
         return None
+
+    def examine_sent_gcode(self, comm, phase, cmd, cmd_type, gcode, subscode=None, tags=None, *args, **kwargs):
+
+        if "G90" in gcode:
+            self._isAbsolute = True
+
+        if "G91" in gcode:
+            self._isAbsolute = False
 
 
 __plugin_name__ = "OctoCNC"
@@ -108,5 +120,6 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.comm.protocol.scripts": plugin.set_automatic_updates
+        "octoprint.comm.protocol.scripts": plugin.set_automatic_updates,
+        "octoprint.comm.protocol.gcode.sent": plugin.examine_sent_gcode
     }

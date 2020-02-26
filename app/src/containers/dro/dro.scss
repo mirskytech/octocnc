@@ -35,8 +35,11 @@ input.destination {
 }
 
 .clickable-axis {
+
+  border: 1px solid white;
+
   &.active {
-    border:1px solid black;
+    border:1px solid #BA8B00;
   }
 
 }

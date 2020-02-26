@@ -99,13 +99,38 @@ export const authCheck = () => ({
 
 // --------- Commands
 
-export const linearMove = (x, y, z, fr) => ({
+export const linearMove = (x, y, z, f) => ({
     type: ActionType.LINEAR_MOVE,
     payload: {
-        nextX: x,
-        nextY: y,
-        nextZ : z,
-        feedRate: fr
+        x: x,
+        y: y,
+        z : z,
+        f: f
     }
 });
+
+export const setPositioning = (p) => ({
+    type: ActionType.SET_POSITIONING,
+    payload: p
+});
+
+
+export const setAbsolute = () => ({
+    type:ActionType.SET_ABSOLUTE_POSITIONING,
+    payload:null
+});
+
+export const setRelative = () => ({
+    type: ActionType.SET_RELATIVE_POSITIONING,
+    payload: null
+});
+
+export const homeMachine = () => ({
+    type: ActionType.HOME_MACHINE,
+    payload: null
+});
+
+
+
+
 

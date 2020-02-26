@@ -3,7 +3,9 @@ import 'rxjs';
 // get server configuration from rendered page
 const el = document.getElementById('_server_config');
 const config = JSON.parse(el ? el.innerHTML : '{}');
-const initialState = {'config':config};
+const initialState = {
+    'config':config
+};
 
 // // configure octoprint api & socket
 let OctoPrint = window.OctoPrint;
