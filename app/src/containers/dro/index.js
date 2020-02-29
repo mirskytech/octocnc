@@ -34,17 +34,19 @@ class DRO extends React.Component {
     };
 
     isActivePositioning = (p) => {
-        return this.props.positionType == p ? 'primary' : '';
+        return this.props.positionType === p ? 'primary' : '';
     };
 
     onGo = (e) => {
       this.props.linearMove(this.state.nextX, this.state.nextY, this.state.nextZ, this.state.feedRate);
-      this.setState({
-          'nextX': null,
-          'nextY': null,
-          'nextZ': null,
-          'active': null
-      })
+      if(this.props.positionType !== Positioning.RELATIVE) {
+          this.setState({
+              'nextX': null,
+              'nextY': null,
+              'nextZ': null,
+              'active': null
+          });
+      }
     };
 
     numberPress = (number) => {
