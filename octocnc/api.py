@@ -25,7 +25,7 @@ class API(BlueprintPlugin):
 
         return NO_CONTENT
 
-    @BlueprintPlugin.route("/command/linear-move", methods=["POST"])
+    @BlueprintPlugin.route("/command/move/linear", methods=["POST"])
     def linear_move(self):
 
         if not self._printer.is_operational():
@@ -38,6 +38,28 @@ class API(BlueprintPlugin):
 
         models.CommandHistory.create(command=c, status=constants.CommandStatus.COMPLETED.name, device=device['id'])
 
+        self._printer.commands([c, ])
+
+        return NO_CONTENT
+
+    @BlueprintPlugin.route("/command/set/abs", methods=["POST"])
+    def set_abs(self):
+
+        if not self._printer.is_operational():
+            return make_response("Printer is not operational.", 409)
+
+        c = f"G90"
+        self._printer.commands([c, ])
+
+        return NO_CONTENT
+
+    @BlueprintPlugin.route("/command/set/rel", methods=["POST"])
+    def set_rel(self):
+
+        if not self._printer.is_operational():
+            return make_response("Printer is not operational.", 409)
+
+        c = f"G91"
         self._printer.commands([c, ])
 
         return NO_CONTENT
@@ -55,7 +77,9 @@ class API(BlueprintPlugin):
 
         return jsonify({'history': results})
 
-    @BlueprintPlugin.route("/command/status", methods=["GET"])
+    @BlueprintPlugin.route("/device/state", methods=["GET"])
     def status(self):
-        print(self._isAbsolute)
-        return jsonify({'status': 'none'})
+
+        p = self._positioning.name.lower() if self._positioning else 'none'
+
+        return jsonify({'positioning': p})

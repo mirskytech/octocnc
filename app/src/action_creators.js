@@ -3,6 +3,7 @@ import type {Action} from "types";
 import { ActionType } from "enums";
 
 
+// --- Device
 export const requestDeviceConnections = (payload: any): Action => ({
     type: ActionType.REQUEST_DEVICE_CONNECTIONS,
     payload: payload
@@ -40,10 +41,31 @@ export const deviceError = (info: any): Action => ({
     payload: info
 });
 
+export const getDeviceState = (): Action => ({
+    type: ActionType.GET_DEVICE_STATE,
+    payload: null
+});
+
+
+export const deviceState = (data): Action => ({
+    type: ActionType.DEVICE_STATE,
+    payload: data
+});
+
+
+// ---- error
+
 export const ajaxError = (info: Error): Action => ({
     type: ActionType.AJAX_ERROR,
     payload: info
 });
+
+export const notImplemented = (action): Action => ({
+    type: ActionType.NOT_IMPLEMENTED,
+    payload: action
+});
+
+// ---- commands
 
 export const requestSystemCommands = (): Action => ({
     type: ActionType.REQUEST_SYSTEM_COMMANDS

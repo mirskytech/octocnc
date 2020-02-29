@@ -17,21 +17,25 @@ ActionType.initEnum({
     'CONNECTING':{},
     'CONNECT_TO_DEVICE':{},
     'DEVICE_CONNECTION_INFO':{},
+    'DEVICE_STATE': {},
     'DISCONNECT_FROM_DEVICE':{},
     'DISCONNECTING':{},
     'DISCONNECTED':{},
     'GET_COMMAND_HISTORY': {},
+    'GET_DEVICE_STATE': {},
+    'HOME_MACHINE': {},
+    'LINEAR_MOVE': {},
     'LOGOUT_SUCCESS': {},
+    'NOT_IMPLEMENTED': {},
     'POSITION_UPDATE': {},
     'REQUEST_DEVICE_CONNECTIONS': {},
     'REQUEST_SYSTEM_COMMANDS': {},
     'SEND_COMMAND': {},
-    'SOCKET_HISTORY': {},
-    'LINEAR_MOVE': {},
     'SET_ABSOLUTE_POSITIONING': {},
+    'SET_INCREMENTAL_POSITIONING': {},
     'SET_RELATIVE_POSITIONING': {},
     'SET_POSITIONING': {},
-    'HOME_MACHINE': {}
+    'SOCKET_HISTORY': {}
 
 });
 
@@ -72,6 +76,7 @@ CommandStatus.initEnum({
 export class Positioning extends Enum {}
 
 Positioning.initEnum({
+    'NONE':         {},
     'ABSOLUTE':     {},
     'RELATIVE':     {},
     'INCREMENTAL':  {}

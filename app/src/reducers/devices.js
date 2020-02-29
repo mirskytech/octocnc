@@ -1,4 +1,4 @@
-import { ConnectionStatus, ActionType } from '../enums';
+import { ConnectionStatus, ActionType, Positioning } from '../enums';
 
 export default function (state = [], action) {
 
