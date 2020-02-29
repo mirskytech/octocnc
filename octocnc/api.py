@@ -79,4 +79,7 @@ class API(BlueprintPlugin):
 
     @BlueprintPlugin.route("/device/state", methods=["GET"])
     def status(self):
-        return jsonify({'state': "{}".format(self._isAbsolute)})
+
+        p = self._positioning.name.lower() if self._positioning else 'none'
+
+        return jsonify({'positioning': p})

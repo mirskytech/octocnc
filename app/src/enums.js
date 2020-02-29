@@ -32,6 +32,7 @@ ActionType.initEnum({
     'REQUEST_SYSTEM_COMMANDS': {},
     'SEND_COMMAND': {},
     'SET_ABSOLUTE_POSITIONING': {},
+    'SET_INCREMENTAL_POSITIONING': {},
     'SET_RELATIVE_POSITIONING': {},
     'SET_POSITIONING': {},
     'SOCKET_HISTORY': {}
@@ -75,6 +76,7 @@ CommandStatus.initEnum({
 export class Positioning extends Enum {}
 
 Positioning.initEnum({
+    'NONE':         {},
     'ABSOLUTE':     {},
     'RELATIVE':     {},
     'INCREMENTAL':  {}

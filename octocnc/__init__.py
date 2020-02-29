@@ -7,6 +7,7 @@ import octoprint.plugin
 from octoprint.settings import settings
 from octoprint.util import RepeatedTimer
 
+from octocnc.constants import Positioning
 from . import models, api, db
 
 
@@ -25,7 +26,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         self._position_timer = None
         self._comm = None
 
-        self._isAbsolute = None
+        self._positioning = None
 
     def on_after_startup(self):
 
@@ -83,7 +84,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
             if self._position_timer:
                 self._position_timer.cancel()
                 self._position_timer = None
-                self._isAbsolute = None
+                self._positioning = None
             self._comm = None
 
         elif script_name == "afterPrinterConnected":
@@ -92,7 +93,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
             self._position_timer.start()
             self._comm.sendCommand("M155 S0", cmd_type="disable_auto_temp", tags={"trigger:octocnc.on_connect"})
             self._comm.sendCommand("G90", )
-            self._isAbsolute = True
+            self._positioning = Positioning.ABSOLUTE
 
         if comm._temperature_timer:
             comm._temperature_timer.cancel()
@@ -103,10 +104,10 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
     def examine_sent_gcode(self, comm, phase, cmd, cmd_type, gcode, subscode=None, tags=None, *args, **kwargs):
 
         if "G90" in gcode:
-            self._isAbsolute = True
+            self._positioning = Positioning.ABSOLUTE
 
         if "G91" in gcode:
-            self._isAbsolute = False
+            self._positioning = Positioning.RELATIVE
 
 
 __plugin_name__ = "OctoCNC"

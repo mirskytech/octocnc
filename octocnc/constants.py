@@ -32,3 +32,9 @@ class CommandStatus(StructuredEnum):
     SKIPPED = 3, {}
     COMPLETED = 4, {}
     ERROR = 5, {}
+
+
+class Positioning(StructuredEnum):
+    ABSOLUTE = 1, {}
+    INCREMENTAL = 2, {}
+    RELATIVE = 3, {}

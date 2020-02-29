@@ -100,7 +100,7 @@ class DRO extends React.Component {
     };
 
     render() {
-        
+
         return (
             <Row type="flex" justify="center" align="middle">
                 <Col span={3}>
@@ -116,7 +116,7 @@ class DRO extends React.Component {
                             <Button
                                 type={this.isActivePositioning(Positioning.INCREMENTAL)}
                                 onClick={() => this.props.setPositioning(Positioning.INCREMENTAL)}
-                                disabled={!this.props.active}
+                                disabled={true}
                                 >INCR</Button>
 
                         </Row>
