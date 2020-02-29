@@ -28,6 +28,7 @@ import Connection from './connection';
 import DRO from './dro';
 import Commands from './commands';
 import Login from './login';
+import Path from './path';
 
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
@@ -93,8 +94,14 @@ class App extends React.Component {
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
+                                <Link to={`path`}>
+                                    <Icon type={'gateway'} style={{'fontSize':24}}/>
+                                    <span className="pl1 h5">Path</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="4">
                                 <Link to={`commands`}>
-                                    <Icon type={'interaction'} style={{'fontSize':24}}/>
+                                    <Icon type={'code'} style={{'fontSize':24}}/>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>
@@ -110,6 +117,7 @@ class App extends React.Component {
                                     <Route path='/login' exact component={Login} />
                                     <PrivateRoute path='/position' exact component={DRO} authed={this.props.authenticated} />
                                     <PrivateRoute path='/commands' exact component={Commands} authed={this.props.authenticated} />
+                                    <PrivateRoute path='/path' exact component={Path} authed={this.props.authenticated} />
                                     <PrivateRoute path='/' component={Connection} authed={this.props.authenticated} />
                                 </Switch>
                             </div>

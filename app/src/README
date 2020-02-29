@@ -1,0 +1,54 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+// import './MyComponent.scss';
+
+import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
+
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            count: 0,
+            feedRate: this.props.feedMin,
+            nextX: null,
+            nextY: null,
+            nextZ: null,
+            active: null
+        };
+    }
+
+    render() {
+
+        return (
+            <Row type="flex" justify="center" align="middle">
+
+            </Row>
+
+        );
+    }
+}
+
+function mapStateToProps(state) {
+    return {
+
+    };
+}
+
+MyComponent.defaultProps = {
+
+};
+
+MyComponent.propTypes = {
+
+};
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
