@@ -26,7 +26,13 @@ ActionType.initEnum({
     'REQUEST_DEVICE_CONNECTIONS': {},
     'REQUEST_SYSTEM_COMMANDS': {},
     'SEND_COMMAND': {},
-    'SOCKET_HISTORY': {}
+    'SOCKET_HISTORY': {},
+    'LINEAR_MOVE': {},
+    'SET_ABSOLUTE_POSITIONING': {},
+    'SET_RELATIVE_POSITIONING': {},
+    'SET_POSITIONING': {},
+    'HOME_MACHINE': {}
+
 });
 
 
@@ -60,4 +66,13 @@ CommandStatus.initEnum({
     'SKIPPED':      { },
     'COMPLETED':    { },
     'ERROR':        { }
+});
+
+
+export class Positioning extends Enum {}
+
+Positioning.initEnum({
+    'ABSOLUTE':     {},
+    'RELATIVE':     {},
+    'INCREMENTAL':  {}
 });

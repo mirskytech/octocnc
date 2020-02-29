@@ -13,13 +13,14 @@ class Axis extends React.Component {
         this.state = { };
     }
 
-    pad(n, width, z) {
+
+    pad = (n, width, z) => {
         let padded = n.toString().split('');
         while(padded.length < width) {
             padded.unshift(null);
         }
         return padded;
-    }
+    };
 
     render() {
 
@@ -27,9 +28,9 @@ class Axis extends React.Component {
         let minorValue = new Array(3).fill(null);
         let sign = null;
 
-        if(this.props.active) {
+        if(this.props.active && this.props.value != null) {
 
-            let fixedValue = this.props.value.toFixed(3).split('.');
+            let fixedValue = Math.abs(this.props.value).toFixed(3).split('.');
             majorValue = this.pad(fixedValue[0], 5, '0');
             minorValue = fixedValue[1];
 
@@ -41,12 +42,12 @@ class Axis extends React.Component {
         return (
                 <Row type="flex" justify="center" align="middle">
                     <Col>
+                        {this.props.title != null ?
                         <Digit value={this.props.title}
                                className={'title'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
+                               fillColor={Colors.darkBlue.color} /> : <span></span>}
                         <Digit value={sign}/>
-                        <Digit value={majorValue[0]} />
                         <Digit value={majorValue[1]} />
                         <Digit value={majorValue[2]} />
                         <Digit value={majorValue[3]} />
@@ -54,7 +55,6 @@ class Axis extends React.Component {
                         <Decimal active={this.props.active} />
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
-                        <Digit value={minorValue[2]} />
                         <Digit value={'m'}
                                className={'units'}
                                backgroundColor='#ffffff'
@@ -71,7 +71,7 @@ class Axis extends React.Component {
 
 Axis.defaultProps ={
     title: null,
-    active: false
+    active: false,
 };
 
 function mapStateToProps(state) {

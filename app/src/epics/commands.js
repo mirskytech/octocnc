@@ -36,6 +36,27 @@ export const executeCommandEpic = (action$, store, {socket, initialState}) => {
     );
 };
 
+export const makeLinearMoveEpic = (action$, store, {socket, iniatialState}) => {
+    return action$.pipe(
+        ofType(ActionType.LINEAR_MOVE),
+        switchMap((action) => {
+            let ajax$ = ajax.post(`/plugin/octocnc/command/linear-move`,
+                JSON.stringify({
+                    'x': action.payload.x,
+                    'y': action.payload.y,
+                    'z': action.payload.z,
+                    'f': action.payload.f
+                }),
+                {'X-Api-Key': store.value.api_key, 'Content-Type': 'application/json'});
+
+            return ajax$.pipe(
+                ignoreElements(),
+                catchError(error => of(actions.ajaxError(error)))
+            );
+        })
+    );
+};
+
 export const getCommandHistoryEpic = (action$, store, {socket, initialState}) => {
   return action$.pipe(
       filter(action => {

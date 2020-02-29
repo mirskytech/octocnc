@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Layout, Menu, Button } from 'antd';
+import {Layout, Menu, Button, Icon} from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 import { ReactSVG } from "react-svg";
@@ -35,11 +35,22 @@ import {authCheck, authLogout} from "../action_creators";
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            'collapsed':false
+        };
+    }
+
     componentDidMount() {
         if(this.props.authEnabled) {
             this.props.checkAuth();
         }
     }
+
+    onCollapse = collapsed => {
+        this.setState({ collapsed });
+    };
 
     render() {
 
@@ -64,7 +75,7 @@ class App extends React.Component {
         return (
             <HashRouter history={this.props.history}>
                 <Layout style={{height: '100vh'}}>
-                    <Sider style={{overflow: 'auto'}}>
+                    <Sider style={{overflow: 'auto'}} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
                         <div className="logo">
                             <ReactSVG src={logo} className="m1"/>
                         </div>
@@ -77,13 +88,13 @@ class App extends React.Component {
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <FontAwesomeIcon icon={faArrowsAlt} size='lg'/>
+                                    <Icon type={'drag'} style={{'fontSize':24}} />
                                     <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link to={`commands`}>
-                                    <FontAwesomeIcon icon={faTerminal} size='lg'/>
+                                    <Icon type={'interaction'} style={{'fontSize':24}}/>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>

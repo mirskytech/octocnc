@@ -11,16 +11,34 @@ class API(BlueprintPlugin):
     def command(self):
 
         if not self._printer.is_operational():
-            return make_response("Printer is not operational", 409)
+            return make_response("Printer is not operational.", 409)
 
         d = request.get_json()
         if 'command' in d and d['command']:
             (connection_string, port, baudrate, device) = self._printer.get_current_connection()
 
-            models.CommandHistory.create(command=d['command'], status=constants.CommandStatus.COMPLETED.name,
+            models.CommandHistory.create(command=d['command'],
+                                         status=constants.CommandStatus.COMPLETED.name,
                                          device=device['id'])
 
             self._printer.commands([d['command'], ])
+
+        return NO_CONTENT
+
+    @BlueprintPlugin.route("/command/linear-move", methods=["POST"])
+    def linear_move(self):
+
+        if not self._printer.is_operational():
+            return make_response("Printer is not operational.", 409)
+
+        d = request.get_json()
+        c = f"G0 X{d['x']} Y{d['y']} Z{d['z']} F{d['f']}"
+
+        (connection_string, port, baudrate, device) = self._printer.get_current_connection()
+
+        models.CommandHistory.create(command=c, status=constants.CommandStatus.COMPLETED.name, device=device['id'])
+
+        self._printer.commands([c, ])
 
         return NO_CONTENT
 
@@ -36,3 +54,8 @@ class API(BlueprintPlugin):
             results.append(model_to_dict(command))
 
         return jsonify({'history': results})
+
+    @BlueprintPlugin.route("/command/status", methods=["GET"])
+    def status(self):
+        print(self._isAbsolute)
+        return jsonify({'status': 'none'})

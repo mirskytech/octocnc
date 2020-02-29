@@ -69,6 +69,8 @@ export const commandHistoryData = (history: any): Action => ({
     payload: history
 });
 
+// --------- Authentication
+
 export const authLogin = (username, password) => ({
    type: ActionType.AUTH_LOGIN,
    username: username,
@@ -93,3 +95,42 @@ export const authCheck = () => ({
     type: ActionType.AUTH_CHECK,
     payload: null
 });
+
+
+// --------- Commands
+
+export const linearMove = (x, y, z, f) => ({
+    type: ActionType.LINEAR_MOVE,
+    payload: {
+        x: x,
+        y: y,
+        z : z,
+        f: f
+    }
+});
+
+export const setPositioning = (p) => ({
+    type: ActionType.SET_POSITIONING,
+    payload: p
+});
+
+
+export const setAbsolute = () => ({
+    type:ActionType.SET_ABSOLUTE_POSITIONING,
+    payload:null
+});
+
+export const setRelative = () => ({
+    type: ActionType.SET_RELATIVE_POSITIONING,
+    payload: null
+});
+
+export const homeMachine = () => ({
+    type: ActionType.HOME_MACHINE,
+    payload: null
+});
+
+
+
+
+

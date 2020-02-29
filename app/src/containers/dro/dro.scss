@@ -1,18 +1,51 @@
 
-  .digit {
-    display:inline-block;
-    width: 55px;
-    &.title {
-      width: 45px;
-    }
+.digit {
+  display:inline-block;
 
-    &.units {
-      width: 40px;
-    }
-
+  @media(min-width:480px) {
+    width:15px;
   }
 
-  .decimal {
-    display:inline-block;
-    width: 16px;
+  @media(min-width:960px) {
+    width:20px;
   }
+  @media(min-width:1260px) {
+    width:25px;
+  }
+}
+
+.decimal {
+  display:inline-block;
+  width: 12px;
+}
+
+input.destination {
+  height: 45px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  font-size: 35px;
+}
+
+.dialpad {
+  .key {
+    margin: 10px;
+    height: 60px;
+    width: 60px;
+  }
+}
+
+.clickable-axis {
+
+  border: 1px solid white;
+
+  &.active {
+    border:1px solid #BA8B00;
+  }
+
+}
+
+.dro-panel {
+  background: white;
+  border-radius: 10px;
+  min-height: 325px
+}

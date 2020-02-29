@@ -53,10 +53,11 @@ compatibility:
 
 User Interface focused on CNC. 
 
+While 3d printing and CNC milling both use g-code, the workflow for using each has several differences, most notably:
 
+- monitoring bed and extruder temperature are not applicable
 
-While 3d printing and CNC milling both use g-code, the workflow for using the different machines can be
-quite different. And modification of 
+- through a run, standard 3d slicer configurations   
 
 
 
