@@ -1,4 +1,4 @@
-import {ActionType} from "enums";
+import {ActionType, Positioning} from "enums";
 import {ajax} from 'rxjs/ajax';
 import {of} from 'rxjs';
 import { ofType } from 'redux-observable';
@@ -6,6 +6,7 @@ import {switchMap, retry, map, catchError, ignoreElements, filter} from 'rxjs/op
 
 
 import * as actions from "action_creators";
+import {APIPost} from "../octoprint";
 
 export const requestSystemCommandsEpic = (action$, store, {socket, initialState}) => {
     return action$.pipe(
@@ -40,7 +41,7 @@ export const makeLinearMoveEpic = (action$, store, {socket, iniatialState}) => {
     return action$.pipe(
         ofType(ActionType.LINEAR_MOVE),
         switchMap((action) => {
-            let ajax$ = ajax.post(`/plugin/octocnc/command/linear-move`,
+            let ajax$ = ajax.post(`/plugin/octocnc/command/move/linear`,
                 JSON.stringify({
                     'x': action.payload.x,
                     'y': action.payload.y,
@@ -56,6 +57,74 @@ export const makeLinearMoveEpic = (action$, store, {socket, iniatialState}) => {
         })
     );
 };
+
+export const setPositioningEpic = (action$, store, {socket, iniatialState}) => {
+    return action$.pipe(
+        ofType(ActionType.SET_POSITIONING),
+        switchMap((action) => {
+            if(action.payload === Positioning.ABSOLUTE) {
+                return of(actions.setAbsolute());
+            } else if(action.payload === Positioning.RELATIVE) {
+                return of(actions.setRelative());
+            } else if(action.paylod === Positioning.INCREMENTAL) {
+                return of(actions.notImplemented(action.type));
+            }
+
+            return of(actions.notImplemented(action.type));
+
+        })
+    );
+};
+
+export const setAbsoluteEpic = (action$, store, {socket, initialState}) => {
+  return action$.pipe(
+      ofType(ActionType.SET_ABSOLUTE_POSITIONING),
+      switchMap((action) => {
+          let ajax$ = APIPost(
+              `/plugin/octocnc/command/set/abs`,
+              {});
+
+          return ajax$.pipe(
+              ignoreElements(),
+              catchError(error => of(actions.ajaxError(error)))
+          );
+      })
+  )
+};
+
+export const setRelativeEpic= (action$, store, {socket, initialState}) => {
+  return action$.pipe(
+      ofType(ActionType.SET_RELATIVE_POSITIONING),
+      switchMap((action) => {
+          let ajax$ = APIPost(
+              `/plugin/octocnc/command/set/rel`,
+              {});
+
+          return ajax$.pipe(
+              ignoreElements(),
+              catchError(error => of(actions.ajaxError(error)))
+          );
+      })
+  )
+};
+
+export const logoutEpic = (action$, store, {socket, initialState}) => {
+  return action$.pipe(
+      ofType(ActionType.AUTH_LOGOUT),
+      switchMap((action) => {
+          let ajax$ = APIPost(
+              `/api/logout`,
+              {});
+
+          return ajax$.pipe(
+              ignoreElements(),
+              catchError(error => of(actions.ajaxError(error)))
+          );
+      })
+  )
+};
+
+
 
 export const getCommandHistoryEpic = (action$, store, {socket, initialState}) => {
   return action$.pipe(
