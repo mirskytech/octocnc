@@ -83,6 +83,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
             if self._position_timer:
                 self._position_timer.cancel()
                 self._position_timer = None
+                self._isAbsolute = None
             self._comm = None
 
         elif script_name == "afterPrinterConnected":

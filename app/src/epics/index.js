@@ -2,23 +2,26 @@
 
 import {combineEpics} from 'redux-observable';
 
-import { connectToDeviceEpic, determineConnectedDeviceEpic, deviceConnectionsEpic, disconnectFromDeviceEpic } from './devices';
-import {requestSystemCommandsEpic, executeCommandEpic, getCommandHistoryEpic, makeLinearMoveEpic} from './commands';
-import {checkAuthEpic, loginEpic, logoutEpic} from "./auth";
+import * as devices from './devices';
+import * as commands from './commands';
+import * as auth from "./auth";
 
 export const rootEpic = combineEpics(
-    deviceConnectionsEpic,
-    connectToDeviceEpic,
-    disconnectFromDeviceEpic,
-    determineConnectedDeviceEpic,
-    requestSystemCommandsEpic,
+    devices.deviceConnectionsEpic,
+    devices.deviceStateEpic,
+    devices.connectToDeviceEpic,
+    devices.disconnectFromDeviceEpic,
+    devices.determineConnectedDeviceEpic,
 
-    executeCommandEpic,
-    getCommandHistoryEpic,
-    makeLinearMoveEpic,
+    commands.requestSystemCommandsEpic,
+    commands.executeCommandEpic,
+    commands.getCommandHistoryEpic,
+    commands.makeLinearMoveEpic,
+    commands.setAbsoluteEpic,
+    commands.setRelativeEpic,
+    commands.setPositioningEpic,
 
-
-    loginEpic,
-    checkAuthEpic,
-    logoutEpic
+    auth.loginEpic,
+    auth.checkAuthEpic,
+    auth.logoutEpic
 );

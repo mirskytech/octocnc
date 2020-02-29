@@ -44,6 +44,11 @@ export default function (state = [], action) {
                 current: current,
 
                 };
+        case ActionType.DEVICE_STATE:
+            return {
+                ...state,
+                positioning: action.payload.positioning
+            };
         case ActionType.CONNECTING:
             return {
                 ...state,

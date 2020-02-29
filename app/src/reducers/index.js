@@ -17,6 +17,10 @@ function errorReducer(state=[], action) {
             console.log("error received: ");
             console.log(action.payload);
             return {...state};
+        case ActionType.NOT_IMPLEMENTED:
+            console.log("not impplemented");
+            console.log(action.payload);
+            return {...state};
         default:
             return {...state};
     }
