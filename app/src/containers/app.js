@@ -17,7 +17,7 @@ import { faCircle, faUser, faArrowsAlt, faTerminal } from '@fortawesome/free-sol
 
 import {Route, Link, Switch, HashRouter} from 'react-router-dom';
 
-import styles from './app.scss';
+import './app.scss';
 import 'antd/dist/antd.css';
 
 import 'basscss-margin/index.css';
@@ -57,7 +57,7 @@ class App extends React.Component {
         let status_icon = <FontAwesomeIcon icon={faCircle} size='lg'/>;
 
         if (this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesomeIcon icon={faCircle} className={styles.activecircle} size='lg'/>;
+            status_icon = <FontAwesomeIcon icon={faCircle} className={'active-circle'} size='lg'/>;
         }
 
         let authenticated = <div/>;
@@ -79,7 +79,7 @@ class App extends React.Component {
                         <div className="logo">
                             <ReactSVG src={logo} className="m1"/>
                         </div>
-                        <Menu theme="dark" mode="inline" className={styles.fawrapper}>
+                        <Menu theme="dark" mode="inline">
                             <Menu.Item key="1">
                                 <Link to={`connection`}>
                                     {status_icon}

@@ -93,7 +93,7 @@ class DRO extends React.Component {
     };
 
     isAxisActive = (axis) => {
-        return axis === this.state.active ? "clickable-axis active" : "clickable-axis";
+        return axis === this.state.active && this.props.active ? "clickable-axis active" : "clickable-axis";
     };
 
     isMoveAllowed = () => {
@@ -169,7 +169,7 @@ class DRO extends React.Component {
                         <Axis title='X' value={this.props.xPosition} active={this.props.active} units={this.props.units} />
                         <Axis title='Y' value={this.props.yPosition} active={this.props.active} units={this.props.units} />
                         <Axis title='Z' value={this.props.zPosition} active={this.props.active} units={this.props.units} />
-                        <Button onClick={this.props.homeMachine}>Home</Button>
+                        <Button onClick={this.props.homeMachine} disabled={!this.props.active}>Home</Button>
 
                     </div>
                 </Col>
@@ -192,6 +192,7 @@ class DRO extends React.Component {
                                     max={this.props.feedMax}
                                     value={this.state.feedRate}
                                     onChange={this.onFeedRateChange}
+                                    disabled={!this.props.active}
                                     step={10}
                                 />
                             </Col>
@@ -211,7 +212,12 @@ class DRO extends React.Component {
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>
-                        <DialPad numberPressed={this.numberPress} invertSign={this.invertSign} clearPressed={this.clearValue}/>
+                        <DialPad
+                            numberPressed={this.numberPress}
+                            invertSign={this.invertSign}
+                            clearPressed={this.clearValue}
+                            active={this.props.active}
+                        />
                     </div>
                 </Col>
             </Row>

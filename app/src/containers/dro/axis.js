@@ -46,7 +46,7 @@ class Axis extends React.Component {
                         <Digit value={this.props.title}
                                className={'title'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} /> : <span></span>}
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} /> : <span></span>}
                         <Digit value={sign}/>
                         {this.props.units === Units.METRIC ? <Digit value={majorValue[1]} /> : ''}
                         <Digit value={majorValue[2]} />
@@ -59,11 +59,11 @@ class Axis extends React.Component {
                         <Digit value={this.props.units === Units.METRIC ? 'm' : 'i'}
                                className={'units'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} />
                         <Digit value={this.props.units === Units.METRIC ? 'm' : 'n'}
                                className={'units'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} />
                     </Col>
                 </Row>
         )
