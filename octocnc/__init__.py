@@ -7,7 +7,7 @@ import octoprint.plugin
 from octoprint.settings import settings
 from octoprint.util import RepeatedTimer
 
-from octocnc.constants import Positioning
+from octocnc.constants import Positioning, Units
 from . import models, api, db
 
 
@@ -27,6 +27,7 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
         self._comm = None
 
         self._positioning = None
+        self._units = None
 
     def on_after_startup(self):
 
@@ -94,6 +95,8 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
             self._comm.sendCommand("M155 S0", cmd_type="disable_auto_temp", tags={"trigger:octocnc.on_connect"})
             self._comm.sendCommand("G90", )
             self._positioning = Positioning.ABSOLUTE
+            self._comm.sendCommand("G21", )
+            self._units = Units.METRIC
 
         if comm._temperature_timer:
             comm._temperature_timer.cancel()
@@ -108,6 +111,12 @@ class OctoCNCPlugin(octoprint.plugin.StartupPlugin,
 
         if "G91" in gcode:
             self._positioning = Positioning.RELATIVE
+
+        if "G20" in gcode:
+            self._units = Units.ANSI
+
+        if "G21" in gcode:
+            self._units = Units.METRIC
 
 
 __plugin_name__ = "OctoCNC"

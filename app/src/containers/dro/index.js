@@ -6,12 +6,11 @@ import Axis from './axis';
 import {ConnectionStatus} from "enums";
 
 import './dro.scss';
-import ManualCommand from "../commands/manual_command";
 import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
-import {homeMachine, linearMove, setPositioning} from "../../action_creators";
+import * as actions from "../../action_creators";
 import DialPad from "./dialpad";
 import {Decimal} from "decimal.js";
-import {Positioning} from "../../enums";
+import {Positioning, Units} from "../../enums";
 
 
 class DRO extends React.Component {
@@ -101,6 +100,10 @@ class DRO extends React.Component {
         return this.state.nextX != null || this.state.nextY != null || this.state.nextZ != null;
     };
 
+    isActiveUnits = (u) => {
+      return this.props.units === u ? 'primary' : '';
+    };
+
     render() {
 
         return (
@@ -128,6 +131,22 @@ class DRO extends React.Component {
                                 onClick={() => this.props.setPositioning(Positioning.RELATIVE)}
                                 disabled={!this.props.active}
                                 >REL</Button>
+                        </Row>
+                    </div>
+                    <div style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
+                        <Row className={'m2'}>
+                            <Button
+                                type={this.isActiveUnits(Units.ANSI)}
+                                onClick={() => this.props.setUnits(Units.ANSI)}
+                                disabled={!this.props.active}
+                            >in</Button>
+                        </Row>
+                        <Row className={'m2'}>
+                            <Button
+                                type={this.isActiveUnits(Units.METRIC)}
+                                onClick={() => this.props.setUnits(Units.METRIC)}
+                                disabled={!this.props.active}
+                            >mm</Button>
                         </Row>
                     </div>
                 </Col>
@@ -174,7 +193,7 @@ class DRO extends React.Component {
                             </Col>
 
                         </Row>
-                        <Button onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
+                        <Button className="go mt2" onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
                     </Row>
                 </Col>
                 <Col span={7}>
@@ -194,7 +213,8 @@ function mapStateToProps(state) {
         yPosition: state.position.Y,
         zPosition: state.position.Z,
         active: state.devices.status === ConnectionStatus.CONNECTED,
-        positionType: state.position.type
+        positionType: state.position.type,
+        units: state.position.units
     };
 }
 
@@ -205,7 +225,8 @@ DRO.defaultProps = {
     active: false,
     feedMin: 10,
     feedMax: 300,
-    positionType: Positioning.ABSOLUTE
+    positionType: Positioning.ABSOLUTE,
+    units: Units.METRIC
 };
 
 DRO.propTypes = {
@@ -217,9 +238,10 @@ DRO.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        linearMove: linearMove,
-        setPositioning: setPositioning,
-        homeMachine: homeMachine
+        linearMove: actions.linearMove,
+        setPositioning: actions.setPositioning,
+        setUnits: actions.setUnits,
+        homeMachine: actions.homeMachine
     }, dispatch);
 }
 

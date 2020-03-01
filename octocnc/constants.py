@@ -38,3 +38,8 @@ class Positioning(StructuredEnum):
     ABSOLUTE = 1, {}
     INCREMENTAL = 2, {}
     RELATIVE = 3, {}
+
+
+class Units(StructuredEnum):
+    ANSI = 1, {}
+    METRIC = 2, {}

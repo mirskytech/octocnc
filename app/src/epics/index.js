@@ -7,6 +7,7 @@ import * as commands from './commands';
 import * as auth from "./auth";
 
 export const rootEpic = combineEpics(
+
     devices.deviceConnectionsEpic,
     devices.deviceStateEpic,
     devices.connectToDeviceEpic,
@@ -17,9 +18,16 @@ export const rootEpic = combineEpics(
     commands.executeCommandEpic,
     commands.getCommandHistoryEpic,
     commands.makeLinearMoveEpic,
+
     commands.setAbsoluteEpic,
     commands.setRelativeEpic,
     commands.setPositioningEpic,
+
+    commands.homeMachineEpic,
+
+    commands.setUnitsEpic,
+    commands.setMetricEpic,
+    commands.setANSIEpic,
 
     auth.loginEpic,
     auth.checkAuthEpic,

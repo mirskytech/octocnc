@@ -31,6 +31,12 @@ export default function(state = [], action) {
                 history: history
             };
 
+        case ActionType.SET_UNITS:
+            return {
+                ...state,
+                units: action.payload
+            };
+
         default:
             return {...state, 'available_commands': [
                 {command: 'G17 G20 G90 G94 G54', status: CommandStatus.COMPLETED},

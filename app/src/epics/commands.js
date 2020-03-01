@@ -1,12 +1,11 @@
-import {ActionType, Positioning} from "enums";
+import {ActionType, Positioning, Units} from "enums";
 import {ajax} from 'rxjs/ajax';
 import {of} from 'rxjs';
 import { ofType } from 'redux-observable';
 import {switchMap, retry, map, catchError, ignoreElements, filter} from 'rxjs/operators';
-
+import {APIPost, APIGet} from "../octoprint";
 
 import * as actions from "action_creators";
-import {APIPost} from "../octoprint";
 
 export const requestSystemCommandsEpic = (action$, store, {socket, initialState}) => {
     return action$.pipe(
@@ -49,6 +48,63 @@ export const makeLinearMoveEpic = (action$, store, {socket, iniatialState}) => {
                     'f': action.payload.f
                 }),
                 {'X-Api-Key': store.value.api_key, 'Content-Type': 'application/json'});
+
+            return ajax$.pipe(
+                ignoreElements(),
+                catchError(error => of(actions.ajaxError(error)))
+            );
+        })
+    );
+};
+
+export const homeMachineEpic = (action$, store, {socket, iniatialState}) => {
+  return action$.pipe(
+      ofType(ActionType.HOME_MACHINE),
+      switchMap((action) => {
+         let ajax$ =  APIPost(`/plugin/octocnc/command/home`, {});
+
+         return ajax$.pipe(
+             ignoreElements(),
+             catchError(error => of(actions.ajaxError(error)))
+         );
+      })
+  );
+};
+
+export const setUnitsEpic = (action$, store, {socket, initialState}) => {
+    return action$.pipe(
+        ofType(ActionType.SET_UNITS),
+        switchMap((action) => {
+            if(action.payload === Units.METRIC) {
+                return of(actions.setMetric());
+            } else if(action.payload === Units.ANSI) {
+                return of(actions.setANSI());
+            }
+
+            return of(actions.notImplemented(action.type));
+        })
+    );
+};
+
+export const setMetricEpic = (action$, store, {socket, initialtate}) => {
+    return action$.pipe(
+        ofType(ActionType.SET_METRIC),
+        switchMap((action) => {
+            let ajax$ = APIPost(`/plugin/octocnc/command/set/metric`, {});
+
+            return ajax$.pipe(
+                ignoreElements(),
+                catchError(error => of(actions.ajaxError(error)))
+            );
+        })
+    );
+};
+
+export const setANSIEpic = (action$, store, {socket, initialtate}) => {
+    return action$.pipe(
+        ofType(ActionType.SET_ANSI),
+        switchMap((action) => {
+            let ajax$ = APIPost(`/plugin/octocnc/command/set/ansi`, {});
 
             return ajax$.pipe(
                 ignoreElements(),

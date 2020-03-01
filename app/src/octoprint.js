@@ -5,7 +5,7 @@ export const APIPost = (url, body) => {
     return ajax({
         method: 'POST',
         url: url,
-        body: body,
+        body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json'
         }});
