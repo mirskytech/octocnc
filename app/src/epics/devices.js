@@ -13,7 +13,6 @@ export const deviceConnectionsEpic  = (action$, store, {socket, initialState}) =
         ofType(ActionType.REQUEST_DEVICE_CONNECTIONS),
         switchMap((action) => {
             let ajax$ = APIGet(`/api/connection`);
-            console.log("request device connections");
             return ajax$.pipe(
                 retry(1),
                 mergeMap(data => of(actions.deviceConnectionInfo(data), actions.getDeviceState())),
@@ -27,7 +26,6 @@ export const deviceStateEpic = (action$, store, {socket, initialState}) => {
     return action$.pipe(
         ofType(ActionType.GET_DEVICE_STATE),
         switchMap((action) => {
-            console.log("get device status");
             let ajax$ = APIGet(`/plugin/octocnc/device/state`);
             return ajax$.pipe(
                 retry(1),
