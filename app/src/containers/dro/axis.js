@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Digit from './digit';
 import Decimal from './decimal';
-import {Colors} from 'enums';
+import {Colors, Units} from 'enums';
 import {Button, Row, Col} from 'antd';
 
 
@@ -46,23 +46,24 @@ class Axis extends React.Component {
                         <Digit value={this.props.title}
                                className={'title'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} /> : <span></span>}
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} /> : <span></span>}
                         <Digit value={sign}/>
-                        <Digit value={majorValue[1]} />
+                        {this.props.units === Units.METRIC ? <Digit value={majorValue[1]} /> : ''}
                         <Digit value={majorValue[2]} />
                         <Digit value={majorValue[3]} />
                         <Digit value={majorValue[4]} />
                         <Decimal active={this.props.active} />
                         <Digit value={minorValue[0]} />
                         <Digit value={minorValue[1]} />
-                        <Digit value={'m'}
+                        {this.props.units === Units.METRIC ? '' : <Digit value={minorValue[2]} />}
+                        <Digit value={this.props.units === Units.METRIC ? 'm' : 'i'}
                                className={'units'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
-                        <Digit value={'m'}
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} />
+                        <Digit value={this.props.units === Units.METRIC ? 'm' : 'n'}
                                className={'units'}
                                backgroundColor='#ffffff'
-                               fillColor={Colors.darkBlue.color} />
+                               fillColor={this.props.active ? Colors.darkBlue.color : Colors.lightGray.color} />
                     </Col>
                 </Row>
         )
@@ -72,6 +73,7 @@ class Axis extends React.Component {
 Axis.defaultProps ={
     title: null,
     active: false,
+    units: Units.METRIC
 };
 
 function mapStateToProps(state) {

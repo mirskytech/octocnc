@@ -8,7 +8,7 @@ export default function(state = [], action) {
         //     };
         case ActionType.AUTH_SUCCESS:
             // {active: true, admin: true, apikey: null, name: "andrew", settings: {}, user: true}
-            console.log('login is successful');
+            
             return {
                 ...state,
                 authenticated: true,

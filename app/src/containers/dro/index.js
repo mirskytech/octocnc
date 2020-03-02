@@ -6,12 +6,11 @@ import Axis from './axis';
 import {ConnectionStatus} from "enums";
 
 import './dro.scss';
-import ManualCommand from "../commands/manual_command";
 import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
-import {homeMachine, linearMove, setPositioning} from "../../action_creators";
+import * as actions from "../../action_creators";
 import DialPad from "./dialpad";
 import {Decimal} from "decimal.js";
-import {Positioning} from "../../enums";
+import {Positioning, Units} from "../../enums";
 
 
 class DRO extends React.Component {
@@ -57,12 +56,12 @@ class DRO extends React.Component {
             let sign = this.state[active_axis] >= 0 ? 1 : -1;
 
             let val = Math.abs(this.state[active_axis]);
-            let dval = new Decimal(val).times(100);
-            let sval = dval.toDecimalPlaces(2).toString();
+            let dval = new Decimal(val).times(this.props.units === Units.METRIC ? 100 : 1000);
+            let sval = dval.toDecimalPlaces(this.props.units === Units.METRIC ? 2 : 3).toString();
 
             if(sval.length < 6) {
                 sval = sval + number.toString().slice(-6);
-                new_state[active_axis] = new Decimal(sval).dividedBy(100).times(sign);
+                new_state[active_axis] = new Decimal(sval).dividedBy(this.props.units === Units.METRIC ? 100 : 1000).times(sign);
                 this.setState(new_state);
             }
         }
@@ -94,11 +93,28 @@ class DRO extends React.Component {
     };
 
     isAxisActive = (axis) => {
-        return axis === this.state.active ? "clickable-axis active" : "clickable-axis";
+        return axis === this.state.active && this.props.active ? "clickable-axis active" : "clickable-axis";
     };
 
     isMoveAllowed = () => {
         return this.state.nextX != null || this.state.nextY != null || this.state.nextZ != null;
+    };
+
+    isActiveUnits = (u) => {
+      return this.props.units === u ? 'primary' : '';
+    };
+
+    setUnits = (u) => {
+        if(this.props.units !== u) {
+
+            let f = u === Units.METRIC ?  25.4 : 1/25.4;
+
+            if(this.state.nextX != null) {
+                this.setState({nextX: this.state.nextX * f})
+            }
+        }
+
+        this.props.setUnits(u);
     };
 
     render() {
@@ -130,14 +146,30 @@ class DRO extends React.Component {
                                 >REL</Button>
                         </Row>
                     </div>
+                    <div style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
+                        <Row className={'m2'}>
+                            <Button
+                                type={this.isActiveUnits(Units.ANSI)}
+                                onClick={() => this.setUnits(Units.ANSI)}
+                                disabled={!this.props.active}
+                            >in</Button>
+                        </Row>
+                        <Row className={'m2'}>
+                            <Button
+                                type={this.isActiveUnits(Units.METRIC)}
+                                onClick={() => this.setUnits(Units.METRIC)}
+                                disabled={!this.props.active}
+                            >mm</Button>
+                        </Row>
+                    </div>
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>
                         <div>Current</div>
-                        <Axis title='X' value={this.props.xPosition} active={this.props.active}/>
-                        <Axis title='Y' value={this.props.yPosition} active={this.props.active}/>
-                        <Axis title='Z' value={this.props.zPosition} active={this.props.active}/>
-                        <Button onClick={this.props.homeMachine}>Home</Button>
+                        <Axis title='X' value={this.props.xPosition} active={this.props.active} units={this.props.units} />
+                        <Axis title='Y' value={this.props.yPosition} active={this.props.active} units={this.props.units} />
+                        <Axis title='Z' value={this.props.zPosition} active={this.props.active} units={this.props.units} />
+                        <Button onClick={this.props.homeMachine} disabled={!this.props.active}>Home</Button>
 
                     </div>
                 </Col>
@@ -145,13 +177,13 @@ class DRO extends React.Component {
                     <Row className={'p1 m1 dro-panel'}>
                         <div>Next</div>
                         <div className={this.isAxisActive('X')} onClick={(e) => this.onAxisClick(e,'X')}>
-                            <Axis value={this.state.nextX} active={this.props.active}/>
+                            <Axis value={this.state.nextX} active={this.props.active} units={this.props.units} />
                         </div>
                         <div className={this.isAxisActive('Y')} onClick={(e) => this.onAxisClick(e, 'Y')}>
-                            <Axis value={this.state.nextY} active={this.props.active}/>
+                            <Axis value={this.state.nextY} active={this.props.active} units={this.props.units} />
                         </div>
                         <div className={this.isAxisActive('Z')} onClick={(e) => this.onAxisClick(e, 'Z')}>
-                            <Axis value={this.state.nextZ} active={this.props.active}/>
+                            <Axis value={this.state.nextZ} active={this.props.active}units={this.props.units} />
                         </div>
                         <Row type="flex" justify="center" align="middle">
                             <Col span={10}>
@@ -160,6 +192,7 @@ class DRO extends React.Component {
                                     max={this.props.feedMax}
                                     value={this.state.feedRate}
                                     onChange={this.onFeedRateChange}
+                                    disabled={!this.props.active}
                                     step={10}
                                 />
                             </Col>
@@ -170,16 +203,21 @@ class DRO extends React.Component {
                                 />
                             </Col>
                             <Col span={2}>
-                                <span>mm/min</span>
+                                <span>{this.props.units === Units.METRIC ? 'mm/min' : 'in/min'}</span>
                             </Col>
 
                         </Row>
-                        <Button onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
+                        <Button className="go mt2" onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
                     </Row>
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>
-                        <DialPad numberPressed={this.numberPress} invertSign={this.invertSign} clearPressed={this.clearValue}/>
+                        <DialPad
+                            numberPressed={this.numberPress}
+                            invertSign={this.invertSign}
+                            clearPressed={this.clearValue}
+                            active={this.props.active}
+                        />
                     </div>
                 </Col>
             </Row>
@@ -194,7 +232,8 @@ function mapStateToProps(state) {
         yPosition: state.position.Y,
         zPosition: state.position.Z,
         active: state.devices.status === ConnectionStatus.CONNECTED,
-        positionType: state.position.type
+        positionType: state.position.type,
+        units: state.position.units
     };
 }
 
@@ -205,7 +244,8 @@ DRO.defaultProps = {
     active: false,
     feedMin: 10,
     feedMax: 300,
-    positionType: Positioning.ABSOLUTE
+    positionType: Positioning.ABSOLUTE,
+    units: Units.METRIC
 };
 
 DRO.propTypes = {
@@ -217,9 +257,10 @@ DRO.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        linearMove: linearMove,
-        setPositioning: setPositioning,
-        homeMachine: homeMachine
+        linearMove: actions.linearMove,
+        setPositioning: actions.setPositioning,
+        setUnits: actions.setUnits,
+        homeMachine: actions.homeMachine
     }, dispatch);
 }
 

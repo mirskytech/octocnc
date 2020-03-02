@@ -147,6 +147,21 @@ export const setRelative = () => ({
     payload: null
 });
 
+export const setUnits = (u) => ({
+   type: ActionType.SET_UNITS,
+   payload: u
+});
+
+export const setMetric = () => ({
+    type: ActionType.SET_METRIC,
+    payload: null
+});
+
+export const setANSI = () => ({
+    type: ActionType.SET_ANSI,
+    payload: null
+});
+
 export const homeMachine = () => ({
     type: ActionType.HOME_MACHINE,
     payload: null
