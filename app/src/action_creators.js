@@ -167,7 +167,9 @@ export const homeMachine = () => ({
     payload: null
 });
 
+// ----  settings
 
-
-
-
+export const disablePlugin = () => ({
+    type: ActionType.DISABLE_PLUGIN,
+    payload: null
+});

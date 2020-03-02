@@ -18,6 +18,7 @@ ActionType.initEnum({
     'CONNECT_TO_DEVICE':{},
     'DEVICE_CONNECTION_INFO':{},
     'DEVICE_STATE': {},
+    'DISABLE_PLUGIN': {},
     'DISCONNECT_FROM_DEVICE':{},
     'DISCONNECTING':{},
     'DISCONNECTED':{},

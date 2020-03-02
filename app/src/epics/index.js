@@ -5,6 +5,7 @@ import {combineEpics} from 'redux-observable';
 import * as devices from './devices';
 import * as commands from './commands';
 import * as auth from "./auth";
+import * as settings from "./settings";
 
 export const rootEpic = combineEpics(
 
@@ -31,5 +32,7 @@ export const rootEpic = combineEpics(
 
     auth.loginEpic,
     auth.checkAuthEpic,
-    auth.logoutEpic
+    auth.logoutEpic,
+
+    settings.disablePluginEpic
 );

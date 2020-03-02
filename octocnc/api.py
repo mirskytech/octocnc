@@ -1,5 +1,5 @@
 from flask import jsonify, request, make_response
-from octoprint.plugin import BlueprintPlugin
+from octoprint.plugin import BlueprintPlugin, plugin_manager
 from octoprint.server import NO_CONTENT
 from playhouse.shortcuts import model_to_dict
 
