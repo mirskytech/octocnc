@@ -21,6 +21,10 @@ function errorReducer(state=[], action) {
             console.log("not impplemented");
             console.log(action.payload);
             return {...state};
+        case ActionType.UPLOAD_PROGRESS:
+            console.log("upload progress");
+            console.log(action.payload);
+            return {...state};
         default:
             return {...state};
     }

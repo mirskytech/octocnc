@@ -187,5 +187,9 @@ export const uploadFile = (name, data) => ({
    }
 });
 
+export const uploadProgress = (percentage) => ({
+   type: ActionType.UPLOAD_PROGRESS,
+   payload: percentage
+});
 
 

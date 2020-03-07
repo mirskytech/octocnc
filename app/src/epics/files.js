@@ -5,7 +5,6 @@ import {catchError, switchMap, map, ignoreElements, merge} from "rxjs/operators/
 import {ActionType} from "../enums";
 import {APIGet, APIPost} from "../octoprint";
 import {ajax} from "rxjs/ajax/index";
-import {randomBytes} from "crypto";
 
 export const getFileListEpic = (action$, store, {socket, iniatialState}) => {
   return action$.pipe(
@@ -23,30 +22,58 @@ export const getFileListEpic = (action$, store, {socket, iniatialState}) => {
 
 export const uploadFileEpic = (action$, store, {socket, initialState}) => {
 
+    //   action$.pipe(
+    // ofType(UPLOAD_FILE),
+    // mergeMap(action =>
+    //   ajax(rxUpload(action.payload)).pipe(
+    //     map(response => uploadFileSuccess(XHR_SUCCESS)),
+    //     catchError(err => of(uploadFileFailed(XHR_FAILED))),
+    //     takeUntil(action$.ofType(CANCEL_UPLOAD)),
+    //   ),
+
+
     return action$.pipe(
         ofType(ActionType.UPLOAD_FILE),
         switchMap((action) => {
 
-            const data = randomBytes(1000000000);
+            const data = action.payload.data;
+
+            //https://www.linkedin.com/pulse/file-upload-rxjs-vladim%C3%ADr-gorej/
+            //https://html.developreference.com/article/10767105/redux-observable+use+RxJS+to+emit+progress+actions+for+ajax+call
+
+
+            // https://codesandbox.io/s/2zzjljmnzn
+            
+            // https://stackoverflow.com/questions/41880983/implementing-fromsubscriber-in-rxjs
+            // https://stackoverflow.com/a/41884813
 
             const formData = new FormData();
             const blob = new Blob([data], { type: 'application/octet-stream' });
 
-            formData.append('file', blob, 'filename.gcode');
+            formData.append('file', blob, action.payload.name);
+
+            const progressSubscriber = new Subject();
 
             let ajax$ = ajax({
                 method: 'POST',
                 url: `/api/files/local`,
-                body: formData});
+                body: formData,
+                progressSubscriber: progressSubscriber});
 
-            const progressSubscriber = new Subject();
-
-            progressSubscriber.pipe(merge(ajax$)).subscribe(console.dir);
-
-            return ajax$.pipe(
+            const requestO = ajax$.pipe(
                 ignoreElements(),
-                catchError(error => of(actions.ajaxError(error)))
-            )
+                catchError(error => of(actions.ajaxError(error))),
+            );
+
+            return progressSubscriber.pipe(
+                map((e) => {
+                    console.log('calculating percentage');
+                    return {percentage: (e.loaded / e.total) * 100}
+                }),
+                map((percentage) => (actions.uploadProgress(percentage))),
+                merge(requestO)
+            );
+
         })
     );
 };

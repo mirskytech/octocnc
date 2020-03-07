@@ -41,7 +41,8 @@ ActionType.initEnum({
     'SET_METRIC': {},
     'SET_UNITS': {},
     'SOCKET_HISTORY': {},
-    'UPLOAD_FILE': {}
+    'UPLOAD_FILE': {},
+    'UPLOAD_PROGRESS': {}
 
 });
 

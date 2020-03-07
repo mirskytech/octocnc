@@ -5,6 +5,7 @@ import Button from "antd/es/button/button";
 import {Col, Tree, Row} from "antd";
 import * as actions from "../../action_creators";
 import bytes from "bytes";
+import {randomBytes} from "crypto";
 
 const { DirectoryTree } = Tree;
 
@@ -49,11 +50,12 @@ class Files extends React.Component {
 
     componentDidMount() {
         this.props.getFileList();
-        this.props.uploadFile(null, null);
     }
 
     onSelect = (keys, event) => {
         console.log('Trigger Select', keys, event);
+        const data = randomBytes(10000000);
+        this.props.uploadFile('onselect .gcode', data);
     };
 
     onExpand = () => {
