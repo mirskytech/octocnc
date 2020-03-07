@@ -21,8 +21,10 @@ ActionType.initEnum({
     'DISCONNECT_FROM_DEVICE':{},
     'DISCONNECTING':{},
     'DISCONNECTED':{},
+    'FILE_LIST': {},
     'GET_COMMAND_HISTORY': {},
     'GET_DEVICE_STATE': {},
+    'GET_FILE_LIST': {},
     'HOME_MACHINE': {},
     'LINEAR_MOVE': {},
     'LOGOUT_SUCCESS': {},
@@ -38,7 +40,8 @@ ActionType.initEnum({
     'SET_POSITIONING': {},
     'SET_METRIC': {},
     'SET_UNITS': {},
-    'SOCKET_HISTORY': {}
+    'SOCKET_HISTORY': {},
+    'UPLOAD_FILE': {}
 
 });
 

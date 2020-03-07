@@ -167,7 +167,25 @@ export const homeMachine = () => ({
     payload: null
 });
 
+// --------- file operations
 
+export const getFileList = () => ({
+    type: ActionType.GET_FILE_LIST,
+    payload: null
+});
+
+export const fileList = (list) => ({
+    type: ActionType.FILE_LIST,
+    payload: list
+});
+
+export const uploadFile = (name, data) => ({
+   type: ActionType.UPLOAD_FILE,
+   payload: {
+       name: name,
+       data: data
+   }
+});
 
 
 
