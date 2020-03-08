@@ -18,7 +18,8 @@ export const loginEpic = (action$, store, {socket, initialState}) => {
                   user: action.username,
                   pass: action.password,
                   remember: false
-              });
+              },
+              store.value.api_key);
 
           return ajax$.pipe(
               map(actions.authSuccess),
@@ -41,7 +42,8 @@ export const checkAuthEpic = (action$, store, {socket, initialState}) => {
             '/api/login',
             {
                 passive: true
-            });
+            },
+            store.value.api_key);
 
         return ajax$.pipe(
             filter(response => response.response.active),
@@ -56,9 +58,7 @@ export const logoutEpic = (action$, store, {socket, initialState}) => {
   return action$.pipe(
       ofType(ActionType.AUTH_LOGOUT),
       switchMap((action) => {
-          let ajax$ = APIPost(
-              `/api/logout`,
-              {});
+          let ajax$ = APIPost(`/api/logout`, {}, store.value.api_key);
 
           return ajax$.pipe(
               ignoreElements(),

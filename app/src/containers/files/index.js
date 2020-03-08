@@ -65,7 +65,7 @@ class Files extends React.Component {
     render() {
 
         return (
-            <Row type="flex" justify="center" align="middle">
+            <Row type="flex" justify="left" align="middle">
                 <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
                     {bytes(1024)}
                         <DirectoryTree
