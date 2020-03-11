@@ -4,6 +4,12 @@ export default function(state = [], action) {
 
     switch (action.type) {
         case ActionType.FILE_LIST:
+
+            
+
+
+
+
             return {
                 ...state,
                 list: action.payload.files,

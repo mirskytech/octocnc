@@ -6,8 +6,16 @@ import {Col, Tree, Row} from "antd";
 import * as actions from "../../action_creators";
 import bytes from "bytes";
 import {randomBytes} from "crypto";
+import { Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+
+const { Dragger } = Upload;
+
 
 const { DirectoryTree } = Tree;
+
+
+
 
 
 const treeData = [
@@ -63,6 +71,18 @@ class Files extends React.Component {
     };
 
     render() {
+        const props = {
+          name: 'file',
+          multiple: true,
+          showUploadList: false,
+          onChange(info) {
+            const { status } = info.file;
+          },
+          // customRequest(e) {
+          //     console.log(e);
+          //     this.props.uploadFile(e.file.name, e.data);
+          // }
+        };
 
         return (
             <Row type="flex" justify="left" align="middle">
@@ -75,6 +95,20 @@ class Files extends React.Component {
                           onExpand={this.onExpand}
                           treeData={treeData}
                         />
+                </Col>
+                <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
+                  <Dragger {...props}
+                  customRequest={(e) => {
+                      this.props.uploadFile(e.file.name, e.file)
+                  }}>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    <p className="ant-upload-hint">
+                      Support for a single or bulk upload.
+                    </p>
+                  </Dragger>
                 </Col>
             </Row>
         )

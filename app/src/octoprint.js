@@ -1,6 +1,7 @@
 import { ajax } from "rxjs/ajax";
+import {map} from "rxjs/operators";
 
-ajaxHeaders = (key) => {
+const ajaxHeaders = (key) => {
     const headers = { 'Content-Type': 'application/json' };
 
     if(key !== null) {
@@ -10,6 +11,7 @@ ajaxHeaders = (key) => {
     return headers;
 };
 
+const mapResponse = map((x, index) => x.response);
 
 export const APIPost = (url, body, key) => {
 
@@ -23,9 +25,9 @@ export const APIPost = (url, body, key) => {
 
 export const APIGet = (url, key) => {
 
-    return ajax({
+    return mapResponse(ajax({
         method: 'GET',
         url: url,
         headers: ajaxHeaders(key)
-    });
+    }));
 };

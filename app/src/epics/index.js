@@ -35,5 +35,6 @@ export const rootEpic = combineEpics(
     auth.logoutEpic,
 
     files.getFileListEpic,
-    files.uploadFileEpic
+    files.uploadFileEpic,
+    files.createFolderEpic
 );

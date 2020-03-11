@@ -50,7 +50,8 @@ export const uploadFileEpic = (action$, store, {socket, initialState}) => {
             const formData = new FormData();
             const blob = new Blob([data], { type: 'application/octet-stream' });
 
-            formData.append('file', blob, action.payload.name);
+            formData.append('file', action.payload.file, action.payload.name);
+            //formData.append('path', mypath);
 
             const progressSubscriber = new Subject();
 
@@ -59,14 +60,13 @@ export const uploadFileEpic = (action$, store, {socket, initialState}) => {
                 url: `/api/files/local`,
                 body: formData,
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'X-Api-Key': store.value.api_key
                 },
                 progressSubscriber: progressSubscriber});
 
             const requestO = ajax$.pipe(
                 ignoreElements(),
-                catchError(error => of(actions.ajaxError(error))),
+                catchError(error => of(actions.ajaxError(error)))
             );
 
             return progressSubscriber.pipe(
@@ -74,7 +74,35 @@ export const uploadFileEpic = (action$, store, {socket, initialState}) => {
                 map((percentage) => (actions.uploadProgress(percentage))),
                 merge(requestO)
             );
-
         })
     );
 };
+
+export const createFolderEpic = (action$, store, {socket, initialState}) => {
+
+    return action$.pipe(
+        ofType(ActionType.CREATE_FOLDER),
+        switchMap((action) => {
+            const formData = new FormData();
+            formData.append('foldername', action.payload.name);
+            if(action.payload.location !== null) {
+                formData.append('path', '/');
+            }
+
+            let ajax$ = ajax({
+                method: 'POST',
+                url: `/api/file/local'`,
+                body: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'X-Api-Key': store.value.api_key
+                }});
+
+            return ajax$.pipe(
+                ignoreElements(),
+                catchError(error => of(actions.ajaxError(error)))
+            );
+        })
+    );
+};
+
