@@ -5,6 +5,7 @@ import {catchError, switchMap, map, ignoreElements, merge} from "rxjs/operators/
 import {ActionType} from "../enums";
 import {APIGet, APIPost} from "../octoprint";
 import {ajax} from "rxjs/ajax/index";
+import {delay, mergeMap, concatAll} from "rxjs/operators";
 
 export const getFileListEpic = (action$, store, {socket, iniatialState}) => {
   return action$.pipe(
@@ -22,25 +23,12 @@ export const getFileListEpic = (action$, store, {socket, iniatialState}) => {
 
 export const uploadFileEpic = (action$, store, {socket, initialState}) => {
 
-    //   action$.pipe(
-    // ofType(UPLOAD_FILE),
-    // mergeMap(action =>
-    //   ajax(rxUpload(action.payload)).pipe(
-    //     map(response => uploadFileSuccess(XHR_SUCCESS)),
-    //     catchError(err => of(uploadFileFailed(XHR_FAILED))),
-    //     takeUntil(action$.ofType(CANCEL_UPLOAD)),
-    //   ),
-
-
     return action$.pipe(
         ofType(ActionType.UPLOAD_FILE),
         switchMap((action) => {
 
-            const data = action.payload.data;
-
-            //https://www.linkedin.com/pulse/file-upload-rxjs-vladim%C3%ADr-gorej/
-            //https://html.developreference.com/article/10767105/redux-observable+use+RxJS+to+emit+progress+actions+for+ajax+call
-
+            // https://www.linkedin.com/pulse/file-upload-rxjs-vladim%C3%ADr-gorej/
+            // https://html.developreference.com/article/10767105/redux-observable+use+RxJS+to+emit+progress+actions+for+ajax+call
 
             // https://codesandbox.io/s/2zzjljmnzn
 
@@ -48,10 +36,7 @@ export const uploadFileEpic = (action$, store, {socket, initialState}) => {
             // https://stackoverflow.com/a/41884813
 
             const formData = new FormData();
-            const blob = new Blob([data], { type: 'application/octet-stream' });
-
             formData.append('file', action.payload.file, action.payload.name);
-            //formData.append('path', mypath);
 
             const progressSubscriber = new Subject();
 
@@ -65,7 +50,9 @@ export const uploadFileEpic = (action$, store, {socket, initialState}) => {
                 progressSubscriber: progressSubscriber});
 
             const requestO = ajax$.pipe(
-                ignoreElements(),
+                map(actions.getFileList),
+                delay(3000),
+                map(actions.uploadComplete),
                 catchError(error => of(actions.ajaxError(error)))
             );
 

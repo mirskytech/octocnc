@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "antd/es/button/button";
-import {Col, Tree, Row} from "antd";
+import {Col, Tree, Row, Progress} from "antd";
 import * as actions from "../../action_creators";
 import bytes from "bytes";
 import {randomBytes} from "crypto";
 import { Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import {showLocalFileList} from "../../selectors";
+import Decimal from "decimal.js";
 
 const { Dragger } = Upload;
 
@@ -62,8 +64,6 @@ class Files extends React.Component {
 
     onSelect = (keys, event) => {
         console.log('Trigger Select', keys, event);
-        const data = randomBytes(10000000);
-        this.props.uploadFile('onselect .gcode', data);
     };
 
     onExpand = () => {
@@ -84,6 +84,8 @@ class Files extends React.Component {
           // }
         };
 
+        const progress = new Decimal(this.props.upload_progress);
+
         return (
             <Row type="flex" justify="left" align="middle">
                 <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
@@ -93,22 +95,23 @@ class Files extends React.Component {
                           defaultExpandAll
                           onSelect={this.onSelect}
                           onExpand={this.onExpand}
-                          treeData={treeData}
+                          treeData={this.props.local_files}
                         />
                 </Col>
                 <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
-                  <Dragger {...props}
-                  customRequest={(e) => {
-                      this.props.uploadFile(e.file.name, e.file)
-                  }}>
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                    <p className="ant-upload-hint">
-                      Support for a single or bulk upload.
-                    </p>
-                  </Dragger>
+                    <Dragger {...props}
+                             customRequest={(e) => {
+                                 this.props.uploadFile(e.file.name, e.file)
+                             }}>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        <p className="ant-upload-hint">
+                            Support for a single or bulk upload.
+                        </p>
+                    </Dragger>
+                    {this.props.upload_progress > 0 ? <Progress percent={progress.toDecimalPlaces(0)} /> : '' }
                 </Col>
             </Row>
         )
@@ -116,12 +119,14 @@ class Files extends React.Component {
 }
 
 Files.defaultProps = {
-
+    local_files: [],
+    upload_progress: 0
 };
 
 function mapStateToProps(state) {
     return {
-
+        local_files: showLocalFileList(state),
+        upload_progress: state.files.upload_progress
     };
 }
 

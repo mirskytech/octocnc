@@ -179,11 +179,11 @@ export const fileList = (list) => ({
     payload: list
 });
 
-export const uploadFile = (name, data) => ({
+export const uploadFile = (name, file) => ({
    type: ActionType.UPLOAD_FILE,
    payload: {
        name: name,
-       data: data
+       file: file
    }
 });
 
@@ -192,4 +192,7 @@ export const uploadProgress = (percentage) => ({
    payload: percentage
 });
 
-
+export const uploadComplete = () => ({
+    type: ActionType.UPLOAD_COMPLETE,
+    payload: null
+});

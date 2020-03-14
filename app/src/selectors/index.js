@@ -11,8 +11,8 @@ export const shouldHandleLogin = () => {
       });
 };
 
-const getSDFiles = (state, props) => state.files.sd;
-const getLocalFiles = (state, props) => state.files.local;
+const getSDFiles = state => state.files.sd;
+const getLocalFiles = state => state.files.list || [];
 
 // tree = []
 //
@@ -30,7 +30,7 @@ function transformTree(files) {
         if(item.type === "machinecode") {
             return {
                 title: item.name,
-                key: item.hash,
+                key: item.name + "_" + item.hash,
                 isLeaf: true
             }
         } else if(item.type === "folder") {
@@ -42,7 +42,7 @@ function transformTree(files) {
         } else if(item.type === "model") {
             return {
                 title: item.name,
-                key: item.hash,
+                key: item.name + "_" + item.hash,
                 isLeaf: true
             }
         } else {
@@ -56,11 +56,13 @@ function transformTree(files) {
 
 
 
-// export const showFileList = () => {
-//     return createSelector(
-//       [files]
-//     )
-// }
+export const showLocalFileList = createSelector(
+    getLocalFiles,
+    (files) => {
+        return transformTree(files);
+    }
+);
+
 
 
 
