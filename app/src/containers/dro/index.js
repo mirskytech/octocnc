@@ -174,8 +174,8 @@ class DRO extends React.Component {
                     </div>
                 </Col>
                 <Col span={7}>
-                    <Row className={'p1 m1 dro-panel'}>
-                        <div>Next</div>
+                    <div className={'p1 m1 dro-panel'}>
+                        <div>{this.props.positionType === Positioning.RELATIVE ? 'Move By' : 'Next'}</div>
                         <div className={this.isAxisActive('X')} onClick={(e) => this.onAxisClick(e,'X')}>
                             <Axis value={this.state.nextX} active={this.props.active} units={this.props.units} />
                         </div>
@@ -202,13 +202,13 @@ class DRO extends React.Component {
                                     onChange={this.onFeedRateChange}
                                 />
                             </Col>
-                            <Col span={2}>
+                            <Col span={2} style={{minWidth:80}}>
                                 <span>{this.props.units === Units.METRIC ? 'mm/min' : 'in/min'}</span>
                             </Col>
 
                         </Row>
                         <Button className="go mt2" onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
-                    </Row>
+                    </div>
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>
