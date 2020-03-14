@@ -6,7 +6,9 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import {Layout, Menu, Button, Icon} from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+
+import { Layout, Menu, Button } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 import { ReactSVG } from "react-svg";
@@ -28,6 +30,7 @@ import Connection from './connection';
 import DRO from './dro';
 import Commands from './commands';
 import Login from './login';
+import Files from './files';
 
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
@@ -88,13 +91,19 @@ class App extends React.Component {
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <Icon type={'drag'} style={{'fontSize':24}} />
+                                    <LegacyIcon type={'drag'} style={{'fontSize':24}} />
                                     <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
+                                <Link to={`files`}>
+                                    <LegacyIcon type={'file-text'} style={{'fontSize':24}}/>
+                                    <span className="pl1 h5">Files</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="4">
                                 <Link to={`commands`}>
-                                    <Icon type={'interaction'} style={{'fontSize':24}}/>
+                                    <LegacyIcon type={'code'} style={{'fontSize':24}}/>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>
@@ -110,6 +119,7 @@ class App extends React.Component {
                                     <Route path='/login' exact component={Login} />
                                     <PrivateRoute path='/position' exact component={DRO} authed={this.props.authenticated} />
                                     <PrivateRoute path='/commands' exact component={Commands} authed={this.props.authenticated} />
+                                    <PrivateRoute path='/files' exact component={Files} authed={this.props.authenticated} />
                                     <PrivateRoute path='/' component={Connection} authed={this.props.authenticated} />
                                 </Switch>
                             </div>
