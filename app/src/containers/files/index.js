@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "antd/es/button/button";
-import {Col, Tree, Row, Progress} from "antd";
+import {Col, Tree, Row, Progress, Tooltip} from "antd";
 import * as actions from "../../action_creators";
 import bytes from "bytes";
 import {randomBytes} from "crypto";
 import { Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import {showLocalFileList} from "../../selectors";
+import { showLocalFileList } from "../../selectors";
 import Decimal from "decimal.js";
 
 const { Dragger } = Upload;
@@ -17,45 +17,16 @@ const { Dragger } = Upload;
 const { DirectoryTree } = Tree;
 
 
-
-
-
-const treeData = [
-  {
-    title: 'parent 0',
-    key: '0-0',
-    children: [
-      { title: 'leaf 0-0', key: '0-0-0', isLeaf: true },
-      { title: 'leaf 0-1', key: '0-0-1', isLeaf: true },
-    ],
-  },
-  {
-    title: 'parent 1',
-    key: '0-1',
-    children: [
-      { title: 'leaf 1-0', key: '0-1-0', isLeaf: true },
-      { title: 'leaf 1-1', key: '0-1-1', isLeaf: true },
-    ],
-  },
-  {
-    title: 'parent 2',
-    key: '0-2',
-    isLeaf: true
-  },
-{
-    title: 'parent 3',
-    key: '0-3',
-    children: [
-    ],
-  },
-
-];
+import './files.scss';
+import FileActioner from "./fileactioner";
 
 
 class Files extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {
+            selected: null
+        };
     }
 
     componentDidMount() {
@@ -63,7 +34,7 @@ class Files extends React.Component {
     }
 
     onSelect = (keys, event) => {
-        console.log('Trigger Select', keys, event);
+        this.setState({selected: event.node});
     };
 
     onExpand = () => {
@@ -88,15 +59,39 @@ class Files extends React.Component {
 
         return (
             <Row type="flex" justify="left" align="middle">
+                <Col className={'p1 m1 panel'}>
+                    <Row className={'m2'}>
+                            <Button
+                                type={'primary'}
+                            >Local</Button>
+                        </Row>
+                        <Row className={'m2'}>
+                            <Tooltip placement="right" title="not implemented]">
+                                <Button
+                                    disabled={true}
+                                >SD</Button>
+                            </Tooltip>
+                        </Row>
+
+                </Col>
                 <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
-                    {bytes(1024)}
-                        <DirectoryTree
-                          multiple
-                          defaultExpandAll
-                          onSelect={this.onSelect}
-                          onExpand={this.onExpand}
-                          treeData={this.props.local_files}
-                        />
+                    <div className={'bold p1'}>Available Files</div>
+                    <DirectoryTree
+                      multiple
+                      defaultExpandAll
+                      onSelect={this.onSelect}
+                      onExpand={this.onExpand}
+                      treeData={this.props.local_files}
+                    />
+                </Col>
+                <Col span={6} className={'p1 m1'}>
+                    <div className={'m2 panel'}>
+                        <div className={'bold p1'}>System Information</div>
+                        <div>{bytes(this.props.local_free, {decimalPlaces: 0})} Free</div>
+                        <div>{bytes(this.props.local_total, {decimalPlaces: 0})} Total</div>
+                    </div>
+                    {!this.state.selected ? '' : <FileActioner node={this.state.selected}/>    }
+
                 </Col>
                 <Col span={6} style={{background: 'white', borderRadius:10}} className={'p1 m1'}>
                     <Dragger {...props}
@@ -126,14 +121,16 @@ Files.defaultProps = {
 function mapStateToProps(state) {
     return {
         local_files: showLocalFileList(state),
-        upload_progress: state.files.upload_progress
+        upload_progress: state.files.upload_progress,
+        local_free: state.files.free,
+        local_total: state.files.total
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getFileList: actions.getFileList,
-        uploadFile: actions.uploadFile
+        uploadFile: actions.uploadFile,
     }, dispatch);
 }
 

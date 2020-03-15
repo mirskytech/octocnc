@@ -98,3 +98,10 @@ Units.initEnum({
     'METRIC': {},
     'ANSI': {}
 });
+
+export class Files extends Enum {}
+
+Files.initEnum({
+    'LOCAL': {},
+    'SD': {}
+});

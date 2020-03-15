@@ -6,7 +6,7 @@ import Axis from './axis';
 import {ConnectionStatus} from "enums";
 
 import './dro.scss';
-import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
+import {Button, Row, Col, Tooltip, Slider, InputNumber} from 'antd';
 import * as actions from "../../action_creators";
 import DialPad from "./dialpad";
 import {Decimal} from "decimal.js";
@@ -131,11 +131,13 @@ class DRO extends React.Component {
                                 >ABS</Button>
                         </Row>
                         <Row className={'m2'}>
-                            <Button
-                                type={this.isActivePositioning(Positioning.INCREMENTAL)}
-                                onClick={() => this.props.setPositioning(Positioning.INCREMENTAL)}
-                                disabled={true}
-                                >INCR</Button>
+                            <Tooltip placement="right" title="implemented in 0.2.0 release">
+                                <Button
+                                    type={this.isActivePositioning(Positioning.INCREMENTAL)}
+                                    onClick={() => this.props.setPositioning(Positioning.INCREMENTAL)}
+                                    disabled={true}
+                                    >INCR</Button>
+                            </Tooltip>
 
                         </Row>
                         <Row className={'m2'}>
