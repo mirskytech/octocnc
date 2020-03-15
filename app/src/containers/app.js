@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Layout, Menu, Button } from 'antd';
+import {Layout, Menu, Button, Row, Col} from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 import { ReactSVG } from "react-svg";
@@ -62,12 +62,6 @@ class App extends React.Component {
 
     render() {
 
-        let status_icon = <FontAwesomeIcon icon={faCircle} size='lg'/>;
-
-        if (this.props.status === ConnectionStatus.CONNECTED) {
-            status_icon = <FontAwesomeIcon icon={faCircle} className={'active-circle'} size='lg'/>;
-        }
-
         let authenticated = <div/>;
         if(this.props.authenticated) {
             authenticated =
@@ -84,9 +78,6 @@ class App extends React.Component {
             <HashRouter history={this.props.history}>
                 <Layout style={{height: '100vh'}}>
                     <Sider style={{overflow: 'auto'}} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-                        <div className="logo">
-                            <ReactSVG src={logo} className="m1"/>
-                        </div>
                         <Menu theme="dark" mode="inline">
                             <Menu.Item key="1">
                                 <Link to={`connection`}>
@@ -122,7 +113,12 @@ class App extends React.Component {
                     </Sider>
                     <Layout>
                         <Header style={{background: '#fff', padding: 0}}>
-                            {authenticated}
+                            <Row>
+                                <Col span={4} className={'header-logo'}>
+                                    <ReactSVG src={logo} className="m1"/>
+                                </Col>
+                                <Col span={6} offset={12}>{authenticated}</Col>
+                            </Row>
                         </Header>
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                             <div style={{padding: 24, textAlign: 'center'}}>
