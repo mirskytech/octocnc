@@ -1,4 +1,4 @@
-.active-circle {
+.menu-icon.active svg {
   animation: pulse 3s infinite;
 }
 
@@ -14,4 +14,8 @@
 .panel {
   background: white;
   border-radius: 10px;
+}
+
+.menu-icon svg {
+  font-size: 20px;
 }

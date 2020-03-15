@@ -6,8 +6,6 @@ import { bindActionCreators } from "redux";
 
 import { ConnectionStatus } from 'enums';
 
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-
 import { Layout, Menu, Button } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -36,6 +34,12 @@ import Files from './files';
 import {PrivateRoute, PublicRoute} from "../routes";
 import { shouldHandleLogin } from "../selectors";
 import {authCheck, authLogout} from "../action_creators";
+import DragOutlined from "@ant-design/icons/es/icons/DragOutlined";
+import GatewayOutlined from "@ant-design/icons/es/icons/GatewayOutlined";
+import FileTextOutlined from "@ant-design/icons/es/icons/FileTextOutlined";
+import CodeOutlined from "@ant-design/icons/es/icons/CodeOutlined";
+import ConnectSVG from 'assets/icons/circle-solid.svgi';
+import Icon from "@ant-design/icons";
 
 class App extends React.Component {
 
@@ -86,31 +90,31 @@ class App extends React.Component {
                         <Menu theme="dark" mode="inline">
                             <Menu.Item key="1">
                                 <Link to={`connection`}>
-                                    {status_icon}
+                                    <span className={this.props.status === ConnectionStatus.CONNECTED ? 'menu-icon active':'menu-icon'}><Icon component={ConnectSVG} /></span>
                                     <span className="pl1  h5">Connection</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="2">
                                 <Link to={`position`}>
-                                    <LegacyIcon type={'drag'} style={{'fontSize':24}} />
+                                    <span className={'menu-icon'}><DragOutlined /></span>
                                     <span className="pl1 h5">Position</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="3">
                                 <Link to={`path`}>
-                                    <Icon type={'gateway'} style={{'fontSize':24}}/>
+                                    <span className={'menu-icon'}><GatewayOutlined /></span>
                                     <span className="pl1 h5">Path</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item>
                                 <Link to={`files`}>
-                                    <LegacyIcon type={'file-text'} style={{'fontSize':24}}/>
+                                    <span className={'menu-icon'}><FileTextOutlined /></span>
                                     <span className="pl1 h5">Files</span>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key="4">
                                 <Link to={`commands`}>
-                                    <Icon type={'code'} style={{'fontSize':24}}/>
+                                    <span className={'menu-icon'}><CodeOutlined /></span>
                                     <span className="pl1 h5">Command</span>
                                 </Link>
                             </Menu.Item>

@@ -35,7 +35,22 @@ module.exports = {
                     ]
             },
             {
-                test: /\.(png|jpg|gif|woff|svg|eot|ttf|woff2)$/,
+              test: /\.svgi(\?v=\d+\.\d+\.\d+)?$/,
+              use: [
+                {
+                  loader: 'babel-loader',
+                },
+                {
+                  loader: '@svgr/webpack',
+                  options: {
+                    babel: false,
+                    icon: true,
+                  },
+                },
+              ],
+            },
+            {
+                test: /\.(png|jpg|gif|woff|eot|svg|ttf|woff2)$/,
                 loader: 'file-loader?limit=1024&name=[name]-[hash:8].[ext]',
             }
         ]

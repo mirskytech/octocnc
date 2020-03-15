@@ -1,130 +1,73 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
-// import './MyComponent.scss';
-
-import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
+import React, { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import * as meshline from 'threejs-meshline'
+import { extend, Canvas, useFrame, useThree } from 'react-three-fiber'
 
-import { useRef, useEffect, useState, useCallback, useContext, useMemo } from 'react'
-import { Canvas, useFrame } from 'react-three-fiber'
+extend(meshline)
 
-
-class Path extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: 0,
-            feedRate: this.props.feedMin,
-            nextX: null,
-            nextY: null,
-            nextZ: null,
-            active: null
-        };
-    }
-
-    box = (props) => {
-      // This reference will give us direct access to the mesh
-      const mesh = useRef();
-
-      // Set up state for the hovered and active state
-      const [hovered, setHover] = useState(false)
-      const [active, setActive] = useState(false)
-
-      // Rotate mesh every frame, this is outside of React without overhead
-      useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01))
-
-      return (
-        <mesh
-          {...props}
-          ref={mesh}
-          scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-          onClick={e => setActive(!active)}
-          onPointerOver={e => setHover(true)}
-          onPointerOut={e => setHover(false)}>
-          <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-          <meshStandardMaterial attach="material" color={hovered ? 'hotpink' : 'orange'} />
-        </mesh>
-      )
-    };
-
-
-
-    endPoint = ({ position, onDrag, onEnd }) => {
-      // let [bindHover, hovered] = useHover(false);
-      // let bindDrag = useDrag(onDrag, onEnd);
-
-      /*const [active, setActive] = useState(true)
-      if (!active) bindDrag = undefined
-      if (!active) bindHover = undefined
-      useEffect(() => void setTimeout(() => console.log('________inactive') || setActive(false), 2000), [])
-      useEffect(() => void setTimeout(() => console.log('________active!!') || setActive(true), 6000), [])*/
-
-      return (
-        <mesh position={position} /*{...bindDrag} {...bindHover}*/ onClick={e => console.log(e)}>
-          <sphereBufferGeometry attach="geometry" args={[0.5, 1, 1]} />
-          <meshBasicMaterial attach="material" color={/*hovered ? 'hotpink' : */'blue'} />
-        </mesh>
-      );
-    };
-
-    line = ({ defaultStart, defaultEnd }) => {
-      const [start, setStart] = useState(defaultStart);
-      const [end, setEnd] = useState(defaultEnd);
-      const vertices = useMemo(() => [start, end].map(v => new THREE.Vector3(...v)), [start, end]);
-      const update = useCallback(self => ((self.verticesNeedUpdate = true), self.computeBoundingSphere()), []);
-      return (
-        <>
-          <line>
-            <geometry attach="geometry" vertices={vertices} onUpdate={update} />
-            <lineBasicMaterial attach="material" color="red" />
-          </line>
-          <this.endPoint position={start} onDrag={v => setStart(v.toArray())} />
-          <this.endPoint position={end} onDrag={v => setEnd(v.toArray())} />
-        </>
-      )
-    };
-
-
-
-    render() {
-
-        return (
-            <Row type="flex" justify="center" align="middle" style={{height:300}}>
-                  <Canvas>
-                        <ambientLight />
-                        <pointLight position={[10, 10, 10]} />
-                        <this.box position={[-1.2, 0, 0]} />
-                        <this.box position={[1.2, 0, 0]} />
-                        <this.line defaultStart={[-2, -2, 1]} defaultEnd={[1, 2, 1]} />
-                        <this.line defaultStart={[1, 2, 1]} defaultEnd={[2, -2, 1]} />
-                  </Canvas>
-            </Row>
-
-        );
-    }
+function Fatline({ curve, width, color, speed }) {
+  const material = useRef()
+  useFrame(() => (material.current.uniforms.dashOffset.value -= speed))
+  return (
+    <mesh>
+      <meshLine attach="geometry" vertices={curve} />
+      <meshLineMaterial
+        attach="material"
+        ref={material}
+        transparent
+        depthTest={false}
+        lineWidth={width}
+        color={color}
+        dashArray={0.1}
+        dashRatio={0.9}
+      />
+    </mesh>
+  )
 }
 
-function mapStateToProps(state) {
-    return {
-
-    };
+function Lines({ count, colors }) {
+  const lines = useMemo(
+    () =>
+      new Array(count).fill().map(() => {
+        const pos = new THREE.Vector3(10 - Math.random() * 20, 10 - Math.random() * 20, 10 - Math.random() * 20);
+        const points = new Array(30)
+          .fill()
+          .map(() =>
+            pos.add(new THREE.Vector3(4 - Math.random() * 8, 4 - Math.random() * 8, 2 - Math.random() * 4)).clone()
+          )
+        const curve = new THREE.CatmullRomCurve3(points).getPoints(1000)
+        return {
+          color: colors[parseInt(colors.length * Math.random())],
+          width: Math.max(0.1, 0.65 * Math.random()),
+          speed: Math.max(0.0001, 0.0005 * Math.random()),
+          curve,
+        }
+      }),
+    [colors, count]
+  );
+  return lines.map((props, index) => <Fatline key={index} {...props} />)
 }
 
-Path.defaultProps = {
-
-};
-
-Path.propTypes = {
-
-};
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-
-    }, dispatch);
+function Rig({ mouse }) {
+  const { camera } = useThree();
+  useFrame(() => {
+    camera.position.x += (mouse.current[0] / 50 - camera.position.x) * 0.05
+    camera.position.y += (-mouse.current[1] / 50 - camera.position.y) * 0.05
+    camera.lookAt(0, 0, 0)
+  });
+  return null;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Path);
+export default function App() {
+  const mouse = useRef([0, 0])
+  return (
+    <Canvas
+      style={{ background: '#ffc9e7', height:800 }}
+      camera={{ position: [0, 0, 10], fov: 25 }}
+      onMouseMove={e => (mouse.current = [e.clientX - window.innerWidth / 2, e.clientY - window.innerHeight / 2])}>
+      <Lines count={200} colors={['#A2CCB6', '#FCEEB5', '#EE786E', '#e0feff', 'lightpink', 'lightblue']} />
+      <Rig mouse={mouse} />
+    </Canvas>
+  )
+}
