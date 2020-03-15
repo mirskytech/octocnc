@@ -6,7 +6,7 @@ import Axis from './axis';
 import {ConnectionStatus} from "enums";
 
 import './dro.scss';
-import {Button, Row, Col, Input, Slider, InputNumber} from 'antd';
+import {Button, Row, Col, Tooltip, Slider, InputNumber} from 'antd';
 import * as actions from "../../action_creators";
 import DialPad from "./dialpad";
 import {Decimal} from "decimal.js";
@@ -131,11 +131,13 @@ class DRO extends React.Component {
                                 >ABS</Button>
                         </Row>
                         <Row className={'m2'}>
-                            <Button
-                                type={this.isActivePositioning(Positioning.INCREMENTAL)}
-                                onClick={() => this.props.setPositioning(Positioning.INCREMENTAL)}
-                                disabled={true}
-                                >INCR</Button>
+                            <Tooltip placement="right" title="implemented in 0.2.0 release">
+                                <Button
+                                    type={this.isActivePositioning(Positioning.INCREMENTAL)}
+                                    onClick={() => this.props.setPositioning(Positioning.INCREMENTAL)}
+                                    disabled={true}
+                                    >INCR</Button>
+                            </Tooltip>
 
                         </Row>
                         <Row className={'m2'}>
@@ -174,8 +176,8 @@ class DRO extends React.Component {
                     </div>
                 </Col>
                 <Col span={7}>
-                    <Row className={'p1 m1 dro-panel'}>
-                        <div>Next</div>
+                    <div className={'p1 m1 dro-panel'}>
+                        <div>{this.props.positionType === Positioning.RELATIVE ? 'Move By' : 'Next'}</div>
                         <div className={this.isAxisActive('X')} onClick={(e) => this.onAxisClick(e,'X')}>
                             <Axis value={this.state.nextX} active={this.props.active} units={this.props.units} />
                         </div>
@@ -202,13 +204,13 @@ class DRO extends React.Component {
                                     onChange={this.onFeedRateChange}
                                 />
                             </Col>
-                            <Col span={2}>
+                            <Col span={2} style={{minWidth:80}}>
                                 <span>{this.props.units === Units.METRIC ? 'mm/min' : 'in/min'}</span>
                             </Col>
 
                         </Row>
                         <Button className="go mt2" onClick={this.onGo} disabled={!this.isMoveAllowed()}>Go</Button>
-                    </Row>
+                    </div>
                 </Col>
                 <Col span={7}>
                     <div className={'p1 m1 dro-panel'}>

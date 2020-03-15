@@ -14,16 +14,6 @@ export const shouldHandleLogin = () => {
 const getSDFiles = state => state.files.sd;
 const getLocalFiles = state => state.files.list || [];
 
-// tree = []
-//
-// for item in treedata:
-//     if item.type is machinecode:
-//          tree.append({title, key, isLeaf})
-//     else if itme.type is folder:
-//         tree.append({
-//             title, key, children: recurse(item.children)
-//         })
-
 function transformTree(files) {
 
     return files.map((item) => {
@@ -31,6 +21,11 @@ function transformTree(files) {
             return {
                 title: item.name,
                 key: item.name + "_" + item.hash,
+                size: item.size,
+                date: item.date,
+                resource: item.refs.resource,
+                download: item.refs.download,
+                type: item.type,
                 isLeaf: true
             }
         } else if(item.type === "folder") {
@@ -52,9 +47,6 @@ function transformTree(files) {
     })
 
 }
-
-
-
 
 export const showLocalFileList = createSelector(
     getLocalFiles,
