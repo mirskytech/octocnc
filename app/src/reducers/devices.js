@@ -42,7 +42,6 @@ export default function (state = [], action) {
                 status: status,
                 ...available,
                 current: current,
-
                 };
         case ActionType.CONNECTING:
             return {

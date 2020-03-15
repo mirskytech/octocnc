@@ -1,4 +1,4 @@
-import {ActionType, Positioning} from '../enums';
+import {ActionType, Positioning, Units} from '../enums';
 
 export default function(state = [], action) {
 
@@ -25,12 +25,24 @@ export default function(state = [], action) {
                 ...state,
                 type: Positioning.INCREMENTAL
             };
+        case ActionType.SET_ANSI:
+            return {
+                ...state,
+                units: Units.ANSI
+            };
+        case ActionType.SET_METRIC:
+            return {
+                ...state,
+                units: Units.METRIC
+            };
         case ActionType.DEVICE_STATE:
 
             let p = Positioning.enumValueOf(action.payload.positioning.toUpperCase());
+            let u = Units.enumValueOf(action.payload.units.toUpperCase());
             return {
                 ...state,
-                type: p
+                type: p,
+                units: u
             };
         default:
             return { ...state };

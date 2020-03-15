@@ -12,8 +12,7 @@ export const deviceConnectionsEpic  = (action$, store, {socket, initialState}) =
     return action$.pipe(
         ofType(ActionType.REQUEST_DEVICE_CONNECTIONS),
         switchMap((action) => {
-            let ajax$ = APIGet(`/api/connection`);
-            console.log("request device connections");
+            let ajax$ = APIGet(`/api/connection`, store.value.api_key);
             return ajax$.pipe(
                 retry(1),
                 mergeMap(data => of(actions.deviceConnectionInfo(data), actions.getDeviceState())),
@@ -27,8 +26,7 @@ export const deviceStateEpic = (action$, store, {socket, initialState}) => {
     return action$.pipe(
         ofType(ActionType.GET_DEVICE_STATE),
         switchMap((action) => {
-            console.log("get device status");
-            let ajax$ = APIGet(`/plugin/octocnc/device/state`);
+            let ajax$ = APIGet(`/plugin/octocnc/device/state`, store.value.api_key);
             return ajax$.pipe(
                 retry(1),
                 map(actions.deviceState),
@@ -48,7 +46,8 @@ export const connectToDeviceEpic = (action$, store, {socket, initialState}) => {
                 "port": action.payload.port,
                 "baudrate": action.payload.baudrate,
                 "printerProfile": action.payload.device
-            });
+            },
+            store.value.api_key);
             return ajax$.pipe(
                 map(actions.deviceConnected),
                 catchError(error => of(actions.ajaxError(error)))
@@ -63,7 +62,8 @@ export const disconnectFromDeviceEpic = (action$, store, {socket, initialState})
         switchMap((action) => {
             let ajax$ = APIPost(`/api/connection`, {
                 'command':'disconnect'
-            });
+            },
+            store.value.api_key);
             return ajax$.pipe(
                 map(actions.deviceDisconnected),
                 catchError(error => of(actions.ajaxError(error)))

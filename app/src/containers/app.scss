@@ -1,4 +1,4 @@
-.activecircle {
+.active-circle {
   animation: pulse 3s infinite;
 }
 
@@ -9,4 +9,9 @@
   50% {
     color: #BA8B00;
   }
+}
+
+.panel {
+  background: white;
+  border-radius: 10px;
 }

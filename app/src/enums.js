@@ -16,13 +16,18 @@ ActionType.initEnum({
     'CONNECTED':{},
     'CONNECTING':{},
     'CONNECT_TO_DEVICE':{},
+    'CREATE_FOLDER':{},
+    'DELETE_FILE':{},
+    'DELETE_FOLDER':{},
     'DEVICE_CONNECTION_INFO':{},
     'DEVICE_STATE': {},
     'DISCONNECT_FROM_DEVICE':{},
     'DISCONNECTING':{},
     'DISCONNECTED':{},
+    'FILE_LIST': {},
     'GET_COMMAND_HISTORY': {},
     'GET_DEVICE_STATE': {},
+    'GET_FILE_LIST': {},
     'HOME_MACHINE': {},
     'LINEAR_MOVE': {},
     'LOGOUT_SUCCESS': {},
@@ -32,10 +37,16 @@ ActionType.initEnum({
     'REQUEST_SYSTEM_COMMANDS': {},
     'SEND_COMMAND': {},
     'SET_ABSOLUTE_POSITIONING': {},
+    'SET_ANSI': {},
     'SET_INCREMENTAL_POSITIONING': {},
     'SET_RELATIVE_POSITIONING': {},
     'SET_POSITIONING': {},
-    'SOCKET_HISTORY': {}
+    'SET_METRIC': {},
+    'SET_UNITS': {},
+    'SOCKET_HISTORY': {},
+    'UPLOAD_FILE': {},
+    'UPLOAD_PROGRESS': {},
+    'UPLOAD_COMPLETE': {}
 
 });
 
@@ -76,8 +87,21 @@ CommandStatus.initEnum({
 export class Positioning extends Enum {}
 
 Positioning.initEnum({
-    'NONE':         {},
     'ABSOLUTE':     {},
     'RELATIVE':     {},
     'INCREMENTAL':  {}
+});
+
+export class Units extends Enum {}
+
+Units.initEnum({
+    'METRIC': {},
+    'ANSI': {}
+});
+
+export class Files extends Enum {}
+
+Files.initEnum({
+    'LOCAL': {},
+    'SD': {}
 });

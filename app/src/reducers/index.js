@@ -6,6 +6,7 @@ import deviceReducer from './devices';
 import commandReducer from './commands';
 import positionReducer from './position';
 import authReducer from './auth';
+import fileReducer from './files';
 
 function configReducer(state=[], action) {
     return state;
@@ -21,6 +22,8 @@ function errorReducer(state=[], action) {
             console.log("not impplemented");
             console.log(action.payload);
             return {...state};
+        case ActionType.UPLOAD_PROGRESS:
+            return {...state};
         default:
             return {...state};
     }
@@ -32,5 +35,6 @@ export default combineReducers({
     config: configReducer,
     devices: deviceReducer,
     commands: commandReducer,
-    auth: authReducer
+    auth: authReducer,
+    files: fileReducer
 });

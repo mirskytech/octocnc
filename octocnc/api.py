@@ -3,6 +3,7 @@ from octoprint.plugin import BlueprintPlugin
 from octoprint.server import NO_CONTENT
 from playhouse.shortcuts import model_to_dict
 
+from octocnc import Units
 from . import models, constants
 
 
@@ -42,24 +43,48 @@ class API(BlueprintPlugin):
 
         return NO_CONTENT
 
-    @BlueprintPlugin.route("/command/set/abs", methods=["POST"])
-    def set_abs(self):
+    # @BlueprintPlugin.route("/command/set/abs", methods=["POST"])
+    # def set_abs(self):
+    #
+    #     if not self._printer.is_operational():
+    #         return make_response("Printer is not operational.", 409)
+    #
+    #     c = f"G90"
+    #     self._printer.commands([c, ])
+    #
+    #     return NO_CONTENT
+    #
+    # @BlueprintPlugin.route("/command/set/rel", methods=["POST"])
+    # def set_rel(self):
+    #
+    #     if not self._printer.is_operational():
+    #         return make_response("Printer is not operational.", 409)
+    #
+    #     c = f"G91"
+    #     self._printer.commands([c, ])
+    #
+    #     return NO_CONTENT
+
+    @BlueprintPlugin.route("/command/set/<string:cmd>", methods=["POST"])
+    def xyz(self, cmd):
 
         if not self._printer.is_operational():
             return make_response("Printer is not operational.", 409)
 
-        c = f"G90"
-        self._printer.commands([c, ])
+        c = None
 
-        return NO_CONTENT
+        if 'ansi' in cmd:
+            c = 'G20'
+        elif 'metric' in cmd:
+            c = 'G21'
+        elif 'abs' in cmd:
+            c = 'G90'
+        elif 'rel' in cmd:
+            c = 'G91'
 
-    @BlueprintPlugin.route("/command/set/rel", methods=["POST"])
-    def set_rel(self):
+        if not c:
+            return make_response("Command not recognized: {}".format(cmd), 401)
 
-        if not self._printer.is_operational():
-            return make_response("Printer is not operational.", 409)
-
-        c = f"G91"
         self._printer.commands([c, ])
 
         return NO_CONTENT
@@ -81,5 +106,9 @@ class API(BlueprintPlugin):
     def status(self):
 
         p = self._positioning.name.lower() if self._positioning else 'none'
+        u = self._units.name.lower() if self._units else 'none'
 
-        return jsonify({'positioning': p})
+        return jsonify({
+            'positioning': p,
+            'units': u
+        })

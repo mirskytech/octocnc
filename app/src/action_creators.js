@@ -147,12 +147,52 @@ export const setRelative = () => ({
     payload: null
 });
 
+export const setUnits = (u) => ({
+   type: ActionType.SET_UNITS,
+   payload: u
+});
+
+export const setMetric = () => ({
+    type: ActionType.SET_METRIC,
+    payload: null
+});
+
+export const setANSI = () => ({
+    type: ActionType.SET_ANSI,
+    payload: null
+});
+
 export const homeMachine = () => ({
     type: ActionType.HOME_MACHINE,
     payload: null
 });
 
+// --------- file operations
 
+export const getFileList = () => ({
+    type: ActionType.GET_FILE_LIST,
+    payload: null
+});
 
+export const fileList = (list) => ({
+    type: ActionType.FILE_LIST,
+    payload: list
+});
 
+export const uploadFile = (name, file) => ({
+   type: ActionType.UPLOAD_FILE,
+   payload: {
+       name: name,
+       file: file
+   }
+});
 
+export const uploadProgress = (percentage) => ({
+   type: ActionType.UPLOAD_PROGRESS,
+   payload: percentage
+});
+
+export const uploadComplete = () => ({
+    type: ActionType.UPLOAD_COMPLETE,
+    payload: null
+});
