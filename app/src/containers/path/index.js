@@ -3,6 +3,9 @@ import React, { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import * as meshline from 'threejs-meshline'
 import { extend, Canvas, useFrame, useThree } from 'react-three-fiber'
+import Scene from "./scene";
+
+
 
 extend(meshline)
 
@@ -31,7 +34,7 @@ function Lines({ count, colors }) {
     () =>
       new Array(count).fill().map(() => {
         const pos = new THREE.Vector3(10 - Math.random() * 20, 10 - Math.random() * 20, 10 - Math.random() * 20);
-        const points = new Array(30)
+        const points = new Array(10)
           .fill()
           .map(() =>
             pos.add(new THREE.Vector3(4 - Math.random() * 8, 4 - Math.random() * 8, 2 - Math.random() * 4)).clone()
@@ -60,14 +63,10 @@ function Rig({ mouse }) {
 }
 
 export default function App() {
-  const mouse = useRef([0, 0])
+  const mouse = useRef([0, 0]);
   return (
-    <Canvas
-      style={{ background: '#ffc9e7', height:800 }}
-      camera={{ position: [0, 0, 10], fov: 25 }}
-      onMouseMove={e => (mouse.current = [e.clientX - window.innerWidth / 2, e.clientY - window.innerHeight / 2])}>
-      <Lines count={200} colors={['#A2CCB6', '#FCEEB5', '#EE786E', '#e0feff', 'lightpink', 'lightblue']} />
-      <Rig mouse={mouse} />
+    <Canvas style={{ background: '#ffffff', height:600 }}>
+        <Scene />
     </Canvas>
   )
 }
