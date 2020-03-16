@@ -3,10 +3,8 @@ import React, { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import * as meshline from 'threejs-meshline'
 import { extend, Canvas, useFrame, useThree } from 'react-three-fiber'
-// import Scene from "./scene";
-// import Controls from "./controls";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-extend({ OrbitControls })
+import Scene from "./scene";
+
 
 
 extend(meshline)
@@ -63,36 +61,6 @@ function Rig({ mouse }) {
   });
   return null;
 }
-
-
-const Cube = () => {
-  return (
-    <mesh>
-      <boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
-      <meshNormalMaterial attach='material' />
-    </mesh>
-  )
-}
-
-const Controls = () => {
-  const {
-    camera,
-    gl: { domElement }
-  } = useThree()
-    return(
-      <orbitControls args={[camera, domElement]} />
-    )
-}
-
-const Scene = () => {
-
-  return (
-    <>
-      <Cube />
-        <Controls/>
-    </>
-  )
-};
 
 export default function App() {
   const mouse = useRef([0, 0]);
