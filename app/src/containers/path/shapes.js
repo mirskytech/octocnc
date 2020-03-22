@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import * as THREE from "three";
 
 export const Cube = () => {
@@ -10,7 +10,7 @@ export const Cube = () => {
   )
 };
 
-export const Line = ({start, end, color}) => {
+export const SimpleLine = ({start, end, color}) => {
     const vertices = [start, end];
     const linecolor = color || "purple";
 
@@ -28,13 +28,29 @@ export const Line = ({start, end, color}) => {
     );
 };
 
+export const MeshLine = ({start, end, color}) => {
+    const vertices = [start, end];
+    const linecolor = color || "purple";
+
+    return(
+            <mesh>
+              <meshLine attach="geometry" vertices={vertices.map(v => new THREE.Vector3(...v))} />
+              <meshLineMaterial
+                attach="material"
+                lineWidth={0.05}
+                color={linecolor}
+              />
+            </mesh>
+    )
+}
+
 export const Axes = () => {
 
     return(
         <>
-          <Line start={[0, 0, 0]} end={[2, 0, 0]} color={"red"} />
-          <Line start={[0, 0, 0]} end={[0, 2, 0]} color={"blue"} />
-          <Line start={[0, 0, 0]} end={[0, 0, 2]} color={"green"}   />
+          <MeshLine start={[0, 0, 0]} end={[6, 0, 0]} color={"red"} />
+          <MeshLine start={[0, 0, 0]} end={[0, 6, 0]} color={"blue"} />
+          <MeshLine start={[0, 0, 0]} end={[0, 0, 6]} color={"green"}   />
         </>
     );
 };

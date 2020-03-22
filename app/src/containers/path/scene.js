@@ -3,8 +3,7 @@ import * as THREE from 'three';
 import Controls from "./controls";
 import {useThree} from "react-three-fiber";
 import Lights from "./lights";
-import PoolTable from "./pooltable";
-import {Axes, Cube, Line} from "./shapes";
+import {Axes, Cube, Line, MeshLine} from "./shapes";
 
 
 function Scene() {
@@ -17,6 +16,12 @@ function Scene() {
 
   camera.up.set(0, 0, 1);
   camera.position.set(-5, 7, 5);
+
+  const points = [
+      {start: [0,0,0],          end: [0.5,0.5,0.25] },
+      {start: [0.5,0.5,0.25],   end: [1, 1, 0.5]   },
+      {start: [1, 1, 0.5],      end: [1, 1.25, 1]}
+  ];
 
   return (
     <>
@@ -38,6 +43,13 @@ function Scene() {
       ))}
         <Axes />
         <Controls/>
+        {points.map(p => (
+            <MeshLine
+            start={p.start}
+            end={p.end}
+            color={'black'}
+            />
+        ))}
     </>
   )
 }
