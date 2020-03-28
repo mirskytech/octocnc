@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import * as meshline from 'threejs-meshline'
 import { extend, Canvas, useFrame, useThree } from 'react-three-fiber'
 import Scene from "./scene";
+import { ReactReduxContext, Provider, useSelector} from "react-redux";
 
 
 
@@ -64,9 +65,19 @@ function Rig({ mouse }) {
 
 export default function App() {
   const mouse = useRef([0, 0]);
+  const points = useSelector(state => state.path);
+
   return (
-    <Canvas style={{ background: '#ffffff', height:600 }}>
-        <Scene />
-    </Canvas>
+  <ReactReduxContext.Consumer>
+      {
+          ({store}) => (
+              <Canvas style={{background: '#ffffff', height:600}}>
+                  <Provider store={store}>
+                      <Scene />
+                  </Provider>
+              </Canvas>
+          )
+      }
+  </ReactReduxContext.Consumer>
   )
 }

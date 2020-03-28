@@ -1,5 +1,6 @@
 import React, {useRef} from "react";
 import * as THREE from "three";
+import {useSelector} from "react-redux";
 
 export const Cube = () => {
   return (

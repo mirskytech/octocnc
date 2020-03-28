@@ -7,6 +7,7 @@ import commandReducer from './commands';
 import positionReducer from './position';
 import authReducer from './auth';
 import fileReducer from './files';
+import pathReducer from './path';
 
 function configReducer(state=[], action) {
     return state;
@@ -32,6 +33,7 @@ function errorReducer(state=[], action) {
 export default combineReducers({
     errors: errorReducer,
     position: positionReducer,
+    path: pathReducer,
     config: configReducer,
     devices: deviceReducer,
     commands: commandReducer,

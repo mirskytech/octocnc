@@ -4,7 +4,11 @@ import 'rxjs';
 const el = document.getElementById('_server_config');
 const config = JSON.parse(el ? el.innerHTML : '{}');
 const initialState = {
-    'config':config
+    'config':config,
+    'path': {
+        'traversal': List([]),
+        'current': {'x': null, 'y': null, 'z': null}
+    }
 };
 
 // // configure octoprint api & socket
@@ -71,6 +75,7 @@ import App  from './containers/app';
 import { Provider } from 'react-redux'
 
 import createHistory from 'history/createHashHistory';
+import {List} from "immutable";
 const history = createHistory();
 
 ReactDOM.render(
