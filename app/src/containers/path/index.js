@@ -65,7 +65,6 @@ function Rig({ mouse }) {
 
 export default function App() {
   const mouse = useRef([0, 0]);
-  const points = useSelector(state => state.path);
 
   return (
   <ReactReduxContext.Consumer>
