@@ -3,7 +3,7 @@ import {of} from 'rxjs';
 import {APIPost,APIGet} from "../octoprint";
 
 import { ofType } from 'redux-observable';
-import {switchMap, retry, map, catchError, ignoreElements, filter, mergeMap} from 'rxjs/operators';
+import {switchMap, retry, map, catchError, ignoreElements, filter, mergeMap, delay} from 'rxjs/operators';
 
 import * as actions from "../action_creators";
 
@@ -16,7 +16,18 @@ export const deviceConnectionsEpic  = (action$, store, {socket, initialState}) =
             return ajax$.pipe(
                 retry(1),
                 mergeMap(data => of(actions.deviceConnectionInfo(data), actions.getDeviceState())),
-                catchError(error => of(actions.ajaxError(error)))
+                catchError(
+                    error => {
+                        if(error.status === 403) {
+                            console.log("logout and then try to retrieve the device connections");
+                            return of(actions.authLogout()).pipe(
+                                delay(3000),
+                                map(actions.requestDeviceConnections)
+                            );
+                        }
+                        return of(actions.ajaxError(error));
+                    }
+                )
             );
         })
     );
@@ -34,7 +45,6 @@ export const deviceStateEpic = (action$, store, {socket, initialState}) => {
             );
         })
     );
-
 };
 
 export const connectToDeviceEpic = (action$, store, {socket, initialState}) => {

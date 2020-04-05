@@ -13,8 +13,12 @@ const initialState = {
 
 // // configure octoprint api & socket
 let OctoPrint = window.OctoPrint;
-OctoPrint.options.baseurl = config.base_uri;
-OctoPrint.options.apikey = config.api_key;
+try {
+    OctoPrint.options.baseurl = config.base_uri;
+    OctoPrint.options.apikey = config.api_key;
+} catch(err) {
+    console.log('octoprint configuration not available');
+}
 //
 // // open the octoprint socket
 const octo_socket = OctoPrint.socket.connect({debug: true});
