@@ -1,6 +1,8 @@
-import React, {useRef} from "react";
+import React, {useRef, Suspense} from "react";
 import * as THREE from "three";
 import {useSelector} from "react-redux";
+import { Canvas, useLoader, useFrame, useUpdate } from 'react-three-fiber'
+
 
 export const Cube = () => {
   return (
@@ -46,7 +48,7 @@ export const MeshLine = ({start, end, color}) => {
 };
 
 import { useState, useMemo } from 'react'
-import fontFile from './sans'
+
 
 // https://github.com/react-spring/react-three-fiber/blob/0eddad37be8cde26fe5f5c72b570f4c76e980743/examples/src/demos/Font.js
 
@@ -81,7 +83,55 @@ export function Text({ children, size = 1, letterSpacing = 0.01, color = '#00000
     </group>
   )
 }
+// https://gero3.github.io/facetype.js/
+import sans from './sans.blob'
+import bold from './bold.blob'
 
+function TextBlock({ children, vAlign = 'center', hAlign = 'center', size = 1, color = '#000000', ...props }) {
+  const font = useLoader(THREE.FontLoader, bold)
+  const config = useMemo(
+    () => ({
+      font,
+      size: 10,
+      height: 30,
+      curveSegments: 16,
+      bevelEnabled: false,
+      bevelThickness: 1,
+      bevelSize: 0,
+      bevelOffset: 0,
+      bevelSegments: 8,
+    }),
+    [font]
+  )
+  const mesh = useUpdate(
+    self => {
+      const size = new THREE.Vector3()
+      self.geometry.computeBoundingBox()
+      self.geometry.boundingBox.getSize(size)
+
+      self.position.x = hAlign === 'center' ? -size.x / 2 : hAlign === 'right' ? 0 : -size.x
+      self.position.y = vAlign === 'center' ? -size.y / 2 : vAlign === 'top' ? 0 : -size.y;
+      // self.color.setRGB(Math.random(), Math.random(), Math.random());
+    },
+    [children]
+  )
+
+  return (
+    <group {...props} scale={[0.1 * size, 0.1 * size, 0.01]}>
+      <mesh ref={mesh}>
+        <textGeometry attach="geometry" args={[children, config]} />
+        <meshNormalMaterial
+            attach="material"
+            color={'0xff0000'}
+
+
+        />
+      </mesh>
+    </group>
+  )
+}
+
+// <Text color="red" size={0.15} position={[2, 2, 1]} rotation={[-Math.PI / 2, 0, 0]} children="abc 123" />
 
 export const Axes = () => {
 
@@ -90,7 +140,11 @@ export const Axes = () => {
           <MeshLine start={[0, 0, 0]} end={[6, 0, 0]} color={"red"} />
           <MeshLine start={[0, 0, 0]} end={[0, 6, 0]} color={"blue"} />
           <MeshLine start={[0, 0, 0]} end={[0, 0, 6]} color={"green"}   />
-          <Text color="red" size={0.15} position={[2, 2, 1]} rotation={[-Math.PI / 2, 0, 0]} children="abc 123" />
+      <Suspense fallback={null}>
+          <TextBlock hAlign="left" position={[7, 0, 0]} size={1} rotation={[Math.PI / 2, 0, 0]}>X</TextBlock>
+                <TextBlock hAlign="left" position={[0, 7, 0]} children="Y" size={1} rotation={[Math.PI / 2, 0, 0]} />
+                <TextBlock hAlign="left" position={[0, 0, 7]} children="Z" size={1} rotation={[Math.PI / 2, 0, 0]} />
+      </Suspense>
         </>
     );
 };

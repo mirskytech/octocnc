@@ -8,6 +8,22 @@ import {connect, useSelector} from "react-redux";
 import {bindActionCreators} from "redux";
 import Trace from "./trace";
 
+      //             <Lights
+      //   type='AmbientLight'
+      //   color={0xff0000}
+      //   intensity={0.2}
+      //   position={[0, 0, 0]}
+      // />
+      // {[[-5, -12, 20], [5, -12, 20], [-5, 12, 20], [5, 12, 20]].map(pos => (
+      //   <Lights
+      //   type='PointLight'
+      //   color={0xff0000}
+      //   intensity={0.4}
+      //   distance={100}
+      //   position={pos}
+      //   castShadow
+      //   />
+      // ))}
 
 function Scene() {
     const {camera} = useThree();
@@ -21,6 +37,7 @@ function Scene() {
 
     return (
         <>
+
             <Axes/>
             <Controls/>
             <Trace/>

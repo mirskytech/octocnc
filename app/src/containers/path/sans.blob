@@ -1,4 +1,4 @@
-export default {
+{
   glyphs: {
     '0': {
       ha: 869,
