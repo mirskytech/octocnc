@@ -48,6 +48,9 @@ export const MeshLine = ({start, end, color}) => {
 import { useState, useMemo } from 'react'
 import fontFile from './sans'
 
+// https://github.com/react-spring/react-three-fiber/blob/0eddad37be8cde26fe5f5c72b570f4c76e980743/examples/src/demos/Font.js
+
+
 export function Text({ children, size = 1, letterSpacing = 0.01, color = '#000000', centerX = true, centerY = true, ...props }) {
   const [font] = useState(() => new THREE.FontLoader().parse(fontFile))
   const [shapes, [x, y]] = useMemo(() => {
